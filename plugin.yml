@@ -1,6 +1,6 @@
 name: WeatherMan
 main: fromgate.weatherman.WeatherMan
-version: 0.5.1/3
+version: 1.0.0
 softdepend: [WorldEdit, WorldGuard]
 author: fromgate, fromgate@gmail.com
 commands:
