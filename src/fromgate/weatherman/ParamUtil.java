@@ -61,20 +61,6 @@ public class ParamUtil {
         params = parseParams(ln,0,defaultKey);
         if (includeLine) params.put("param-line", param);
         return params;
-        /*if (ln.length>0)
-            for (int i = 0; i < ln.length; i++){
-                String key = ln[i];
-                String value = "";
-                if (ln[i].contains(":")){
-                    key = ln[i].substring(0,ln[i].indexOf(":"));
-                    value = ln[i].substring(ln[i].indexOf(":")+1);
-                } else {
-                    value = key;
-                    key = defaultkey;
-                }
-                params.put(key, value);
-            }
-        return params;*/
     }
     
     public static String getParam(Map<String,String> params, String key, String defparam){

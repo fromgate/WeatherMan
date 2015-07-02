@@ -81,7 +81,7 @@ public class WMWorldEdit {
     	if (!worldguard_active) return null;
     	if (world == null) return null;
     	if (rg.isEmpty()) return null;
-    	ProtectedRegion region = worldguard.getRegionManager(world).getRegionExact(rg);
+    	ProtectedRegion region = worldguard.getRegionManager(world).getRegion(rg);
     	if (region == null) return null;
     	return new Location (world,region.getMinimumPoint().getBlockX(),region.getMinimumPoint().getBlockY(),region.getMinimumPoint().getBlockZ());
     }
@@ -90,7 +90,7 @@ public class WMWorldEdit {
     	if (!worldguard_active) return null;
     	if (world == null) return null;
     	if (rg.isEmpty()) return null;
-    	ProtectedRegion region = worldguard.getRegionManager(world).getRegionExact(rg);
+    	ProtectedRegion region = worldguard.getRegionManager(world).getRegion(rg);
     	if (region == null) return null;
     	return new Location (world,region.getMaximumPoint().getBlockX(),region.getMaximumPoint().getBlockY(),region.getMaximumPoint().getBlockZ());
     }
@@ -99,7 +99,7 @@ public class WMWorldEdit {
     	if (!WMWorldEdit.isWG()) return false;
     	if (world==null) return false;
     	if (rg.isEmpty()) return false;
-    	ProtectedRegion region = worldguard.getRegionManager(world).getRegionExact(rg);
+    	ProtectedRegion region = worldguard.getRegionManager(world).getRegion(rg);
 		return  (region != null);
     }
     

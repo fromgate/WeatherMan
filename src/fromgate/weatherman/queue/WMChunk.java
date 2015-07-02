@@ -1,6 +1,6 @@
 /*  
  *  WeatherMan, Minecraft bukkit plugin
- *  (c)2012-2014, fromgate, fromgate@gmail.com
+ *  (c)2012-2015, fromgate, fromgate@gmail.com
  *  http://dev.bukkit.org/server-mods/weatherman/
  *    
  *  This file is part of WeatherMan.
@@ -22,17 +22,19 @@
 
 package fromgate.weatherman.queue;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;
-
+import org.bukkit.entity.Entity;
 import fromgate.weatherman.NMSUtil;
+import fromgate.weatherman.WeatherMan;
 
 
 public class WMChunk {
 	World world;
 	int x;
 	int z;
-	
+
 
 	public WMChunk (Chunk ch){
 		this.world = ch.getWorld();
@@ -68,7 +70,7 @@ public class WMChunk {
 			return false;
 		if (!(obj instanceof WMChunk))
 			return false;
-		
+
 		WMChunk other = (WMChunk) obj;
 		if (world == null) {
 			if (other.world != null)
@@ -87,19 +89,23 @@ public class WMChunk {
 		Chunk chunk = getChunk();
 		if (setBiomeOrDepopulate) {
 			NMSUtil.saveChunk(chunk);
-			this.world.refreshChunk(this.x, this.z);
+			//world.refreshChunk(this.x, this.z);
+			NMSUtil.refreshChunk(chunk);
 		} else {
 			NMSUtil.repopulateChunk(chunk);
 		}
 	}
 	
+	public void entityUpdate (final Chunk chunk){
+		Bukkit.getScheduler().runTaskLater(WeatherMan.instance, new Runnable(){
+			@Override
+			public void run() {
+				for (Entity e : chunk.getEntities())
+					e.teleport(e);
+			}
+		}, 1);
 
-	/*public boolean equals(Object obj) {
-		if (obj == null)  return false; 
-		if (obj == this)  return true; 
-		if (obj.getClass() != this.getClass())  return false;
-		WMChunk ch = (WMChunk) obj;
-		return (this.world.equals(ch.world)&&(this.x==ch.x)&&(this.z==ch.z));
-		
-	}*/
+	}
+
+
 }

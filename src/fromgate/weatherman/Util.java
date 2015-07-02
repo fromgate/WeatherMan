@@ -38,14 +38,14 @@ public class Util extends FGUtilCore {
 		cmds.clear();
 		cmdlist = "";
 		addCmd("help", "basic","cmd_help","&3/wm help [command]",'b',true);
-		addCmd("set", "cmdbiome","cmd_set","&3/wm set <biome> [radius|region]",'3',true); // Консоль в ограниченном режиме
-		addCmd("replace", "cmdbiome","cmd_replace","&3/wm replace <biome1> <biome2>",'b',true);
-		addCmd("populate", "repopulate","cmd_repopulate","&3/wm populate <biome> [radius|region]",'b',true);
-		addCmd("wand", "wandbiome","cmd_wand","&3/wm wand",'b');
+		addCmd("set", "cmdbiome","cmd_set","&3/wm set biome:<biome> [radius:<radius> [loc:<world,x,z]|region:region]",'3',true); // Консоль в ограниченном режиме
+		addCmd("replace", "cmdbiome","cmd_replace","&3/wm replace source:<biome1> biome:<biome2> [fill:true] [radius:<radius> [loc:<world,x,z]|region:region] ",'b',true);
+		addCmd("populate", "repopulate","cmd_repopulate","&3/wm populate <[radius:<radius>] [loc:<world,x,z]|region:region>",'b',true);
+		addCmd("wand", "wandbiome","cmd_wand","&3/wm wand [biome:<biome> radius:<radius> tree:<tree>]",'b');
 		addCmd("give", "wandbiome","cmd_give","&3/wm give [biome|woodcutter|depopulator]",'b');
 		addCmd("check", "basic","cmd_check","&3/wm check",'b',true);
 		addCmd("info", "basic","cmd_walkinfo","&3/wm info",'b');
-		addCmd("list", "basic","cmd_list","&3/wm list [tree | biome mask]",'b',true);
+		addCmd("list", "basic","cmd_list","&3/wm list [tree|BiomeMask]",'b',true);
 		addCmd("weather_player", "weather","wth_player","&3/wth player [<player> <rain|clear|remove>]",'b');
 		addCmd("weather_world", "weather","wth_world","&3/wth world [<world> <rain|clear|remove>]",'b');
 		addCmd("weather_biome", "weather","wth_biome","&3/wth biome [<biome> <rain|clear|remove>]",'b');
@@ -166,8 +166,8 @@ public class Util extends FGUtilCore {
 		addMSG ("msg_wanditemgiven", "Wand %1% was added to your inventory");
 		addMSG ("msg_cmdneedplayer","This command could be executed by player only");
 		addMSG ("msg_wronglocation","Wrong location format");
-		addMSG ("msg_queuebiomefinish","Biome changed. Time %1%. Chunks: %2% Columns: %3%");
-		addMSG ("msg_queuepopulatefinish","Area repopulated Time %1%. Chunks: %2% Columns: %3%");
+		addMSG ("msg_queuebiomefinish","Biome changed. Time %1% Chunks: %2% Columns: %3%");
+		addMSG ("msg_queuepopulatefinish","Area repopulated Time %1% Chunks: %2% Columns: %3%");
 		addMSG ("minsec","%1% min. %2% sec.");
 		addMSG ("sec","%1% sec.");
 		addMSG ("msg_wandconfig","Wand: %1% Biome: %2% Radius: %3% Tree: %4%");
