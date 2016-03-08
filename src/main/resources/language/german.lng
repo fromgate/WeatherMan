@@ -1,0 +1,119 @@
+msg_outdated: '%1% ist veraltet!'
+msg_pleasedownload: 'Bitte lade dir die neuste Version (%1%) herunter:'
+hlp_help: Hilfe
+hlp_thishelp: '%1% - Diese Liste an Hilfestellungen'
+hlp_execcmd: '%1% - Befehl ausführen'
+hlp_typecmd: 'Verwende %1% - um weitere Hilfe zu erhalten'
+hlp_typecmdpage: Gib %1% ein um eine andere Seite dieser Hilfe zu sehen
+hlp_commands: 'Befehle: %1%'
+hlp_cmdparam_command: Befehl
+hlp_cmdparam_page: Seite
+hlp_cmdparam_parameter: Parameter
+cmd_unknown: 'Unbekannter Befehl: %1%'
+cmd_cmdpermerr: Etwas stimmt nicht! (Überprüfe den Befehl und deine Permissions)
+enabled: eingeschaltet
+disabled: ausgeschaltet
+lst_title: 'String-Liste:'
+lst_footer: 'Seite: [%1% / %2%]'
+cmd_biome: '%1% - Wählt den Biomwert'
+cmd_cfg: '%1% - Konfiguriert das Plugin'
+cmd_check: '%1% - Zeigt an, in welchem Biom sich der Spieler derzeit befindet'
+cmd_fill: '%1% - Ersetzt das aktuelle Biom durch das angegebene'
+cmd_replace: '%1% - Ersetzt innerhalb der ausgewählten WorldEdit-Region <biome1> durch <biome2>'
+cmd_help: '%1% - Zeigt die Hilfe an'
+cmd_list: '%1% - Listet alle möglichen Biome auf'
+cmd_radius: '%1% - Stellt den aktuellen Radius ein'
+cmd_wand: '%1% - Schaltet das WeatherMan-Tool ein und aus'
+cmd_walkinfo: '%1% - toggles walk-info mode'
+msg_wrong: Etwas stimmt nicht! (Überprüfe den Befehl und deine Permissions)
+msg_biomelist: 'Biomliste:'
+msg_biomeloc: 'Das Biom deines aktuellen Standorts ist nun %1%'
+msg_biomeloc2: 'Das Biom deines aktuellen Standorts ist nun %1%. Ursprüngliches Biom: %2%'
+msg_movetobiome: 'Du betrittst Biom %1%'
+msg_movetobiome2: 'Du betrittst Biom %1%. Ursprungsbiom: %2%'
+msg_curbiome: 'Der aktuelle Radius ist nun: %1%'
+msg_defradius: 'Der aktuelle Radius ist nun: %1% (Standard)'
+msg_wandmode: 'WeatherMan-Tool ist %1%'
+msg_biomeradius: 'Biom: %1% Radius: %2%'
+msg_config: Konfiguration
+cfg_plgconfig: 'Plugin-Konfiguration:'
+cfg_wanditem: 'Item für das WeatherMan-Tool: %1%'
+cfg_melt: 'Schnee schmelzen: %1% Eis schmelzen: %2%'
+cfg_mobspawn: Das Spawnen von Zombie Pigmen und Ghasts in normalen Welten ist %1%
+cfg_defbiome: 'Standardbiom: %1%'
+cfg_defradius: 'Standardradius: %1%'
+cfg_maxradius: 'Maximaler Radius:'
+cfg_maxrcmd: 'Befehl - %1%'
+cfg_maxrwand: 'WeatherMan-Tool - %1%'
+cfg_maxrsign: 'Schild - %1%'
+cfg_player: 'Aktuelle Spielerkonfiguration:'
+cfg_wandbiomeradius: 'WeatherMan-Tool Modus: %1% Biom: %2% Radius: %3%'
+msg_biomeset: Biom in der aktuellen WorldEdit-Auswahl wurde zu %1% geändert
+msg_biomestats: 'Ausführungszeit: %1% sek. Blöcke: %2% (Chunks: %3%)'
+msg_biomereplace: Biom %1% in der aktuellen WorldEdit-Auswahl wurde zu %2% geändert
+msg_biomereplaceregion: Das Biom %1% in der Region %3% wurde durch %2% ersetzt
+msg_biomereplacearea: 'Das Biom %1% in Gebiet [%3%] (%4%, %5%)x(%6%, %7%) wurde durch %2% ersetzt'
+msg_wrongbiome: Ungültiger Biomname %1% Verwende /wm list um alle möglichen Biome aufzulisten
+msg_selectregion: Wähle zuerst eine Region mit WorldEdit aus
+msg_needworldedit: WorldEdit konnte nicht gefunden werden
+msg_biomeunknown: 'Ungültiges Biom: %1%'
+msg_worldunknown: 'Unbekannte Welt: %1%'
+msg_curradius: 'Der aktuelle Radius ist nun: %1%'
+msg_wrongradius: 'Ungültiger Radius: %1%'
+msg_wrongarea: 'Ungültige Gebiets-Koordinaten: %1%'
+msg_cmdunknown: 'Unbekannter Befehl/Parameter: %1%'
+msg_biomearound: Das Biom um dich herum wurde zu %1% geändert
+msg_biomearoundloc: 'Biome um [%2%] (%3%, %4%) herum wurden durch %1% ersetzt'
+msg_biomeregion: Biom im Gebiet %1% wurde zu %2% geändert
+msg_biomearea: 'Biome im Gebiet [%2%] (%3%, %4%)x(%5%, %6%) wurden durch %1% ersetzt'
+msg_wandset: 'Das WeatherMan-Tool ist nun: %1%'
+msg_wrongwand: 'Ungültige Item-ID: %1%'
+msg_smokechance: 'Die Rauchwahrscheinlichkeit ist nun: %1%'
+msg_wrongsmch: 'Ungültige Rauchwahrscheinlichkeit: %1%'
+msg_defradiuswrong: 'Ungültiger Standardradius: %1%'
+msg_defradiusset: 'Der Standardradius ist nun: %1%'
+msg_defbiomeset: 'Das Standardbiom ist nun: %1%'
+msg_defbiomewrong: 'Ungültiges Standardbiom: %1%'
+msg_mobspawn: Das Spawnen von Nethermobs in normalen Welten ist %1%
+msg_smoke: Der Raucheffekt ist %1%
+msg_meltsnow: Das Schmelzen von Schnee bei einem Biomwechsel ist %1%
+msg_meltice: Das Schmelzen von Eis bei einem Biomwechsel ist %1%
+msg_maxradcmd: 'Der maximale Radius für Befehle ist nun: %1%'
+msg_maxradwrong: 'Ungültiger maximaler Radius: %1%'
+msg_maxradwand: 'Der aktuelle maximale Radius des WeatherMan-Tools ist: %1%'
+msg_maxradsign: 'Der aktuelle maximale Radius für Schilder ist: %1%'
+msg_wandmodedisabled: Das WeatherMan-Tool wurde %1%. Verwende %2% um es wieder einzuschalten.
+cfg_nosnow: 'Schneebildung ist in folgenden Biomen ausgeschaltet: %1%'
+cfg_noice: 'Eisbildung ist in folgenden Biomen ausgeschaltet: %1%'
+cfg_nosnow_empty: Schneebildung in kalten Biomen ist eingeschaltet
+cfg_noice_empty: Eisbildung in kalten Biomen ist eingeschaltet
+wg_unknownregion: 'Unbekannte WorldGuard-Region: %1%'
+wg_notfound: WorldGuard-Plugin wurde nicht gefunden. (Ist es installiert?)
+msg_walkinfo: Walk-info mode
+wth_unknownplayer: Kann das persönliche Wetter nicht ändern. Spieler %1% ist unbekannt.
+wth_playerweather: Wetter für Spieler %1% wurde auf %2% gesetzt
+wth_playerweatherremoved: Persönliche Wettereinstellung für Spieler %1% wurde entfernt!
+wth_biomeweather: Wetterzustand für Biom %1% wurde auf %2% gesetzt
+wth_biomeweatherremoved: Wettereinstellungen für Biom %1% wurden entfernt!
+wth_regionweather: Wetterzustand für Region %1% wurden auf %2% gesetzt
+wth_regionweatherremoved: Wettereinstellungen für Region %1% wurden entfernt!
+wth_worldweather: Wetterzustand für Welt %1% wurde auf %2% gesetzt
+wth_worldweatherremoved: Wettereinstellungen für Welt %1% wurden entfernt!
+wth_playerlist: 'Spielerwetter Einstellungen:'
+wth_playerlistempty: Persönliche Wetterliste ist leer
+wth_regionlist: 'Regionale Wettereinstellungen:'
+wth_regionlistempty: Regionalwetterliste ist leer
+wth_biomelist: 'Biomwettereinstellungen:'
+wth_biomelistempty: Biomwetterliste ist leer
+wth_worldlist: 'Weltwettereinstellungen:'
+wth_worldlistempty: Weltwetterliste ist leer
+wth_unknownweather: Unbekanntes Wetter %1% (muss "rain" oder "clear" sein)
+wth_unknownbiome: Kann das Biomwetter nicht ändern. Biom %1% ist unbekannt.
+wth_unknownregion: Kann das Regionwetter nicht ändern. Region %1% ist unbekannt.
+wth_unknownworld: Kann das Weltwetter nicht ändern. Welt %1% ist unbekannt.
+wth_biome: '%1% - stellte Wetterzustand für das definierte Biom ein'
+wth_world: '%1% - stellte Wetterzustand für die definierte Welt ein'
+wth_region: '%1% - stellte Wetterzustand für die definierte WorldGuard Region ein'
+wth_player: '%1% - stellte die Wettereinstellungen für den definierten Spieler ein'
+wth_enabled: 'Lokaler Wettereffekt: %1%. Du musst den Server neustarten um den Effekt zu erhalten.'
+wth_sorrydisabled: Aktion abgelehnt. Gib %1% ein und starte den Server neu um lokale Wettereffekte zu aktivieren.

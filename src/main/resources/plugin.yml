@@ -1,0 +1,15 @@
+name: WeatherMan
+main: me.fromgate.weatherman.WeatherMan
+version: 1.0.3
+softdepend: [WorldEdit, WorldGuard]
+author: fromgate, fromgate@gmail.com
+commands:
+   wm:
+      aliases: [weatherman]
+      description: Main WeatherMan command
+      usage: |
+           /wm help
+   wth:
+      description: Local weather control command
+      usage: |
+           /wth <player|region|biome|world> [{name} <rain|clear|remove>]

@@ -1,0 +1,120 @@
+msg_outdated: '¡%1% está desactualizado!'
+msg_pleasedownload: Por favor descarga la nueva versión (%1%) desde 
+hlp_help: Ayuda
+hlp_thishelp: '%1% - Ayuda'
+hlp_execcmd: '%1% - ejecuta comando'
+hlp_typecmd: 'Pon %1% - para obtener ayuda'
+hlp_typecmdpage: 'Escribe %1% - para ver otra página de ayuda'
+hlp_commands: 'Comandos: %1%'
+hlp_cmdparam_command: comando
+hlp_cmdparam_page: página
+hlp_cmdparam_parameter: parámetro
+cmd_unknown: 'Comando desconocido: %1%'
+cmd_cmdpermerr: Algo va mal (verifica los comandos y permisos)
+enabled: activado
+disabled: desactivado
+lst_title: 'Lista de textos:'
+lst_footer: 'Página: [%1% / %2%]'
+cmd_biome: '%1% - establece el valor actual del bioma'
+cmd_cfg: '%1% - configura el plugin'
+cmd_check: '%1% -  comprueba el bioma en la lozalizacion del jugador'
+cmd_fill: '%1% - remplaza el bioma actual con uno nuevo'
+cmd_replace: '%1% - reemplazar <biome1> con <biome2> dentro de la región WorldEdit seleccionada'
+cmd_help: '%1% - Muestra la ayuda'
+cmd_list: '%1% - lista de todos los tipos de biomas'
+cmd_radius: '%1% - pone el valor actual del radio'
+cmd_wand: '%1% -  Estable el modo varita'
+cmd_set: '%1% - establece el bioma alrededor de un jugador o una región definida (si el radio o el nombre de la región se omiten, cambiará el bioma de la región de WorldEdit seleccionada)'
+cmd_walkinfo: '%1% - activa/desactiva la información sobre caminar'
+msg_wrong: Algo va mal (Comprueba comandos y permisos)
+msg_biomelist: 'Lista de biomas:'
+msg_biomeloc: 'El bioma en tu localizacion es %1%'
+msg_biomeloc2: 'Bioma de tu posicion puesto a %1%. Bioma original: %2%'
+msg_movetobiome: 'Has introducido el bioma %1%'
+msg_movetobiome2: 'Has introducido el bioma %1%. Bioma original: %2%'
+msg_curbiome: 'El bioma actual es: %1%'
+msg_defradius: 'El radio actual es: %1% (default)'
+msg_wandmode: El modo varita es %1%
+msg_biomeradius: 'Bioma: %1% Radio: %2%'
+msg_config: Configuracion
+cfg_plgconfig: 'Configuracion del plugin:'
+cfg_wanditem: 'Item id de varita: %1%'
+cfg_melt: 'Fundir nieve: %1% fundir el hielo: %2%'
+cfg_mobspawn: 'Spawneo de PigZombies y Ghast en el mundo normal: %1%'
+cfg_defbiome: 'Bioma por defecto: %1%'
+cfg_defradius: 'Radio por defecto: %1%'
+cfg_maxradius: 'Radio maximo:'
+cfg_maxrcmd: 'Comando - %1%'
+cfg_maxrwand: 'Varita - %1%'
+cfg_maxrsign: 'Señal - %1%'
+cfg_player: 'Configuracion de jugador actual:'
+cfg_wandbiomeradius: 'Modo varita: %1% Bioma: %2% Radio: %3% '
+msg_biomeset: 'El bioma de la seleccion fue puesto a %1%'
+msg_biomestats: 'Tiempo de ejecución: %1% seg. Bloques: %2% (Pedazos: %3%)'
+msg_biomereplace: 'El bioma %1% de la region cambiado a %2%'
+msg_biomereplaceregion: 'El bioma %1% en la región %3% se ha cambiado a %2%'
+msg_biomereplacearea: 'El bioma %1% en el área [%3%] (%4%, %5%)x(%6%, %7%) se ha cambiado a %2%'
+msg_wrongbiome: Nombre de bioma erroneo %1% Pon /wm list para mostrarlos todos
+msg_selectregion: Primero selecciona una region con WorldEdit
+msg_needworldedit: WorldEdit no encontrado
+msg_biomeunknown: 'Bioma desconocido: %1%'
+msg_worldunknown: 'Mundo desconocido: %1%'
+msg_curradius: 'El radio actual ha sido puesto a: %1%'
+msg_wrongradius: 'Radio erroneo: %1%'
+msg_wrongarea: 'Coordenadas de área erróneas: %1%'
+msg_cmdunknown: 'Comando/parametro desconocido %1%'
+msg_biomearound: 'El biomaa tu alrededor fue cambiado a %1%'
+msg_biomearoundloc: 'El bioma de los alrededores [%2%] (%3%, %4%) se ha cambiado a %1%'
+msg_biomeregion: 'El bioma de la región %1% se ha cambiado a %2%'
+msg_biomearea: 'El bioma de la zona [%2%] (%3%, %4%)x(%5%, %6%) se ha cambiado a %1%'
+msg_wandset: 'La id para la varita ha sido puesta: %1%'
+msg_wrongwand: 'La id para la varita es erronea: %1%'
+msg_smokechance: 'Probabilidad de humo puesta a:  %1%'
+msg_wrongsmch: 'Valor aleatorio para el humo erroneo:  %1%'
+msg_defradiuswrong: 'Valor de radio por defecto erroneo: %1%'
+msg_defradiusset: 'Radio por defecto puesto a: %1%'
+msg_defbiomeset: 'Bioma por defecto configurado a:  %1%'
+msg_defbiomewrong: 'Valor de bioma por defecto erroneo: %1%'
+msg_mobspawn: 'Spawneando mobs del nether en los los mundos normales: %1%'
+msg_smoke: 'Efecto de humo %1%'
+msg_meltsnow: 'Derretir nieve en el cambio de bioma esta %1%'
+msg_meltice: 'Derretir hielo en el cambio de bioma esta %1%'
+msg_maxradcmd: 'El radio maximo (command) puesto a: %1%'
+msg_maxradwrong: 'Valor de radio maximo erroneo: %1%'
+msg_maxradwand: 'Radio maximo (de la varita) puesto a: %1%'
+msg_maxradsign: 'Radio maximo (de la señal) puesto a: %1%'
+msg_wandmodedisabled: El modo de la varita del WeatherMan fue %1%. Pon %2% para activarlo otra vez
+cfg_nosnow: 'Formacion de nieve deshabilitada en los biomas: %1%'
+cfg_noice: 'Formacion de hielo desactivada en los biomas: %1%'
+cfg_nosnow_empty: Formacion de nieve habilitada en biomas frios
+cfg_noice_empty: Formacion de hielo activada en biomas frios
+wg_unknownregion: 'Región del WorldGuard desconocida: %1%'
+wg_notfound: No se ha encontrado el plugin WorldGuard (¿está instalado?)
+msg_walkinfo: Información sobre caminar
+wth_unknownplayer: No se puede cambiar el clima personal. No se ha encontrado a %1%.
+wth_playerweather: 'El clima de la zona de %1% es ahora %2%'
+wth_playerweatherremoved: ¡Se ha eliminado el clima personal de %1%!
+wth_biomeweather: 'El clima del bioma %1% a pasado a %2%'
+wth_biomeweatherremoved: ¡Se han eliminado los climas del bioma %1%!
+wth_regionweather: 'El clima de la región %1% ha pasado a %2%'
+wth_regionweatherremoved: ¡Se han eliminado los climas de la región %1%!
+wth_worldweather: 'El clima del mundo %1% ha pasado a %2%'
+wth_worldweatherremoved: ¡Se han eliminado los climas del mundo %1%!
+wth_playerlist: 'Ajustes de clima de jugador:'
+wth_playerlistempty: La lista de climas personales está vacía
+wth_regionlist: 'Ajustes de clima de región:'
+wth_regionlistempty: La lista de climas regionales está vacía
+wth_biomelist: 'Ajustes de clima de bioma:'
+wth_biomelistempty: La lista de climas de bioma está vacía
+wth_worldlist: 'Ajustes de clima de mundo:'
+wth_worldlistempty: La lista de climas mundiales está vacía
+wth_unknownweather: Clima %1% desconocido (será "lluvia" o "despejado")
+wth_unknownbiome: No se puede cambiar el clima del bioma. Bioma %1% desconocido.
+wth_unknownregion: No se puede cambiar el clima de la región. Región %1% desconocida.
+wth_unknownworld: No se puede cambiar el clima del mundo. Mundo %1% desconocido.
+wth_biome: '%1% - establecer clima al bioma definido'
+wth_world: '%1% - establecer clima al mundo definido'
+wth_region: '%1% - establecer clima a la región de WorldGuard definida'
+wth_player: '%1% - establecer clima al jugador definido'
+wth_enabled: 'Clima local: %1%. Necesitas reiniciar el servidor para que haga efecto.'
+wth_sorrydisabled: Acción denegada. Escribe %1% y reinicia el servidor para activar el clima local.

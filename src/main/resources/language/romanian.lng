@@ -1,0 +1,66 @@
+disabled: disabled
+enabled: enabled
+cmd_biome: '%1% - seteaza valurea curenta a anotimpului'
+cmd_cfg: '%1% - configureaza plugin-ul'
+cmd_check: '%1% - verifica anotimpul la locatia jucatorului'
+cmd_fill: '%1% - inlocuieste anotimpul cu altul nou'
+cmd_replace: '%1% - inlocuieste <biome1> cu <biome2> regiunea facuta de WorldEdit'
+cmd_help: '%1% - prezinta pagina de ajutor'
+cmd_list: '%1% - listeaza toate tipurie de anotimpuri'
+cmd_radius: '%1% - seteaza valoarea de radius'
+cmd_set: '%1% - seteaza anotimpul in jurul jucatorului (daca radiusul este sarit, atunci se va lua in considerarea regiunea WorldEdit) '
+cmd_wand: '%1% - schimbi pe on/off unealta'
+msg_wrong: Ceva e gresit (verifica inca odata comanda)
+msg_biomelist: 'Lista anotimpurilor:'
+msg_biomeloc: Anotimpul in locatia ta este setata la %1%
+msg_curbiome: 'Anotimpul curent la tine este setat la: %1%'
+msg_defradius: 'Radiusul curent este setat la: %1% (default)'
+msg_wandmode: Modul uneltei este %1%
+msg_biomeradius: 'Anotimp: %1% Radius: %2%'
+msg_config: Configuratie
+cfg_plgconfig: 'Configurarea item-ului:'
+cfg_wanditem: 'Unealta speciala ID: %1%'
+cfg_melt: 'Zapada se topeste la: %1% Gheata se topeste la: %2%'
+cfg_mobspawn: 'Zombii porci si Fantomele se spawneaza in lumea normala: %1%'
+cfg_defbiome: 'Anotimp default: %1%'
+cfg_defradius: 'Radius defult: %1%'
+cfg_maxradius: 'Radius maxim:'
+cfg_maxrcmd: Comanda - %1%
+cfg_maxrwand: Unealta - %1%
+cfg_maxrsign: Pancarda - %1%
+cfg_player: 'Configuratia curenta a juatorului:'
+cfg_wandbiomeradius: 'Mod unealta: %1% Anotimp: %2% Radius: %3% '
+hlp_help: Ajutor
+hlp_thishelp: '%1% - acest ajutor'
+hlp_execcmd: '%1% - executa comanda'
+hlp_typecmd: Scrie %1% - vei primii ajutor
+hlp_commands: 'Comenzi: %1%'
+msg_biomeset: Anotimpul selectat in regiune este: %1%
+msg_biomereplace: Anotimpul %1% in regiunea selectata este: %2%
+msg_wrongbiome: Nume de anotimp gresit %1% Scrie /wm list pentru a vedea toate anotimpurile libere
+msg_selectregion: Selecteaza o regiune prima oara
+msg_needworldedit: Nu am putut gasii WorldEdit
+msg_biomeunknown: 'Anotimp necunoscut: %1%'
+msg_curradius: 'Radiusul curent este setat la: %1%'
+msg_wrongradius: 'Radius gresit: %1%'
+msg_cmdunknown: Comanda/Parametru necunscut %1%
+msg_biomearound: Anotimpul din jurul tau a fost schimbat la %1%
+msg_wandset: 'Unealta este setata la: %1%'
+msg_wrongwand: 'ID Unealta gresit: %1%'
+msg_smokechance: 'Sansa de fum este setata la: %1%'
+msg_wrongsmch: 'Valoarea sansei de fum este gresita: %1%'
+msg_defradiuswrong: 'Valoarea radiusului default este gresit: %1%'
+msg_defradiusset: 'Radius default setat la: %1%'
+msg_defbiomeset: 'Anotimp default setat la: %1%'
+msg_defbiomewrong: 'Anotimpul default este gresit: %1%'
+msg_mobspawn: 'Spawnez monstrii din nether in lumea normala: %1%'
+msg_smoke: Efectul de fum este %1%
+msg_meltsnow: Topirea zapezii este %1%
+msg_meltice: Topirea ghietii este %1%
+msg_maxradcmd: 'Radius maxim (comanda) setat la: %1%'
+msg_maxradwrong: 'Valoarea radiusului maxim este gresita: %1%'
+msg_maxradwand: 'Radiusul maxim (unealta) setat la: %1%'
+msg_maxradsign: 'Radiusul maxim (pancarda) setat la: %1%'
+msg_oudated: '%1% este invechit!'
+msg_pleasedownload: 'Te rog frumos descarca ultima versiune (%1%) de la '
+msg_wandmodedisabled: WeatherMan modul unealta a fost %1%. Scrie %2% pentru a il activa dinou

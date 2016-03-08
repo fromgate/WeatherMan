@@ -1,0 +1,121 @@
+msg_outdated: '%1% est obsolète!'
+msg_pleasedownload: Veuillez télécharger la nouvelle version (%1%) à partir de 
+hlp_help: Aide
+hlp_thishelp: '%1% - cette aide'
+hlp_execcmd: '%1% - exécuter la commande'
+hlp_typecmd: "Tapez %1% - pour obtenir de l'aide supplémentaire"
+hlp_typecmdpage: 'Tapez %1% - pour voir une autre page de cette aide'
+hlp_commands: 'Commandes: %1%'
+hlp_cmdparam_command: commande
+hlp_cmdparam_page: page
+hlp_cmdparam_parameter: paramètre
+cmd_unknown: 'Commande inconnue: %1%'
+cmd_cmdpermerr: Problème (vérifier la commande, les permissions)
+enabled: activé
+disabled: désactivé
+lst_title: 'Liste de chaînes:'
+lst_footer: 'Page: [%1%/%2%]'
+cmd_biome: '%1% - définir la valeur actuelle de biome'
+cmd_cfg: '%1% - configurer le plugin'
+cmd_check: "%1% - vérifie le biome dans l'emplacement du joueur"
+cmd_fill: '%1% - remplacer biome actuel par un nouveau'
+cmd_replace: "%1% - remplacer <biome1> par <biome2> à l'intérieur de la zone sélectionnée par WorldEdit"
+cmd_help: "%1% - afficher l'aide"
+cmd_list: '%1% - liste tous les types de biomes'
+cmd_radius: '%1% - définir la valeur du rayon actuel'
+cmd_wand: '%1% - basculer en mode baguette'
+cmd_walkinfo: '%1% - active/désactive le mode marche-info'
+msg_wrong: Problème (vérifier la commande, les permissions)
+msg_biomelist: 'Liste de biome :'
+msg_biomeloc: 'Biome dans votre emplacement est définie sur %1%'
+msg_biomeloc2: 'Biome dans votre emplacement est défini à %1%. Biome Original: %2%'
+msg_movetobiome: 'Vous entrez le biome %1%'
+msg_movetobiome2: 'Vous entrez le biome %1%. Biome original: %2%'
+msg_curbiome: 'Biome actuelle est définie sur: %1%'
+msg_defradius: 'Rayon actuel est défini sur: %1% (par défaut)'
+msg_wandmode: 'Mode baguette est %1%'
+msg_biomeradius: 'Biome: %1% Rayon: %2%'
+msg_config: Configuration
+cfg_plgconfig: 'Configuration du plugin:'
+cfg_wanditem: 'ID objet Baguette: %1%'
+cfg_melt: 'Faire fondre la neige: %1% Faire fondre la glace: %2%'
+cfg_mobspawn: 'Apparition de mobs du Nether dans les mondes Normaux: %1%'
+cfg_defbiome: 'Biome par défaut: %1%'
+cfg_defradius: 'Rayon par défaut: %1%'
+cfg_maxradius: 'Rayon maximal:'
+cfg_maxrcmd: 'Commande- %1%'
+cfg_maxrwand: 'Baguette- %1%'
+cfg_maxrsign: 'Panneau - %1%'
+cfg_player: 'Configuration actuelle du joueur :'
+cfg_wandbiomeradius: 'Mode baguette: %1% Biome: %2% Rayon: %3% '
+msg_biomeset: Biome dans la région sélectionnée a été fixé à %1%
+msg_biomestats: "Temps d'exécution: %1% sec. Blocs: %2% (Chunks: %3%)"
+msg_biomereplace: Biome %1% dans la région sélectionnée a été changé pour %2%
+msg_biomereplaceregion: Biome %1% dans la région %3% a été changé à %2%
+msg_biomereplacearea: 'Biome %1% dans la zone [%3%] (%4%, %5%) x (%6%, %7%) a été changé à %2%'
+msg_wrongbiome: 'Mauvaise nom de biome %1% Tapez /wm pour afficher la liste de tous les types possibles de biomes'
+msg_selectregion: Sélectionnez une région avec WorldEdit en premier
+msg_needworldedit: WorldEdit n'a été trouvé
+msg_biomeunknown: 'Biome inconnue: %1%'
+msg_worldunknown: 'Monde inconnu: %1%'
+msg_curradius: 'Rayon actuel est fixé à: %1%'
+msg_wrongradius: 'Mauvais rayon: %1%'
+msg_wrongarea: "Coordonnées de la zone d'erreur: %1%"
+msg_cmdunknown: 'Commande/paramètre inconnu %1%'
+msg_biomearound: 'Le Biome autour de vous a été changé pour %1%'
+msg_biomearoundloc: "Biome autour d'emplacement [%2%](%3%, %4%) a été changé pour %1%"
+msg_biomeregion: 'Biome en région %1% vous a été changé en %2%'
+msg_biomearea: 'Biome de zone [%2%](%3%, %4%)x(%5%, %6%) a été changé pour %1%'
+msg_wandset: 'Baguette id est défini à: %1%'
+msg_wrongwand: 'Mauvaise id objet baguette: %1%'
+msg_smokechance: 'Chance de fumée est fixé à: %1%'
+msg_wrongsmch: 'Mauvaise valeur de chance de fumée: %1%'
+msg_defradiuswrong: 'Mauvaise valeur du rayon par défaut: %1%'
+msg_defradiusset: 'Rayon par Défaut : %1%'
+msg_defbiomeset: 'Valeur par défaut des biomes : %1%'
+msg_defbiomewrong: 'Mauvaise valeur par défaut de biome: %1%'
+msg_mobspawn: 'Apparition de mobs du Nether dans les mondes Normaux : %1%'
+msg_smoke: 'Effet de fumée est %1%'
+msg_meltsnow: 'La fonte des neiges sur le biome changeant  est %1%'
+msg_meltice: 'Fonte de la glace sur le biome changeant est %1%'
+msg_maxradcmd: 'Rayon maximum (commande) est défini à : %1%'
+msg_maxradwrong: 'Mauvaise valeur de rayon maximal: %1%'
+msg_maxradwand: 'Rayon maximal (baguette) est défini sur: %1%'
+msg_maxradsign: 'Rayon maximal (panneau) est défini sur: %1%'
+msg_wandmodedisabled: Mode de baguette WeatherMan était %1%. Tapez %2% pour l'activer à nouveau
+cfg_nosnow: 'Formation de neige est désactivé aux biomes: %1%'
+cfg_noice: 'Formation de glace est désactivée aux biomes: %1%'
+cfg_nosnow_empty: Formation de neige est activée à tous les biomes froid
+cfg_noice_empty: Formation de glace est activée à tous les biomes froid
+wg_unknownregion: 'Région WorldGuard inconnue: %1%'
+wg_notfound: Plugin WorldGuard n'est pas trouvée (est il installé?)
+msg_walkinfo: Mode marche-info
+wth_unknownplayer: Impossible de modifier la météo personnelle. Joueur %1% est inconnu.
+wth_playerweather: État de la météo pour joueur %1% a été fixé à %2%
+wth_playerweatherremoved: Réglage de la météo pour joueur %1% a été supprimé!
+wth_biomeweather: La météo du biome %1% a été fixé à %2%
+wth_biomeweatherremoved: Paramètres météorologiques biome %1% a été supprimé!
+wth_regionweather: État de la météo pour la région %1% a été fixé à %2%
+wth_regionweatherremoved: Paramètres météorologiques pour la région de %1% a été supprimé!
+wth_worldweather: État météorologique du monde %1% a été fixé à %2%
+wth_worldweatherremoved: Les paramètres météo du monde %1% a été supprimé!
+wth_playerlist: 'Paramètres météorologiques du joueur:'
+wth_playerlistempty: Liste de météo personnalisé est vide
+wth_regionlist: 'Paramètres météo de la région:'
+wth_regionlistempty: Liste des météo pour région est vide
+wth_biomelist: 'Paramètres de météo du biome:'
+wth_biomelistempty: Paramètres météo de biome est vide
+wth_worldlist: 'Paramètres de météo du monde:'
+wth_worldlistempty: Liste de météo du monde est vide
+wth_unknownweather: Météo inconnu %1% (doit être "pluie"(rain) ou "dégager"(clear))
+wth_unknownbiome: Impossible de modifier la météo du biome. Biome %1% est inconnue.
+wth_unknownregion: Impossible de modifier le climat de la région. Région %1% est inconnue.
+wth_unknownworld: Impossible de modifier le climat du monde. Monde %1% est inconnue.
+wth_biome: '%1% - définie la météo pour le biome définis'
+wth_world: '%1% - définie la météo pour le monde définis'
+wth_region: '%1% - définie la météo pour la région WorldGuard'
+wth_player: '%1% - définie la météo pour le joueur sélectionné'
+wth_enabled: Option de la météo locale:%1%. Vous devez redémarrer le serveur pour prendre effet.
+wth_sorrydisabled: Action désactiver. Tapez %1% et redémarrez le serveur pour activer les fonctionnalités de météo locale.
+rain: pluie
+clear: dégager
