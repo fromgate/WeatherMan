@@ -38,7 +38,7 @@ import java.util.logging.Logger;
 public class NMSUtil {
 
     private static Logger log;
-    private static String [] tested_versions = {"v1_9_R1"};
+    private static String [] tested_versions = {"v1.10.R1"};
     private static String version ="";
     private static boolean blocked = false;
     private static String cboPrefix = "org.bukkit.craftbukkit.";
@@ -129,7 +129,7 @@ public class NMSUtil {
             playerConnection = EntityPlayer.getField("playerConnection");
             Packet = nmsClass("Packet");
             PacketPlayOutMapChunk = nmsClass("PacketPlayOutMapChunk");
-            newPacket = PacketPlayOutMapChunk.getConstructor(NmsChunk, boolean.class, int.class);
+            newPacket = PacketPlayOutMapChunk.getConstructor(NmsChunk, int.class);
             PlayerConnection = nmsClass("PlayerConnection");
             sendPacket = PlayerConnection.getMethod("sendPacket", Packet);
         }catch (Exception e){
@@ -142,11 +142,11 @@ public class NMSUtil {
             e.printStackTrace();
         }
         if ((!blocked)&&(!isTestedVersion())){
-            log.info("[WeatherMan] +-------------------------------------------------------------------+");
+            log.info("[WeatherMan] +---------------------------------------------------------------------+");
             log.info("[WeatherMan] + This version of WeatherMan was not tested with CraftBukkit "+getMinecraftVersion().replace('_', '.')+" +");
-            log.info("[WeatherMan] + Check updates at http://dev.bukkit.org/server-mods/weatherman/    +");
-            log.info("[WeatherMan] + or use this version at your own risk                              +");
-            log.info("[WeatherMan] +-------------------------------------------------------------------+");
+            log.info("[WeatherMan] + Check updates at http://dev.bukkit.org/server-mods/weatherman/      +");
+            log.info("[WeatherMan] + or use this version at your own risk                                +");
+            log.info("[WeatherMan] +---------------------------------------------------------------------+");
         }
     }
     private static Class<?> nmsClass(String classname) throws Exception{
@@ -176,12 +176,12 @@ public class NMSUtil {
         return getOriginalBiome (loc.getBlockX(), loc.getBlockZ(), loc.getWorld());
     }
 
-    public static double getBiomeTemperature(Biome biome){
+    public static float getBiomeTemperature(Biome biome){
         if (blocked) return 100;
         try {
             Object biomebase = biomeToBiomeBase.invoke(null, biome);
             Object temperature = BiomeBase_getTemperature.invoke(biomebase);
-            return (Double) temperature;
+            return (Float) temperature;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -220,7 +220,7 @@ public class NMSUtil {
 
     public static void saveChunk(Chunk ch){
         if (blocked) return;
-        if (ch == null) WeatherMan.instance.getLogger().info("!!!!! NULLL");
+        if (ch == null) return;
         try {
             Object nms_chunk = craftChunk_getHandle.invoke(ch);
             Object nms_world = nms_chunk_world.get(nms_chunk);
@@ -243,7 +243,7 @@ public class NMSUtil {
                         Object nmsPlayer = craftPlayer_getHandle.invoke(p);
                         Object nmsChunk = craftChunk_getHandle.invoke(ch);
                         Object nmsPlayerConnection = playerConnection.get(nmsPlayer);
-                        Object chunkPacket = newPacket.newInstance(nmsChunk,true,65535);
+                        Object chunkPacket = newPacket.newInstance(nmsChunk,65535);
                         sendPacket.invoke(nmsPlayerConnection, chunkPacket);
                     } catch (Exception e) {
                     }
