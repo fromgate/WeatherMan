@@ -35,12 +35,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
@@ -51,58 +46,58 @@ import java.util.logging.Level;
 public class MetricsLite {
 
     /**
-* The current revision number
-*/
+     * The current revision number
+     */
     private final static int REVISION = 6;
 
     /**
-* The base url of the metrics domain
-*/
+     * The base url of the metrics domain
+     */
     private static final String BASE_URL = "http://mcstats.org";
 
     /**
-* The url used to report a server's status
-*/
+     * The url used to report a server's status
+     */
     private static final String REPORT_URL = "/report/%s";
 
     /**
-* Interval of time to ping (in minutes)
-*/
+     * Interval of time to ping (in minutes)
+     */
     private final static int PING_INTERVAL = 10;
 
     /**
-* The plugin this metrics submits for
-*/
+     * The plugin this metrics submits for
+     */
     private final Plugin plugin;
 
     /**
-* The plugin configuration file
-*/
+     * The plugin configuration file
+     */
     private final YamlConfiguration configuration;
 
     /**
-* The plugin configuration file
-*/
+     * The plugin configuration file
+     */
     private final File configurationFile;
 
     /**
-* Unique server id
-*/
+     * Unique server id
+     */
     private final String guid;
 
     /**
-* Debug mode
-*/
+     * Debug mode
+     */
     private final boolean debug;
 
     /**
-* Lock for synchronization
-*/
+     * Lock for synchronization
+     */
     private final Object optOutLock = new Object();
 
     /**
-* Id of the scheduled task
-*/
+     * Id of the scheduled task
+     */
     private volatile BukkitTask task = null;
 
     public MetricsLite(Plugin plugin) throws IOException {
@@ -133,12 +128,12 @@ public class MetricsLite {
     }
 
     /**
-* Start measuring statistics. This will immediately create an async repeating task as the plugin and send
-* the initial data to the metrics backend, and then after that it will post in increments of
-* PING_INTERVAL * 1200 ticks.
-*
-* @return True if statistics measuring is running, otherwise false.
-*/
+     * Start measuring statistics. This will immediately create an async repeating task as the plugin and send
+     * the initial data to the metrics backend, and then after that it will post in increments of
+     * PING_INTERVAL * 1200 ticks.
+     *
+     * @return True if statistics measuring is running, otherwise false.
+     */
     public boolean start() {
         synchronized (optOutLock) {
             // Did we opt out?
@@ -188,12 +183,12 @@ public class MetricsLite {
     }
 
     /**
-* Has the server owner denied plugin metrics?
-*
-* @return true if metrics should be opted out of it
-*/
+     * Has the server owner denied plugin metrics?
+     *
+     * @return true if metrics should be opted out of it
+     */
     public boolean isOptOut() {
-        synchronized(optOutLock) {
+        synchronized (optOutLock) {
             try {
                 // Reload the metrics file
                 configuration.load(getConfigFile());
@@ -213,10 +208,10 @@ public class MetricsLite {
     }
 
     /**
-* Enables metrics for the server by setting "opt-out" to false in the config file and starting the metrics task.
-*
-* @throws IOException
-*/
+     * Enables metrics for the server by setting "opt-out" to false in the config file and starting the metrics task.
+     *
+     * @throws IOException
+     */
     public void enable() throws IOException {
         // This has to be synchronized or it can collide with the check in the task.
         synchronized (optOutLock) {
@@ -234,10 +229,10 @@ public class MetricsLite {
     }
 
     /**
-* Disables metrics for the server by setting "opt-out" to true in the config file and canceling the metrics task.
-*
-* @throws IOException
-*/
+     * Disables metrics for the server by setting "opt-out" to true in the config file and canceling the metrics task.
+     *
+     * @throws IOException
+     */
     public void disable() throws IOException {
         // This has to be synchronized or it can collide with the check in the task.
         synchronized (optOutLock) {
@@ -256,10 +251,10 @@ public class MetricsLite {
     }
 
     /**
-* Gets the File object of the config file that should be used to store data such as the GUID and opt-out status
-*
-* @return the File object for the config file
-*/
+     * Gets the File object of the config file that should be used to store data such as the GUID and opt-out status
+     *
+     * @return the File object for the config file
+     */
     public File getConfigFile() {
         // I believe the easiest way to get the base folder (e.g craftbukkit set via -P) for plugins to use
         // is to abuse the plugin object we already have
@@ -273,8 +268,8 @@ public class MetricsLite {
     }
 
     /**
-* Generic method that posts a plugin to the metrics website
-*/
+     * Generic method that posts a plugin to the metrics website
+     */
     private void postPlugin(boolean isPing) throws IOException {
         // Server software specific section
         PluginDescriptionFile description = plugin.getDescription();
@@ -282,7 +277,7 @@ public class MetricsLite {
         boolean onlineMode = Bukkit.getServer().getOnlineMode(); // TRUE if online mode is enabled
         String pluginVersion = description.getVersion();
         String serverVersion = Bukkit.getVersion();
-		int playersOnline = Bukkit.getOnlinePlayers().size();
+        int playersOnline = Bukkit.getOnlinePlayers().size();
 
         // END server software specific section -- all code below does not use any code outside of this class / Java
 
@@ -355,10 +350,10 @@ public class MetricsLite {
     }
 
     /**
-* Check if mineshafter is present. If it is, we need to bypass it to send POST requests
-*
-* @return true if mineshafter is installed on the server
-*/
+     * Check if mineshafter is present. If it is, we need to bypass it to send POST requests
+     *
+     * @return true if mineshafter is installed on the server
+     */
     private boolean isMineshafterPresent() {
         try {
             Class.forName("mineshafter.MineServer");
@@ -369,28 +364,28 @@ public class MetricsLite {
     }
 
     /**
-* <p>Encode a key/value data pair to be used in a HTTP post request. This INCLUDES a & so the first
-* key/value pair MUST be included manually, e.g:</p>
-* <code>
-* StringBuffer data = new StringBuffer();
-* data.append(encode("guid")).append('=').append(encode(guid));
-* encodeDataPair(data, "version", description.getVersion());
-* </code>
-*
-* @param buffer the stringbuilder to append the data pair onto
-* @param key the key value
-* @param value the value
-*/
+     * <p>Encode a key/value data pair to be used in a HTTP post request. This INCLUDES a & so the first
+     * key/value pair MUST be included manually, e.g:</p>
+     * <code>
+     * StringBuffer data = new StringBuffer();
+     * data.append(encode("guid")).append('=').append(encode(guid));
+     * encodeDataPair(data, "version", description.getVersion());
+     * </code>
+     *
+     * @param buffer the stringbuilder to append the data pair onto
+     * @param key    the key value
+     * @param value  the value
+     */
     private static void encodeDataPair(final StringBuilder buffer, final String key, final String value) throws UnsupportedEncodingException {
         buffer.append('&').append(encode(key)).append('=').append(encode(value));
     }
 
     /**
-* Encode text as UTF-8
-*
-* @param text the text to encode
-* @return the encoded text, as UTF-8
-*/
+     * Encode text as UTF-8
+     *
+     * @param text the text to encode
+     * @return the encoded text, as UTF-8
+     */
     private static String encode(final String text) throws UnsupportedEncodingException {
         return URLEncoder.encode(text, "UTF-8");
     }

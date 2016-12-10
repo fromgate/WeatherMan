@@ -38,8 +38,8 @@ import java.util.logging.Logger;
 public class NMSUtil {
 
     private static Logger log;
-    private static String [] tested_versions = {"v1.10.R1"};
-    private static String version ="";
+    private static String[] tested_versions = {"v1.10.R1", "v1.10.R2", "1.11.R1"};
+    private static String version = "";
     private static boolean blocked = false;
     private static String cboPrefix = "org.bukkit.craftbukkit.";
     private static String nmsPrefix = "net.minecraft.server.";
@@ -78,20 +78,21 @@ public class NMSUtil {
     private static Class<?> PlayerConnection;
     private static Method sendPacket;
 
-    public static void init(){
+    public static void init() {
         log = Logger.getLogger("Minecraft");
-        try{
+        try {
             Object s = Bukkit.getServer();
             Method m = s.getClass().getMethod("getHandle");
             Object cs = m.invoke(s);
             String className = cs.getClass().getName();
-            String [] v = className.split("\\.");
-            if (v.length==5){
+            String[] v = className.split("\\.");
+            if (v.length == 5) {
                 version = v[3];
-                cboPrefix = "org.bukkit.craftbukkit."+version+".";
-                nmsPrefix = "net.minecraft.server."+version+".";;
+                cboPrefix = "org.bukkit.craftbukkit." + version + ".";
+                nmsPrefix = "net.minecraft.server." + version + ".";
+                ;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -105,25 +106,25 @@ public class NMSUtil {
             field_WorldProvider_d = WorldProvider.getDeclaredField("c");
             field_WorldProvider_d.setAccessible(true);
             BlockPosition = nmsClass("BlockPosition");
-            constructBlockPosition = BlockPosition.getConstructor(int.class,int.class,int.class);
+            constructBlockPosition = BlockPosition.getConstructor(int.class, int.class, int.class);
             WorldChunkManager = nmsClass("WorldChunkManager");
             getBiome = WorldChunkManager.getDeclaredMethod("getBiome", BlockPosition);
             CraftBlock = cboClass("block.CraftBlock");
             BiomeBase = nmsClass("BiomeBase");
             biomeBaseToBiome = CraftBlock.getDeclaredMethod("biomeBaseToBiome", BiomeBase);
-            biomeToBiomeBase= CraftBlock.getDeclaredMethod("biomeToBiomeBase", Biome.class);
+            biomeToBiomeBase = CraftBlock.getDeclaredMethod("biomeToBiomeBase", Biome.class);
             BiomeBase_getTemperature = BiomeBase.getDeclaredMethod("getTemperature");
             CraftChunk = cboClass("CraftChunk");
             craftChunk_getHandle = CraftChunk.getMethod("getHandle");
-            NmsChunk=nmsClass("Chunk");
+            NmsChunk = nmsClass("Chunk");
             field_NmsChunk_done = NmsChunk.getDeclaredField("done");
             nms_chunk_world = NmsChunk.getDeclaredField("world");
             NmsWorldServer = nmsClass("WorldServer");
             getChunkProvider = NmsWorldServer.getMethod("getChunkProvider");
             ChunkProviderServer = nmsClass("ChunkProviderServer");
-            saveChunk = ChunkProviderServer.getDeclaredMethod("saveChunk",NmsChunk);
-            saveChunkNOP = ChunkProviderServer.getDeclaredMethod("saveChunkNOP",NmsChunk);
-            CraftPlayer= cboClass("entity.CraftPlayer");
+            saveChunk = ChunkProviderServer.getDeclaredMethod("saveChunk", NmsChunk);
+            saveChunkNOP = ChunkProviderServer.getDeclaredMethod("saveChunkNOP", NmsChunk);
+            CraftPlayer = cboClass("entity.CraftPlayer");
             craftPlayer_getHandle = CraftPlayer.getMethod("getHandle");
             EntityPlayer = nmsClass("EntityPlayer");
             playerConnection = EntityPlayer.getField("playerConnection");
@@ -132,51 +133,52 @@ public class NMSUtil {
             newPacket = PacketPlayOutMapChunk.getConstructor(NmsChunk, int.class);
             PlayerConnection = nmsClass("PlayerConnection");
             sendPacket = PlayerConnection.getMethod("sendPacket", Packet);
-        }catch (Exception e){
+        } catch (Exception e) {
             blocked = true;
-            log.info("[WeatherMan] his version of WeatherMan is not compatible with CraftBukkit "+Bukkit.getVersion());
+            log.info("[WeatherMan] his version of WeatherMan is not compatible with CraftBukkit " + Bukkit.getVersion());
             log.info("[WeatherMan] Features depended to craftbukkit version will be disabled!");
             log.info("[WeatherMan] + It is strongly recommended to update WeatherMan to latest version!");
             log.info("[WeatherMan] + Check updates at http://dev.bukkit.org/server-mods/weatherman/");
             log.info("[WeatherMan] + or use this version at your own risk.");
             e.printStackTrace();
         }
-        if ((!blocked)&&(!isTestedVersion())){
+        if ((!blocked) && (!isTestedVersion())) {
             log.info("[WeatherMan] +---------------------------------------------------------------------+");
-            log.info("[WeatherMan] + This version of WeatherMan was not tested with CraftBukkit "+getMinecraftVersion().replace('_', '.')+" +");
+            log.info("[WeatherMan] + This version of WeatherMan was not tested with CraftBukkit " + getMinecraftVersion().replace('_', '.') + " +");
             log.info("[WeatherMan] + Check updates at http://dev.bukkit.org/server-mods/weatherman/      +");
             log.info("[WeatherMan] + or use this version at your own risk                                +");
             log.info("[WeatherMan] +---------------------------------------------------------------------+");
         }
     }
-    private static Class<?> nmsClass(String classname) throws Exception{
-        return Class.forName(nmsPrefix+classname);
+
+    private static Class<?> nmsClass(String classname) throws Exception {
+        return Class.forName(nmsPrefix + classname);
     }
 
-    private static Class<?> cboClass(String classname) throws Exception{
-        return Class.forName(cboPrefix+classname);
+    private static Class<?> cboClass(String classname) throws Exception {
+        return Class.forName(cboPrefix + classname);
     }
 
-    public static String getMinecraftVersion(){
+    public static String getMinecraftVersion() {
         return version;
     }
 
-    public static boolean isTestedVersion(){
-        for (int i = 0; i< tested_versions.length;i++){
+    public static boolean isTestedVersion() {
+        for (int i = 0; i < tested_versions.length; i++) {
             if (tested_versions[i].equalsIgnoreCase(version)) return true;
         }
         return false;
     }
 
-    public static boolean isBlocked(){
+    public static boolean isBlocked() {
         return blocked;
     }
 
-    public static Biome getOriginalBiome (Location loc){
-        return getOriginalBiome (loc.getBlockX(), loc.getBlockZ(), loc.getWorld());
+    public static Biome getOriginalBiome(Location loc) {
+        return getOriginalBiome(loc.getBlockX(), loc.getBlockZ(), loc.getWorld());
     }
 
-    public static float getBiomeTemperature(Biome biome){
+    public static float getBiomeTemperature(Biome biome) {
         if (blocked) return 100;
         try {
             Object biomebase = biomeToBiomeBase.invoke(null, biome);
@@ -188,13 +190,13 @@ public class NMSUtil {
         return 100;
     }
 
-    public static Biome getOriginalBiome (int x, int z, World w){
+    public static Biome getOriginalBiome(int x, int z, World w) {
         if (blocked) return null;
         try {
             Object nmsWorldServer = craftWorld_getHandle.invoke(w);
             Object worldProvider = field_worldProvider.get(nmsWorldServer);
             Object d = field_WorldProvider_d.get(worldProvider);
-            Object blockPosition = constructBlockPosition.newInstance(x,0,z);
+            Object blockPosition = constructBlockPosition.newInstance(x, 0, z);
             Object biomeBase = getBiome.invoke(d, blockPosition);
             Object biome = biomeBaseToBiome.invoke(null, biomeBase);
             Biome b = (Biome) biome;
@@ -205,20 +207,20 @@ public class NMSUtil {
         }
     }
 
-    public static void repopulateChunk(Chunk chunk){
+    public static void repopulateChunk(Chunk chunk) {
         if (blocked) return;
-        try{
+        try {
             Object craftchunk = CraftChunk.cast(chunk);
             Object nmsChunk = craftChunk_getHandle.invoke(craftchunk);
             field_NmsChunk_done.setAccessible(true);
             field_NmsChunk_done.set(nmsChunk, false);
-            refreshChunk (chunk);
-        } catch (Exception e){
+            refreshChunk(chunk);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void saveChunk(Chunk ch){
+    public static void saveChunk(Chunk ch) {
         if (blocked) return;
         if (ch == null) return;
         try {
@@ -226,14 +228,14 @@ public class NMSUtil {
             Object nms_world = nms_chunk_world.get(nms_chunk);
             getChunkProvider.invoke(nms_world);
             Object chunkProvider = getChunkProvider.invoke(nms_world);
-            saveChunk.invoke(chunkProvider,nms_chunk);
-            saveChunkNOP.invoke(chunkProvider,nms_chunk);
-        } catch (Exception e){
+            saveChunk.invoke(chunkProvider, nms_chunk);
+            saveChunkNOP.invoke(chunkProvider, nms_chunk);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void refreshChunk(Chunk ch){
+    public static void refreshChunk(Chunk ch) {
         World w = ch.getWorld();
         for (Player p : w.getPlayers()) {
             if (p.isOnline()) {
@@ -243,7 +245,7 @@ public class NMSUtil {
                         Object nmsPlayer = craftPlayer_getHandle.invoke(p);
                         Object nmsChunk = craftChunk_getHandle.invoke(ch);
                         Object nmsPlayerConnection = playerConnection.get(nmsPlayer);
-                        Object chunkPacket = newPacket.newInstance(nmsChunk,65535);
+                        Object chunkPacket = newPacket.newInstance(nmsChunk, 65535);
                         sendPacket.invoke(nmsPlayerConnection, chunkPacket);
                     } catch (Exception e) {
                     }

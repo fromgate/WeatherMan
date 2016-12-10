@@ -25,16 +25,16 @@ package me.fromgate.weatherman;
 import org.bukkit.block.Biome;
 
 public class Cfg {
-	boolean wand;
-	int radius;
-	Biome biome;
-	String treeType;
-	
-	public Cfg(){
-		this.wand = false;
-		this.radius = 5;
-		this.biome = Biome.ICE_FLATS;
-		this.treeType = "default";
-	}
+    boolean wand;
+    int radius;
+    Biome biome;
+    String treeType;
+
+    public Cfg() {
+        this.wand = false;
+        this.radius = 5;
+        this.biome = Biome.ICE_FLATS;
+        this.treeType = "default";
+    }
 
 }

@@ -25,16 +25,16 @@ package me.fromgate.weatherman;
 import org.bukkit.block.Biome;
 
 public class BiomeBall {
-	Biome biome;
-	int radius;
-	
-	public BiomeBall(Biome b, int r){
-		this.biome = b;
-		this.radius = r;
-	}
-	
-	public BiomeBall(Biome b, int r, int mode){
-		this.biome = b;
-		this.radius = r;
-	}
+    Biome biome;
+    int radius;
+
+    public BiomeBall(Biome b, int r) {
+        this.biome = b;
+        this.radius = r;
+    }
+
+    public BiomeBall(Biome b, int r, int mode) {
+        this.biome = b;
+        this.radius = r;
+    }
 }

@@ -31,81 +31,81 @@ import org.bukkit.entity.Entity;
 
 
 public class WMChunk {
-	World world;
-	int x;
-	int z;
+    World world;
+    int x;
+    int z;
 
 
-	public WMChunk (Chunk ch){
-		this.world = ch.getWorld();
-		this.x = ch.getX();
-		this.z = ch.getZ();
-	}
+    public WMChunk(Chunk ch) {
+        this.world = ch.getWorld();
+        this.x = ch.getX();
+        this.z = ch.getZ();
+    }
 
-	public WMChunk (World world, int bx, int bz, boolean setBiomeOrDepopulate){
-		this.world = world;
-		this.x = bx>>4;
-		this.z = bz>>4;
-	}
+    public WMChunk(World world, int bx, int bz, boolean setBiomeOrDepopulate) {
+        this.world = world;
+        this.x = bx >> 4;
+        this.z = bz >> 4;
+    }
 
-	public Chunk getChunk(){
-		return world.getChunkAt(this.x, this.z);
-	}
+    public Chunk getChunk() {
+        return world.getChunkAt(this.x, this.z);
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((world == null) ? 0 : world.hashCode());
-		result = prime * result + x;
-		result = prime * result + z;
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((world == null) ? 0 : world.hashCode());
+        result = prime * result + x;
+        result = prime * result + z;
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof WMChunk))
-			return false;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof WMChunk))
+            return false;
 
-		WMChunk other = (WMChunk) obj;
-		if (world == null) {
-			if (other.world != null)
-				return false;
-		} else if (!world.equals(other.world))
-			return false;
-		if (x != other.x)
-			return false;
-		if (z != other.z)
-			return false;
-		return true;
-	}
+        WMChunk other = (WMChunk) obj;
+        if (world == null) {
+            if (other.world != null)
+                return false;
+        } else if (!world.equals(other.world))
+            return false;
+        if (x != other.x)
+            return false;
+        if (z != other.z)
+            return false;
+        return true;
+    }
 
 
-	public void processChunk(boolean setBiomeOrDepopulate){
-		Chunk chunk = getChunk();
-		if (setBiomeOrDepopulate) {
-			NMSUtil.saveChunk(chunk);
-			//world.refreshChunk(this.x, this.z);
-			NMSUtil.refreshChunk(chunk);
-		} else {
-			NMSUtil.repopulateChunk(chunk);
-		}
-	}
-	
-	public void entityUpdate (final Chunk chunk){
-		Bukkit.getScheduler().runTaskLater(WeatherMan.instance, new Runnable(){
-			@Override
-			public void run() {
-				for (Entity e : chunk.getEntities())
-					e.teleport(e);
-			}
-		}, 1);
+    public void processChunk(boolean setBiomeOrDepopulate) {
+        Chunk chunk = getChunk();
+        if (setBiomeOrDepopulate) {
+            NMSUtil.saveChunk(chunk);
+            //world.refreshChunk(this.x, this.z);
+            NMSUtil.refreshChunk(chunk);
+        } else {
+            NMSUtil.repopulateChunk(chunk);
+        }
+    }
 
-	}
+    public void entityUpdate(final Chunk chunk) {
+        Bukkit.getScheduler().runTaskLater(WeatherMan.instance, new Runnable() {
+            @Override
+            public void run() {
+                for (Entity e : chunk.getEntities())
+                    e.teleport(e);
+            }
+        }, 1);
+
+    }
 
 
 }
