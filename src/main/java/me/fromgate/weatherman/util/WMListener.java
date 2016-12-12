@@ -20,9 +20,11 @@
  * 
  */
 
-package me.fromgate.weatherman;
+package me.fromgate.weatherman.util;
 
 
+import me.fromgate.weatherman.WeatherMan;
+import me.fromgate.weatherman.playerconfig.PlayerConfig;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -51,35 +53,36 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class WMListener implements Listener {
     WeatherMan plg;
-    Util u;
 
     public WMListener(WeatherMan plg) {
         this.plg = plg;
-        this.u = plg.u;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockForm(BlockFormEvent event) {
-        if ((event.getNewState().getType() == Material.SNOW) && (!plg.unsnowBiomes.isEmpty()) && (u.isWordInList(BiomeTools.biome2Str(event.getBlock().getBiome()), plg.unsnowBiomes)))
+        if ((event.getNewState().getType() == Material.SNOW) && (!Cfg.getUnsnowBiomes().isEmpty()) && (Util.isWordInList(BiomeTools.biome2Str(event.getBlock().getBiome()), Cfg.getUnsnowBiomes()))) {
             event.setCancelled(true);
-        if ((event.getNewState().getType() == Material.ICE) && (!plg.uniceBiomes.isEmpty()) && (u.isWordInList(BiomeTools.biome2Str(event.getBlock().getBiome()), plg.uniceBiomes)))
+        }
+
+        if ((event.getNewState().getType() == Material.ICE) && (!Cfg.getUniceBiomes().isEmpty()) && (Util.isWordInList(BiomeTools.biome2Str(event.getBlock().getBiome()), Cfg.getUniceBiomes()))) {
             event.setCancelled(true);
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player p = event.getPlayer();
-        u.updateMsg(p);
+        UpdateChecker.updateMsg(p);
         PlayerConfig.clearPlayerConfig(p);
         if (PlayerConfig.isWandMode(p)) {
             PlayerConfig.setWandMode(p, false);
-            u.printMSG(p, "msg_wandmodedisabled", u.EnDis(false), "&6/wm wand&a");
+            M.MSG_WANDMODEDISABLED.print(p, M.enDis(false), "&6/wm wand&a");
         }
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onCreatureSpawn(CreatureSpawnEvent event) {
-        if (plg.netherMob) return;
+        if (Cfg.isNetherMob()) return;
         if (event.getEntity().getWorld().getEnvironment() == Environment.NETHER) return;
         if (event.getSpawnReason() != SpawnReason.NATURAL) return;
         if ((event.getEntityType() == EntityType.PIG_ZOMBIE) ||
@@ -105,7 +108,7 @@ public class WMListener implements Listener {
     public void onSignChange(SignChangeEvent event) {
         Player p = event.getPlayer();
         if (ChatColor.stripColor(event.getLine(1)).equalsIgnoreCase("[biome]"))
-            if (!p.hasPermission("weatherman.sign")) event.setLine(1, "{biome}");
+            if (!p.hasPermission("wm.sign")) event.setLine(1, "{biome}");
             else {
                 if (!BiomeTools.isBiomeExists(event.getLine(0)))
                     event.setLine(0, BiomeTools.biome2Str(event.getBlock().getBiome()));
@@ -117,20 +120,22 @@ public class WMListener implements Listener {
                 else if ((l2.toLowerCase().startsWith("radius=")) && (l2.toLowerCase().replace("radius=", "").matches("[1-9]+[0-9]*")))
                     event.setLine(2, ChatColor.BLUE + "radius=" + l2.toLowerCase().replace("radius=", ""));
                 else if (l2.isEmpty())
-                    event.setLine(2, ChatColor.BLUE + "radius=" + Integer.toString(plg.defaultRadius));
+                    event.setLine(2, ChatColor.BLUE + "radius=" + Integer.toString(Cfg.getDefaultRadius()));
                 else {
                     event.setLine(2, ChatColor.BLUE + l2);
                     if (WMWorldEdit.isWG()) {
-                        if (!WMWorldEdit.isRegionExists(event.getBlock().getWorld(), l2))
-                            u.printMSG(p, "wg_unknownregion", 'c', '4', l2);
+                        if (!WMWorldEdit.isRegionExists(event.getBlock().getWorld(), l2)) {
+
+                            M.WG_UNKNOWNREGION.print(p, l2);
+                        }
                     } else {
-                        u.printMSG(p, "wg_notfound", 'c');
-                        event.setLine(2, ChatColor.BLUE + "radius=" + Integer.toString(plg.defaultRadius));
+                        M.WG_NOTFOUND.print(p);
+                        event.setLine(2, ChatColor.BLUE + "radius=" + Integer.toString(Cfg.getDefaultRadius()));
                     }
                 }
                 if (event.getLine(3).isEmpty() ||
                         ((!event.getLine(3).isEmpty()) && (!BiomeTools.isBiomeExists(event.getLine(3)))))
-                    event.setLine(3, BiomeTools.biome2Str(plg.defaultBiome));
+                    event.setLine(3, BiomeTools.biome2Str(Cfg.getDefaultBiome()));
                 event.setLine(3, ChatColor.RED + event.getLine(3));
             }
     }
@@ -162,7 +167,7 @@ public class WMListener implements Listener {
                         if (rs.startsWith("radius=")) {
                             rs = rs.replace("radius=", "");
                             if (rs.matches("[1-9]+[0-9]*")) {
-                                radius = Math.min(Integer.parseInt(rs), plg.maxRadiusSign);
+                                radius = Math.min(Integer.parseInt(rs), Cfg.getMaxRadiusSign());
                                 mode = 0;
                             }
                         } else if (rs.equalsIgnoreCase("replace")) mode = 1;
@@ -201,7 +206,7 @@ public class WMListener implements Listener {
                         }
                     }
                 } else
-                    u.log("Something wrong with WeatherMan-sign: [" + ChatColor.stripColor(sign.getLine(0)) + "|" + ChatColor.stripColor(sign.getLine(1)) +
+                    M.logMessage("Something wrong with WeatherMan-sign: [" + ChatColor.stripColor(sign.getLine(0)) + "|" + ChatColor.stripColor(sign.getLine(1)) +
                             "|" + ChatColor.stripColor(sign.getLine(2)) + "|" + ChatColor.stripColor(sign.getLine(3)) +
                             "] " + event.getBlock().getLocation().toString());
             }
@@ -215,8 +220,11 @@ public class WMListener implements Listener {
             if (event.getFrom().getBlock().getBiome().equals(event.getTo().getBlock().getBiome())) return;
             Biome b1 = event.getTo().getBlock().getBiome();
             Biome b2 = NMSUtil.getOriginalBiome(event.getTo());
-            if (b1.equals(b2)) u.printMSG(p, "msg_movetobiome", BiomeTools.biome2Str(b1));
-            else u.printMSG(p, "msg_movetobiome2", BiomeTools.biome2Str(b1), BiomeTools.biome2Str(b2));
+            if (b1.equals(b2)) {
+                M.MSG_MOVETOBIOME.print(p, BiomeTools.biome2Str(b1));
+            } else {
+                M.MSG_MOVETOBIOME2.print(p, BiomeTools.biome2Str(b1), BiomeTools.biome2Str(b2));
+            }
         }
     }
 }

@@ -23,6 +23,7 @@
 package me.fromgate.weatherman.queue;
 
 import me.fromgate.weatherman.WeatherMan;
+import me.fromgate.weatherman.util.M;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
@@ -109,7 +110,7 @@ public class Queue {
         }
 
         if (!chunksToProcess.isEmpty()) {
-            Bukkit.getScheduler().runTaskLater(WeatherMan.instance, new Runnable() {
+            Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), new Runnable() {
                 @Override
                 public void run() {
                     processQueue();
@@ -123,12 +124,12 @@ public class Queue {
                 long time = System.currentTimeMillis() - this.startTime;
                 float seconds = ((float) time) / 1000;
                 int minutes = (int) seconds / 60;
-                String timeStr = (minutes > 0) ? WeatherMan.instance.u.getMSG("minsec", minutes, (int) seconds) :
-                        WeatherMan.instance.u.getMSG("sec", ((float) Math.round(seconds * 1000 / 1000)) / 1000);
+                String timeStr = (minutes > 0) ? M.MINSEC.getText(minutes, (int) seconds) :
+                        M.SEC.getText(((float) Math.round(seconds * 1000 / 1000)) / 1000);
                 if (this.setBiomeNotRepopulate)
-                    WeatherMan.instance.u.printMSG(sender, "msg_queuebiomefinish", timeStr, this.chunkNum, this.blockNum);
+                    M.MSG_QUEUEBIOMEFINISH.print(sender, timeStr, this.chunkNum, this.blockNum);
                 else
-                    WeatherMan.instance.u.printMSG(sender, "msg_queuepopulatefinish", timeStr, this.chunkNum, this.blockNum);
+                    M.MSG_QUEUEPOPULATEFINISH.print(sender, timeStr, this.chunkNum, this.blockNum);
                 QueueManager.restartQueues();
             }
         }

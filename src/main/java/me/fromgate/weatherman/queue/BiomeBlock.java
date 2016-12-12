@@ -22,8 +22,8 @@
 
 package me.fromgate.weatherman.queue;
 
-import me.fromgate.weatherman.NMSUtil;
-import me.fromgate.weatherman.Repopulator;
+import me.fromgate.weatherman.util.NMSUtil;
+import me.fromgate.weatherman.util.Repopulator;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;

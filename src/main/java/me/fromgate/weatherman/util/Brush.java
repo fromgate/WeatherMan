@@ -21,8 +21,10 @@
  */
 
 
-package me.fromgate.weatherman;
+package me.fromgate.weatherman.util;
 
+import me.fromgate.weatherman.WeatherMan;
+import me.fromgate.weatherman.playerconfig.PlayerConfig;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -30,6 +32,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public enum Brush {
     BIOME("&6WeatherMan wand&1&0&2$370", "biome"),
@@ -41,8 +46,10 @@ public enum Brush {
     private String tag;
 
     private static WeatherMan plug() {
-        return WeatherMan.instance;
+        return WeatherMan.getPlugin();
     }
+
+    private static Map<Snowball, BiomeBall> snowBalls = new HashMap<>();
 
 
     Brush(String item, String tag) {
@@ -85,13 +92,10 @@ public enum Brush {
         Brush brush = Brush.getBrushInHand(player);
         if (brush == null) return;
         Snowball sb = brush.shoot(player);
-            /*
-			 * Залипуха, надо будет всё на Metadata перевести
-			 */
-        if (brush == Brush.BIOME || brush == Brush.DEPOPULATOR) WeatherMan.instance.sballs.put(sb,
+        if (brush == Brush.BIOME || brush == Brush.DEPOPULATOR) snowBalls.put(sb,
                 PlayerConfig.getBiomeBall(player));
         else if (brush == Brush.FORESTER) {
-            sb.setMetadata("WeatherMan-forester", new FixedMetadataValue(WeatherMan.instance, PlayerConfig.getTree(player)));
+            sb.setMetadata("WeatherMan-forester", new FixedMetadataValue(WeatherMan.getPlugin(), PlayerConfig.getTree(player)));
         }
 
     }
@@ -100,7 +104,7 @@ public enum Brush {
         if (!isBrushInHand(player)) return null;
         Snowball sb = player.launchProjectile(Snowball.class);
         player.getWorld().playEffect(player.getLocation(), Effect.GHAST_SHOOT, 0);
-        sb.setMetadata("WeatherMan", new FixedMetadataValue(WeatherMan.instance, this.tag));
+        sb.setMetadata("WeatherMan", new FixedMetadataValue(WeatherMan.getPlugin(), this.tag));
         sb.setVelocity(player.getEyeLocation().getDirection().normalize().multiply(2.5));
         return sb;
     }
@@ -126,14 +130,14 @@ public enum Brush {
         if (brush == null) return;
         switch (brush) {
             case BIOME:
-                if (!plug().sballs.containsKey(sb)) return;
-                BiomeBall bb = plug().sballs.get(sb);
-                BiomeTools.setBiomeRadius(null, sb.getLocation(), bb.biome, Math.min(bb.radius, WeatherMan.instance.maxRadiusWand), null);
-                plug().sballs.remove(sb);
+                if (!snowBalls.containsKey(sb)) return;
+                BiomeBall bb = snowBalls.get(sb);
+                BiomeTools.setBiomeRadius(null, sb.getLocation(), bb.biome, Math.min(bb.radius, Cfg.getMaxRadiusWand()), null);
+                snowBalls.remove(sb);
                 break;
             case DEPOPULATOR:
-                if (!plug().sballs.containsKey(sb)) return;
-                Repopulator.depopulateNatural(Repopulator.getSnowballHitBlock(sb).getLocation(), plug().sballs.get(sb).radius);
+                if (!snowBalls.containsKey(sb)) return;
+                Repopulator.depopulateNatural(Repopulator.getSnowballHitBlock(sb).getLocation(), snowBalls.get(sb).radius);
                 break;
             case WOODCUTTER:
                 Repopulator.depopulateNatural(Repopulator.getSnowballHitBlock(sb).getLocation(), true);

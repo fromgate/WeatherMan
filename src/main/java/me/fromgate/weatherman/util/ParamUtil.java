@@ -20,7 +20,7 @@
  * 
  */
 
-package me.fromgate.weatherman;
+package me.fromgate.weatherman.util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +33,7 @@ public class ParamUtil {
     // преобразуем строку вида <команда> <параметр=значение> <параметр=значение> <параметр=значение> в Map {команда="", параметр=значеие....}
 
     public static Map<String, String> parseParams(String[] args, int index, String defaultKey) {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         if (args.length <= index) return params;
         for (int i = index; i < args.length; i++) {
             String key = args[i];

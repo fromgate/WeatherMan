@@ -20,7 +20,7 @@
  * 
  */
 
-package me.fromgate.weatherman;
+package me.fromgate.weatherman.util;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.Selection;

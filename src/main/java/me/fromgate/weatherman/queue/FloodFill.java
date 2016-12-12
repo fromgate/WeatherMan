@@ -46,7 +46,7 @@ public class FloodFill {
                     if (!result.contains(nextBlock)) nextScan.add(nextBlock);
                 }
                 /*if ((next[0]!=null)&&(!result.contains(next[0]))) nextScan.add(next[0]);
-				if ((next[1]!=null)&&(!result.contains(next[1]))) nextScan.add(next[1]);*/
+                if ((next[1]!=null)&&(!result.contains(next[1]))) nextScan.add(next[1]);*/
             }
             scanFrom.clear();
             scanFrom.addAll(nextScan);

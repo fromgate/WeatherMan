@@ -20,13 +20,29 @@
  * 
  */
 
-package me.fromgate.weatherman;
+package me.fromgate.weatherman.util;
 
 import org.bukkit.block.Biome;
 
 public class BiomeBall {
     Biome biome;
     int radius;
+
+    public Biome getBiome() {
+        return biome;
+    }
+
+    public void setBiome(Biome biome) {
+        this.biome = biome;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
 
     public BiomeBall(Biome b, int r) {
         this.biome = b;

@@ -20,21 +20,37 @@
  * 
  */
 
-package me.fromgate.weatherman;
+package me.fromgate.weatherman.util;
 
-import org.bukkit.block.Biome;
 
-public class Cfg {
-    boolean wand;
-    int radius;
-    Biome biome;
-    String treeType;
+import java.util.regex.Pattern;
 
-    public Cfg() {
-        this.wand = false;
-        this.radius = 5;
-        this.biome = Biome.ICE_FLATS;
-        this.treeType = "default";
+public class Util {
+
+    private static Pattern INTEGER_GZ = Pattern.compile("[1-9]+[0-9]*");
+
+    public static boolean isIntegerGZ(String str) {
+        return INTEGER_GZ.matcher(str).matches();
+    }
+
+
+    public static boolean isWordInList(String word, String str) {
+        String[] ln = str.split(",");
+        for (int i = 0; i < ln.length; i++) {
+            if (ln[i].equalsIgnoreCase(word)) return true;
+        }
+        return false;
+    }
+
+
+    public static boolean isIdInList(int id, String str) {
+        String[] ln = str.split(",");
+        for (int i = 0; i < ln.length; i++) {
+            if ((!ln[i].isEmpty()) && ln[i].matches("[0-9]*") && (Integer.parseInt(ln[i]) == id)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

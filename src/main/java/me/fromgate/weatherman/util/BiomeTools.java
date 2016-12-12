@@ -20,8 +20,9 @@
  * 
  */
 
-package me.fromgate.weatherman;
+package me.fromgate.weatherman.util;
 
+import me.fromgate.weatherman.WeatherMan;
 import me.fromgate.weatherman.queue.BiomeBlock;
 import me.fromgate.weatherman.queue.FloodFill;
 import me.fromgate.weatherman.queue.QueueManager;
@@ -43,7 +44,7 @@ import java.util.Map;
 public class BiomeTools {
 
     private static WeatherMan plg() {
-        return WeatherMan.instance;
+        return WeatherMan.getPlugin();
     }
 
     private static HashMap<String, Biome> bioms = new HashMap<String, Biome>(); //возможно оставить для алиасов?!
@@ -68,7 +69,7 @@ public class BiomeTools {
         if (!isBiomeExists(sourceBiomeStr)) return false;
 
         Biome sourceBiome = BiomeTools.str2Biome(sourceBiomeStr);
-        int radius = Math.min(ParamUtil.getParam(params, "radius", -1), plg().maxRadiusCmd);
+        int radius = Math.min(ParamUtil.getParam(params, "radius", -1), Cfg.getMaxRadiusCmd());
         if (radius > 0) {
             if (loc1 != null) return setBiomeRadius(sender, loc1, biome, radius, sourceBiome);
             else return setBiomeRadius(player, biome, radius, sourceBiome);
@@ -87,7 +88,7 @@ public class BiomeTools {
         Location loc1 = BiomeTools.parseLocation(ParamUtil.getParam(params, "loc", ParamUtil.getParam(params, "loc1", "")));
         Location loc2 = BiomeTools.parseLocation(ParamUtil.getParam(params, "loc2", ""));
         if (ParamUtil.isParamExists(params, "radius")) {
-            int radius = Math.min(ParamUtil.getParam(params, "radius", -1), plg().maxRadiusCmd);
+            int radius = Math.min(ParamUtil.getParam(params, "radius", -1), Cfg.getMaxRadiusCmd());
             if (loc1 == null) return setBiomeRadius(sender, biome, radius, null);
             else return setBiomeRadius(sender, loc1, biome, radius, null);
         }
@@ -104,12 +105,14 @@ public class BiomeTools {
     public static boolean setBiomeRadius(CommandSender sender, Biome biome, int radius, Biome replaceBiome) {
         if (sender instanceof Player)
             return QueueManager.addQueue(sender, ((Player) sender).getLocation(), radius, biome, true, replaceBiome);
-        return plg().u.returnMSG(true, sender, "msg_cmdneedplayer", 'c');
+        return M.MSG_CMDNEEDPLAYER.print(sender);
     }
 
 
     public static boolean setBiomeRadius(CommandSender sender, Location loc, Biome biome, int radius, Biome replaceBiome) {
-        if (loc == null) return plg().u.returnMSG(true, sender, "msg_wronglocation", 'c');
+        if (loc == null) {
+            return M.MSG_WRONGLOCATION.print(sender);
+        }
         return QueueManager.addQueue(sender, loc, radius, biome, true, replaceBiome);
     }
 
@@ -213,11 +216,14 @@ public class BiomeTools {
     public static void meltSnow(World w, int x, int z) {
         Block b = getHighestBlock(w, x, z);
         if (getBiomeTemperature(b.getBiome()) == Temperature.COLD) return;
-        if (plg().meltSnow && (b.getType() == Material.SNOW)) {
+        if (Cfg.isMeltSnow() && (b.getType() == Material.SNOW)) {
             b.setType(Material.AIR);
             b = getHighestBlock(w, x, z);
             if (b.getType() == Material.SNOW) b.setType(Material.AIR);
-        } else if (plg().meltIce && (b.getType() == Material.ICE)) b.setType(Material.WATER);
+        } else if (Cfg.isMeltIce() && (b.getType() == Material.ICE)) {
+            // TODO Change to PACKED_ICE
+            b.setType(Material.WATER);
+        }
     }
 
     public static void meltSnow(Location loc) {
@@ -227,7 +233,7 @@ public class BiomeTools {
     @SuppressWarnings("deprecation")
     public static Block getHighestBlock(World w, int x, int z) {
         Block b = w.getHighestBlockAt(x, z);
-        while ((b.getY() > 1) && (plg().u.isIdInList(b.getTypeId(), "0,17,18"))) {
+        while ((b.getY() > 1) && (Util.isIdInList(b.getTypeId(), "0,17,18"))) {
             b = b.getRelative(BlockFace.DOWN);
         }
         return b;
@@ -240,7 +246,7 @@ public class BiomeTools {
         if (bm.length > 0) {
             for (int i = 0; i < bm.length; i++) {
                 String bstr = BiomeTools.biome2Str(bm[i]);
-                if (!(plg().u.isWordInList(bstr, outdatedBiomes))) bioms.put(bstr, bm[i]);
+                if (!(Util.isWordInList(bstr, outdatedBiomes))) bioms.put(bstr, bm[i]);
             }
         }
     }

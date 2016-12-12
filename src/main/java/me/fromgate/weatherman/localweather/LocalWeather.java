@@ -21,42 +21,42 @@
  */
 
 
-package me.fromgate.weatherman;
+package me.fromgate.weatherman.localweather;
 
+import me.fromgate.weatherman.util.BiomeTools;
+import me.fromgate.weatherman.util.WMWorldEdit;
+import me.fromgate.weatherman.WeatherMan;
+import me.fromgate.weatherman.playerconfig.PlayerConfig;
+import me.fromgate.weatherman.util.M;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.WeatherType;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.event.weather.WeatherChangeEvent;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class LocalWeather implements Listener {
-    WeatherMan plg;
+public class LocalWeather {
+    private static Map<String, Boolean> regions; // true  - дождь
+    private static Map<String, Boolean> biomes;
+    private static Map<String, Boolean> worlds;
 
-    private HashMap<String, Boolean> regions = new HashMap<>(); // true  - дождь
-    private HashMap<String, Boolean> biomes = new HashMap<>();
-    private HashMap<String, Boolean> worlds = new HashMap<>();
 
-    public LocalWeather(WeatherMan plg) {
-        this.plg = plg;
-        this.loadLocalWeather();
+    public static void init() {
+        regions = new HashMap<>(); // true  - дождь
+        biomes = new HashMap<>();
+        worlds = new HashMap<>();
+        Bukkit.getServer().getPluginManager().registerEvents(new WeatherListener(), WeatherMan.getPlugin());
     }
 
-    public boolean getRain(Player p) {
+    public static boolean getRain(Player p) {
         int r = PlayerConfig.getPersonalWeather(p);
         if (r < 0) r = getRegionRain(p);
         if (r < 0) r = getBiomeRain(p.getLocation().getBlock().getBiome());
@@ -65,7 +65,7 @@ public class LocalWeather implements Listener {
         return getWorldRain(p.getWorld());
     }
 
-    public boolean getRain(Player p, boolean world_to_rain) {
+    public static boolean getRain(Player p, boolean world_to_rain) {
         int r = PlayerConfig.getPersonalWeather(p);
         if (r < 0) r = getRegionRain(p);
         if (r < 0) r = getBiomeRain(p.getLocation().getBlock().getBiome());
@@ -74,7 +74,7 @@ public class LocalWeather implements Listener {
         return world_to_rain;
     }
 
-    public boolean getRain(Location loc) {
+    public static boolean getRain(Location loc) {
         int r = getRegionRain(loc);
         if (r < 0) r = getBiomeRain(loc.getBlock().getBiome());
         if (r == 0) return false;
@@ -82,52 +82,55 @@ public class LocalWeather implements Listener {
         return getWorldRain(loc.getWorld());
     }
 
-    public void sendWeather(Player p, boolean rain) {
-        WeatherType newpw = rain ? WeatherType.DOWNFALL : WeatherType.CLEAR;
-        if (p.getPlayerWeather() != newpw) p.setPlayerWeather(newpw);
+    public static void sendWeather(Player player, boolean rain) {
+        WeatherType newPlayerWeather = rain ? WeatherType.DOWNFALL : WeatherType.CLEAR;
+        if (player.getPlayerWeather() != newPlayerWeather) {
+            player.sendMessage(newPlayerWeather.name());
+            player.setPlayerWeather(newPlayerWeather);
+        }
     }
 
     /*
      * Player
      */
-    public void setPlayerRain(Player p, boolean rain) {
-        if (PlayerConfig.isWeatherChanged(p, rain)) sendWeather(p, rain);
-        PlayerConfig.setPersonalWeather(p, rain);
+    public static void setPlayerRain(Player player, boolean rain) {
+        if (PlayerConfig.isWeatherChanged(player, rain)) sendWeather(player, rain);
+        PlayerConfig.setPersonalWeather(player, rain);
     }
 
-    public void clearPlayerRain(Player p) {
-        PlayerConfig.removePersonalWeather(p);
-        sendWeather(p, getRain(p));
+    public static void clearPlayerRain(Player player) {
+        PlayerConfig.removePersonalWeather(player);
+        sendWeather(player, getRain(player));
     }
 
     /*
      * Biome Weather
      */
-    public void setBiomeRain(Biome biome, boolean rain) {
+    public static void setBiomeRain(Biome biome, boolean rain) {
         setBiomeRain(BiomeTools.biome2Str(biome), rain);
     }
 
-    public void setBiomeRain(String biome, boolean rain) {
+    public static void setBiomeRain(String biome, boolean rain) {
         biomes.put(biome, rain);
         saveLocalWeather();
     }
 
-    public void clearBiomeRain(Biome biome) {
+    public static void clearBiomeRain(Biome biome) {
         clearBiomeRain(BiomeTools.biome2Str(biome));
     }
 
-    public void clearBiomeRain(String biome) {
+    public static void clearBiomeRain(String biome) {
         if (biomes.containsKey(biome)) biomes.remove(biome);
         saveLocalWeather();
     }
 
     //0 - clear, 1 - rain, -1 - error/default
-    public int getBiomeRain(Biome biome) {
+    public static int getBiomeRain(Biome biome) {
         if (biome == null) return -1;
         return getBiomeRain(BiomeTools.biome2Str(biome));
     }
 
-    public int getBiomeRain(String biome) {
+    public static int getBiomeRain(String biome) {
         if (!biomes.containsKey(biome)) return -1;
         if (biomes.get(biome)) return 1;
         return 0;
@@ -137,12 +140,12 @@ public class LocalWeather implements Listener {
      * Regions
      */
     //0 - clear, 1 - rain, -1 - error/default
-    public int getRegionRain(Player p) {
+    public static int getRegionRain(Player p) {
         return getRegionRain(p.getLocation());
     }
 
 
-    public int getRegionRain(Location loc) {
+    public static int getRegionRain(Location loc) {
         List<String> rgList = WMWorldEdit.getRegions(loc);
         for (String rgStr : rgList)
             if (regions.containsKey(rgStr)) return (regions.get(rgStr) ? 1 : 0);
@@ -151,77 +154,63 @@ public class LocalWeather implements Listener {
 
 
     //0 - clear, 1 - rain, -1 - error/default
-    public int getRegionRain(String region) {
+    public static int getRegionRain(String region) {
         if (!regions.containsKey(region)) return -1;
         if (regions.get(region)) return 1;
         return 0;
     }
 
-    public void setRegionRain(String region, boolean rain) {
+    public static void setRegionRain(String region, boolean rain) {
         regions.put(region, rain);
         saveLocalWeather();
     }
 
-    public void clearRegionRain(String region) {
+    public static void clearRegionRain(String region) {
         if (regions.containsKey(region)) regions.remove(region);
         saveLocalWeather();
     }
 
     /*
-     * World weather
+     * World wth
      */
     //0 - clear, 1 - rain, -1 - error/default
-    public boolean getWorldRain(String world) {
+    public static boolean getWorldRain(String world) {
         World w = Bukkit.getWorld(world);
-        if (w == null)
+        if (w == null) {
             w = Bukkit.getWorlds().get(0); // if given wrong world, will use first world. Not good solution, but better than NPE
+        }
         return getWorldRain(w);
     }
 
-    public boolean getWorldRain(World world) {
+    public static boolean getWorldRain(World world) {
         String w = world.getName();
         if (worlds.containsKey(w)) return worlds.get(w);
         else return world.hasStorm();
     }
 
-    public void setWorldRain(World world, boolean rain) {
+    public static void setWorldRain(World world, boolean rain) {
         setWorldRain(world.getName(), rain);
         world.setStorm(rain);
     }
 
-    public void setWorldRain(String world, boolean rain) {
+    public static void setWorldRain(String world, boolean rain) {
         worlds.put(world, rain);
         saveLocalWeather();
     }
 
-    public void clearWorldRain(World world) {
+    public static void clearWorldRain(World world) {
         clearWorldRain(world.getName());
         updatePlayersRain(world, 10);
     }
 
-    public void clearWorldRain(String world) {
+    public static void clearWorldRain(String world) {
         if (worlds.containsKey(world)) worlds.remove(world);
         saveLocalWeather();
     }
 
-    /*
-     * Listeners
-     */
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onWeatherChange(WeatherChangeEvent event) {
-        if (!worlds.containsKey(event.getWorld().getName())) {
-            updatePlayersRain(event.getWorld(), 20, event.toWeatherState());
-        } else {
-            final boolean worldstorm = worlds.get(event.getWorld().getName());
-            if (event.toWeatherState() != worldstorm) event.setCancelled(true);
-            else updatePlayersRain(event.getWorld(), 20, worldstorm);
-        }
-
-    }
-
-    public void updatePlayersRain(final World w, int delay, boolean to_weather) {
+    public static void updatePlayersRain(final World w, int delay, boolean to_weather) {
         final boolean to_wstate = to_weather;
-        Bukkit.getScheduler().runTaskLater(plg, new Runnable() {
+        Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), new Runnable() {
             public void run() {
                 for (Player p : w.getPlayers()) {
                     boolean newrain = getRain(p, to_wstate);
@@ -231,8 +220,8 @@ public class LocalWeather implements Listener {
         }, delay);
     }
 
-    public void updatePlayersRain(final World w, int delay) {
-        Bukkit.getScheduler().runTaskLater(plg, new Runnable() {
+    public static void updatePlayersRain(final World w, int delay) {
+        Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), new Runnable() {
             public void run() {
                 for (Player p : w.getPlayers()) {
                     boolean newrain = getRain(p);
@@ -242,38 +231,20 @@ public class LocalWeather implements Listener {
         }, delay);
     }
 
-    public void updatePlayerRain(Player p) {
-        boolean newrain = getRain(p);
-        if (PlayerConfig.isWeatherChanged(p, newrain))
-            sendWeather(p, newrain);
-    }
-
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onPlayerMove(PlayerMoveEvent event) {
-        updatePlayerRain(event.getPlayer());
-    }
-
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        updatePlayerRain(event.getPlayer());
-    }
-
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onPlayerRespawn(PlayerRespawnEvent event) {
-        updatePlayerRain(event.getPlayer());
-    }
-
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onPlayerTeleport(PlayerTeleportEvent event) {
-        updatePlayerRain(event.getPlayer());
+    public static void updatePlayerRain(Player player) {
+        boolean newrain = getRain(player);
+        if (PlayerConfig.isWeatherChanged(player, newrain)) {
+            sendWeather(player, newrain);
+        }
     }
 
 
-    public void saveLocalWeather() {
+    public static void saveLocalWeather() {
         try {
-            File f = new File(plg.getDataFolder() + File.separator + "localweather.yml");
-            if (f.exists()) f.delete();
-            f.createNewFile();
+            File f = new File(WeatherMan.getPlugin().getDataFolder() + File.separator + "localweather.yml");
+            if (f.exists()) {
+                f.delete();
+            }
             YamlConfiguration cfg = new YamlConfiguration();
             if (worlds.size() > 0) {
                 for (String wname : worlds.keySet())
@@ -292,9 +263,9 @@ public class LocalWeather implements Listener {
         }
     }
 
-    public void loadLocalWeather() {
+    public static void loadLocalWeather() {
         try {
-            File f = new File(plg.getDataFolder() + File.separator + "localweather.yml");
+            File f = new File(WeatherMan.getPlugin().getDataFolder() + File.separator + "localweather.yml");
             if (f.exists()) {
                 YamlConfiguration cfg = new YamlConfiguration();
                 cfg.load(f);
@@ -319,42 +290,59 @@ public class LocalWeather implements Listener {
 
     }
 
-    public void printPlayerList(Player p, int page) {
-        List<String> plst = new ArrayList<String>();
-        for (Player pp : Bukkit.getOnlinePlayers()) {
-            if (!pp.isOnline()) continue;
-            int pw = PlayerConfig.getPersonalWeather(pp);
+    public static void printPlayerList(CommandSender sender, int page) {
+        List<String> plst = new ArrayList<>();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (!player.isOnline()) continue;
+            int pw = PlayerConfig.getPersonalWeather(player);
             if (pw >= 0)
-                plst.add("&6" + p.getName() + "&e : " + ((pw == 1) ? plg.u.getMSGnc("rain") : plg.u.getMSGnc("clear")));
+                plst.add("&6" + player.getName() + "&e : " + ((pw == 1) ? M.RAIN : M.CLEAR).toString());
         }
-        if (plst.size() > 0) plg.u.printPage(p, plst, page, "wth_playerlist", "", true);
-        else plg.u.printMSG(p, "wth_playerlistempty", 'c');
+        if (plst.size() > 0) {
+            M.printPage(sender, plst, M.WTH_PLAYERLIST, page, sender instanceof Player ? 9 : 1000);
+        } else {
+            M.WTH_PLAYERLISTEMPTY.print(sender);
+        }
     }
 
-    public void printBiomeList(Player p, int page) {
+    public static void printBiomeList(CommandSender sender, int page) {
         if (biomes.size() > 0) {
-            List<String> blst = new ArrayList<String>();
+            List<String> blst = new ArrayList<>();
             for (String b : biomes.keySet())
-                blst.add("&6" + b + "&e : " + ((biomes.get(b)) ? plg.u.getMSGnc("rain") : plg.u.getMSGnc("clear")));
-            plg.u.printPage(p, blst, page, "wth_biomelist", "", true);
-        } else plg.u.printMSG(p, "wth_biomelistempty", 'c');
+                blst.add("&6" + b + "&e : " + ((biomes.get(b)) ? M.RAIN : M.CLEAR));
+            M.printPage(sender, blst, M.WTH_BIOMELIST, page, sender instanceof Player ? 9 : 1000);
+        } else {
+            M.WTH_BIOMELISTEMPTY.print(sender);
+        }
     }
 
-    public void printRegionList(Player p, int page) {
+    public static void printRegionList(CommandSender sender, int page) {
         if (regions.size() > 0) {
             List<String> blst = new ArrayList<String>();
             for (String b : regions.keySet())
-                blst.add("&6" + b + "&e : " + ((regions.get(b)) ? plg.u.getMSGnc("rain") : plg.u.getMSGnc("clear")));
-            plg.u.printPage(p, blst, page, "wth_regionlist", "", true);
-        } else plg.u.printMSG(p, "wth_regionlistempty", 'c');
+                blst.add("&6" + b + "&e : " + ((regions.get(b)) ? M.RAIN : M.CLEAR));
+            M.printPage(sender, blst, M.WTH_REGIONLIST, page, sender instanceof Player ? 9 : 1000);
+        } else {
+            M.WTH_REGIONLISTEMPTY.print(sender);
+        }
     }
 
-    public void printWorldList(Player p, int page) {
+    public static void printWorldList(CommandSender sender, int page) {
         if (worlds.size() > 0) {
             List<String> blst = new ArrayList<String>();
             for (String b : worlds.keySet())
-                blst.add("&6" + b + "&e : " + ((worlds.get(b)) ? plg.u.getMSGnc("rain") : plg.u.getMSGnc("clear")));
-            plg.u.printPage(p, blst, page, "wth_worldslist", "", true);
-        } else plg.u.printMSG(p, "wth_worldlistempty", 'c');
+                blst.add("&6" + b + "&e : " + ((worlds.get(b)) ? M.RAIN : M.CLEAR));
+            M.printPage(sender, blst, M.WTH_WORLDLIST, page, sender instanceof Player ? 9 : 1000);
+        } else {
+            M.WTH_WORLDLISTEMPTY.print(sender);
+        }
+    }
+
+    public static boolean getWorldWeather(World world) {
+        return worlds.containsKey(world.getName());
+    }
+
+    public static boolean isWorldWeatherSet(World world) {
+        return worlds.containsKey(world.getName());
     }
 }

@@ -20,7 +20,7 @@
  * 
  */
 
-package me.fromgate.weatherman;
+package me.fromgate.weatherman.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

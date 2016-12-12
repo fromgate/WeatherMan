@@ -20,8 +20,9 @@
  * 
  */
 
-package me.fromgate.weatherman;
+package me.fromgate.weatherman.util;
 
+import me.fromgate.weatherman.WeatherMan;
 import me.fromgate.weatherman.queue.QueueManager;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -41,7 +42,7 @@ public class Repopulator {
     private static Set<String> treeBlocks = new HashSet<String>();
 
     public static void save() {
-        File f = new File(WeatherMan.instance.getDataFolder() + File.separator + "repopulator.yml");
+        File f = new File(WeatherMan.getPlugin().getDataFolder() + File.separator + "repopulator.yml");
         YamlConfiguration cfg = new YamlConfiguration();
         List<String> clearBlocksList = new ArrayList<String>();
         clearBlocksList.addAll(clearBlocks);
@@ -57,7 +58,7 @@ public class Repopulator {
     }
 
     public static void load() {
-        File f = new File(WeatherMan.instance.getDataFolder() + File.separator + "repopulator.yml");
+        File f = new File(WeatherMan.getPlugin().getDataFolder() + File.separator + "repopulator.yml");
         YamlConfiguration cfg = new YamlConfiguration();
         try {
             cfg.load(f);
@@ -90,9 +91,14 @@ public class Repopulator {
 
     }
 
+    /*
+        radius
+
+     */
+
     public static boolean populateCommand(CommandSender sender, Map<String, String> params) {
         if (params.isEmpty()) return populateSelection(sender);
-        int radius = Math.min(ParamUtil.getParam(params, "radius", -1), WeatherMan.instance.maxRadiusCmd);
+        int radius = Math.min(ParamUtil.getParam(params, "radius", -1), Cfg.getMaxRadiusCmd());
         Location loc1 = BiomeTools.parseLocation(ParamUtil.getParam(params, "loc", ParamUtil.getParam(params, "loc1", "")));
         Location loc2 = BiomeTools.parseLocation(ParamUtil.getParam(params, "loc2", ""));
 

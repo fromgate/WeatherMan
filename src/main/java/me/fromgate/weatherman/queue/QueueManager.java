@@ -22,9 +22,9 @@
 
 package me.fromgate.weatherman.queue;
 
-import me.fromgate.weatherman.Util;
-import me.fromgate.weatherman.WMWorldEdit;
 import me.fromgate.weatherman.WeatherMan;
+import me.fromgate.weatherman.util.M;
+import me.fromgate.weatherman.util.WMWorldEdit;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -36,10 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QueueManager {
-
-    private static Util u() {
-        return WeatherMan.instance.u;
-    }
 
     private static List<Queue> queues = new ArrayList<Queue>();
 
@@ -57,8 +53,9 @@ public class QueueManager {
     }
 
     public static boolean addQueue(CommandSender sender, Location loc1, Location loc2, Biome biome, boolean biomeOrPopulate, Biome filterBiome) {
-        if (loc1 == null) return u().returnMSG(false, sender, "msg_wronglocation", 'c');
-        if (loc2 == null) return u().returnMSG(false, sender, "msg_wronglocation", 'c');
+        if (loc1 == null || loc2 == null) {
+            return M.MSG_WRONGLOCATION.print(sender);
+        }
         List<BiomeBlock> blocks = new ArrayList<BiomeBlock>();
         for (int x = Math.min(loc1.getBlockX(), loc2.getBlockX()); x <= Math.max(loc1.getBlockX(), loc2.getBlockX()); x++)
             for (int z = Math.min(loc1.getBlockZ(), loc2.getBlockZ()); z <= Math.max(loc1.getBlockZ(), loc2.getBlockZ()); z++)
@@ -69,9 +66,15 @@ public class QueueManager {
     public static boolean addQueueSelection(CommandSender sender, Biome biome, boolean biomeOrPopulate, Biome filterBiome) {
         Player player = null;
         if (sender instanceof Player) player = (Player) sender;
-        if (player == null) return u().returnMSG(true, sender, "msg_cmdneedplayer", 'c');
-        if (!WMWorldEdit.isWE()) return u().returnMSG(true, player, "need_worldedit", 'c');
-        if (!WMWorldEdit.isSelected(player)) return u().returnMSG(true, player, "msg_selectregion", 'c');
+        if (player == null) {
+            return M.MSG_CMDNEEDPLAYER.print(sender);
+        }
+        if (!WMWorldEdit.isWE()) {
+            return M.MSG_NEEDWORLDEDIT.print(player);
+        }
+        if (!WMWorldEdit.isSelected(player)) {
+            return M.MSG_SELECTREGION.print(player);
+        }
         Location loc1 = WMWorldEdit.getSelectionMinPoint(player);
         Location loc2 = WMWorldEdit.getSelectionMaxPoint(player);
         return addQueue(sender, loc1, loc2, biome, biomeOrPopulate, filterBiome);
@@ -79,8 +82,13 @@ public class QueueManager {
 
 
     public static boolean addQueueRegion(CommandSender sender, String region, Biome biome, boolean biomeOrPopulate, Biome filterBiome) {
-        if (!WMWorldEdit.isWG()) return u().returnMSG(true, sender, "wg_notfound", 'c');
-        if (region.isEmpty()) u().returnMSG(true, sender, "wg_unknownregion", 'c', '4', "<empty>");
+        if (!WMWorldEdit.isWG()) {
+            return M.WG_NOTFOUND.print(sender);
+        }
+        if (region.isEmpty()) {
+            M.WG_UNKNOWNREGION.print(sender, "<empty>");
+        }
+
         int rgcount = 0;
         for (World w : Bukkit.getWorlds()) {
             if (WMWorldEdit.isRegionExists(w, region)) {
@@ -89,13 +97,14 @@ public class QueueManager {
                 if (addQueue(sender, loc1, loc2, biome, biomeOrPopulate, filterBiome)) rgcount++;
             }
         }
-        if (rgcount == 0) return u().returnMSG(false, sender, "wg_unknownregion", 'c', '4', region);
-        return true;
+        return rgcount == 0 ? M.WG_UNKNOWNREGION.print(sender) : true;
     }
 
 
     public static boolean addQueue(CommandSender sender, Location loc, int radius, Biome biome, boolean biomeOrPopulate, Biome filterBiome) {
-        if (loc == null) return u().returnMSG(false, sender, "msg_wronglocation", 'c');
+        if (loc == null) {
+            return M.MSG_WRONGLOCATION.print(sender);
+        }
         List<BiomeBlock> blocks = new ArrayList<BiomeBlock>();
         if (radius <= 0) blocks.add(new BiomeBlock(loc, biome));
         else for (int i = 0; i <= radius; i++) {
@@ -112,7 +121,7 @@ public class QueueManager {
 
 
     public static void restartQueues() {
-        Bukkit.getScheduler().runTaskLater(WeatherMan.instance, new Runnable() {
+        Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), new Runnable() {
             @Override
             public void run() {
                 if (queues.isEmpty()) return;

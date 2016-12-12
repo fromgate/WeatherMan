@@ -20,8 +20,9 @@
  * 
  */
 
-package me.fromgate.weatherman;
+package me.fromgate.weatherman.util;
 
+import me.fromgate.weatherman.WeatherMan;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
@@ -51,7 +52,7 @@ public class Forester {
 
     public static void load() {
         YamlConfiguration cfg = new YamlConfiguration();
-        File f = new File(WeatherMan.instance.getDataFolder() + File.separator + "forester-brush.yml");
+        File f = new File(WeatherMan.getPlugin().getDataFolder() + File.separator + "forester-brush.yml");
         if (!f.exists()) return;
         biomeTrees.clear();
         try {
@@ -67,7 +68,7 @@ public class Forester {
 
     public static void save() {
         YamlConfiguration cfg = new YamlConfiguration();
-        File f = new File(WeatherMan.instance.getDataFolder() + File.separator + "forester-brush.yml");
+        File f = new File(WeatherMan.getPlugin().getDataFolder() + File.separator + "forester-brush.yml");
         if (f.exists()) f.delete();
         try {
             f.createNewFile();

@@ -21,7 +21,7 @@
  */
 
 
-package me.fromgate.weatherman;
+package me.fromgate.weatherman.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -138,14 +138,14 @@ public class NMSUtil {
             log.info("[WeatherMan] his version of WeatherMan is not compatible with CraftBukkit " + Bukkit.getVersion());
             log.info("[WeatherMan] Features depended to craftbukkit version will be disabled!");
             log.info("[WeatherMan] + It is strongly recommended to update WeatherMan to latest version!");
-            log.info("[WeatherMan] + Check updates at http://dev.bukkit.org/server-mods/weatherman/");
+            log.info("[WeatherMan] + Check updates at http://dev.bukkit.org/server-mods/wm/");
             log.info("[WeatherMan] + or use this version at your own risk.");
             e.printStackTrace();
         }
         if ((!blocked) && (!isTestedVersion())) {
             log.info("[WeatherMan] +---------------------------------------------------------------------+");
             log.info("[WeatherMan] + This version of WeatherMan was not tested with CraftBukkit " + getMinecraftVersion().replace('_', '.') + " +");
-            log.info("[WeatherMan] + Check updates at http://dev.bukkit.org/server-mods/weatherman/      +");
+            log.info("[WeatherMan] + Check updates at http://dev.bukkit.org/server-mods/wm/      +");
             log.info("[WeatherMan] + or use this version at your own risk                                +");
             log.info("[WeatherMan] +---------------------------------------------------------------------+");
         }

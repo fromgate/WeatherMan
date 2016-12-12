@@ -22,7 +22,7 @@
 
 package me.fromgate.weatherman.queue;
 
-import me.fromgate.weatherman.NMSUtil;
+import me.fromgate.weatherman.util.NMSUtil;
 import me.fromgate.weatherman.WeatherMan;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -97,7 +97,7 @@ public class WMChunk {
     }
 
     public void entityUpdate(final Chunk chunk) {
-        Bukkit.getScheduler().runTaskLater(WeatherMan.instance, new Runnable() {
+        Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), new Runnable() {
             @Override
             public void run() {
                 for (Entity e : chunk.getEntities())
