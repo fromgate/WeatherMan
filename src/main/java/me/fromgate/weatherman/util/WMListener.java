@@ -24,6 +24,7 @@ package me.fromgate.weatherman.util;
 
 
 import me.fromgate.weatherman.WeatherMan;
+import me.fromgate.weatherman.localweather.LocalWeather;
 import me.fromgate.weatherman.playerconfig.PlayerConfig;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -47,9 +48,8 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.*;
+import org.bukkit.event.weather.WeatherChangeEvent;
 
 public class WMListener implements Listener {
     WeatherMan plg;
@@ -227,4 +227,46 @@ public class WMListener implements Listener {
             }
         }
     }
+
+    // LocalWeather events
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onWeatherChange(WeatherChangeEvent event) {
+        if (!LocalWeather.isWorldWeatherSet(event.getWorld())) {
+            LocalWeather.updatePlayersRain(event.getWorld(), 20, event.toWeatherState());
+        } else {
+            final boolean worldstorm = LocalWeather.getWorldWeather(event.getWorld());
+            if (event.toWeatherState() != worldstorm) event.setCancelled(true);
+            else LocalWeather.updatePlayersRain(event.getWorld(), 20, worldstorm);
+        }
+
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onWeatherMove(PlayerMoveEvent event) {
+        if (event.getFrom().getWorld().equals(event.getTo().getWorld()) &&
+                event.getFrom().getBlockX() == event.getTo().getBlockX() &&
+                event.getFrom().getBlockY() == event.getTo().getBlockY() &&
+                event.getFrom().getBlockZ() == event.getTo().getBlockZ()) {
+            return;
+        }
+        M.BC("PlayerMoveEvent");
+        LocalWeather.updatePlayerRain(event.getPlayer());
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onPlayerJoinWeather(PlayerJoinEvent event) {
+        LocalWeather.updatePlayerRain(event.getPlayer());
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        LocalWeather.updatePlayerRain(event.getPlayer());
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onPlayerTeleport(PlayerTeleportEvent event) {
+        LocalWeather.updatePlayerRain(event.getPlayer());
+    }
+
+
 }

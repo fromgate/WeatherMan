@@ -30,7 +30,6 @@ package me.fromgate.weatherman;
 
 
 import me.fromgate.weatherman.commands.Commander;
-import me.fromgate.weatherman.localweather.LocalWeather;
 import me.fromgate.weatherman.playerconfig.PlayerConfig;
 import me.fromgate.weatherman.util.*;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -61,7 +60,6 @@ public class WeatherMan extends JavaPlugin {
         BiomeTools.initBioms();
         Repopulator.init();
         Forester.init();
-        LocalWeather.init();
         getServer().getPluginManager().registerEvents(new WMListener(this), this);
 
         try {

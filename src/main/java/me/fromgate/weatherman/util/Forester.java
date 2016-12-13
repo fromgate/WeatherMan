@@ -40,12 +40,14 @@ import java.util.Random;
 
 public class Forester {
 
-    private static Map<String, String> biomeTrees = new HashMap<String, String>();
+    private static Map<String, String> biomeTrees = new HashMap<>();
     private static Random random;
 
     public static void init() {
         load();
-        if (biomeTrees.isEmpty()) initDefaultTrees();
+        if (biomeTrees.isEmpty()) {
+            initDefaultTrees();
+        }
         save();
         random = new Random();
     }

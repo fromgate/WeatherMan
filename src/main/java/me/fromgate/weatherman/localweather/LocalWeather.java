@@ -53,7 +53,6 @@ public class LocalWeather {
         regions = new HashMap<>(); // true  - дождь
         biomes = new HashMap<>();
         worlds = new HashMap<>();
-        Bukkit.getServer().getPluginManager().registerEvents(new WeatherListener(), WeatherMan.getPlugin());
     }
 
     public static boolean getRain(Player p) {
