@@ -51,7 +51,7 @@ public class MyWeather extends Cmd {
                 M.MY_WEATHER_REMOVED.print(player);
                 break;
             default:
-                M.WTH_UNKNOWNWEATHER.print(player, args[2]);
+                M.WTH_UNKNOWNWEATHER.print(player, args[0]);
                 break;
         }
         return true;

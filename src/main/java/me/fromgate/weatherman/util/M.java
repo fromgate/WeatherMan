@@ -365,7 +365,9 @@ public enum M {
      */
     public String getText(Object... keys) {
         char[] colors = new char[]{color1 == null ? c1 : color1, color2 == null ? c2 : color2};
-        if (keys.length == 0) return colorize("&" + colors[0] + this.message);
+        if (keys.length == 0) {
+            return colorize("&" + colors[0] + this.message);
+        }
         String str = this.message;
         boolean noColors = false;
         boolean skipDefaultColors = false;
@@ -444,6 +446,7 @@ public enum M {
      * Call this file in onEnable method after initializing plugin configuration
      */
     public static void init(String pluginName, Messenger mess, String lang, boolean debug, boolean save) {
+        M.pluginName = pluginName;
         messenger = mess;
         language = lang;
         debugMode = debug;
@@ -520,18 +523,18 @@ public enum M {
 
     public static void printPage(Object sender, List<String> lines, M title, M footer, int pageNum, int linesPerPage) {
         if (lines == null || lines.isEmpty()) return;
-        List<String> page = new ArrayList<String>();
-        if (title != null) page.add(title.message);
+        List<String> page = new ArrayList<>();
+        if (title != null) page.add(title.getText('e', '6', pluginName));
 
         int pageCount = lines.size() / linesPerPage + 1;
         if (pageCount * linesPerPage == lines.size()) pageCount = pageCount - 1;
 
-        int num = pageCount <= pageNum ? pageNum : 1;
+        int num = pageNum <= pageCount ? pageNum : 1;
 
         for (int i = linesPerPage * (num - 1); i < Math.min(lines.size(), num * linesPerPage); i++) {
             page.add(lines.get(i));
         }
-        if (footer != null) page.add(num, footer.getText(pageCount));
+        if (footer != null) page.add(footer.getText('e', 'e', num, pageCount));
         printLines(sender, page);
     }
 

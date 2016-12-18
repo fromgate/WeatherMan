@@ -105,9 +105,8 @@ public class Commander implements CommandExecutor {
                 helpList.add(cmd.getFullDescription());
             }
         }
-        int pageHeight = (sender instanceof Player) ? 9 : 1000;
-
-        M.printPage(sender, helpList, M.HLP_TITLE, page, pageHeight);
+        int pageHeight = (sender instanceof Player) ? 5 : 1000;
+        M.printPage(sender, helpList, M.HLP_TITLE, M.LST_FOOTER, page, pageHeight);
     }
 
     public static ChatPage paginate(List<String> unpaginatedStrings, int pageNumber, int lineLength, int pageHeight) {

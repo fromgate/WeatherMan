@@ -40,9 +40,9 @@ public class MyTime extends Cmd {
             LocalTime.clearPlayerTime(player);
             M.MY_TIME_REMOVED.print(player);
         } else {
-            Long time = Time.parseTime(args[2]);
+            Long time = Time.parseTime(args[0]);
             if (time == null) {
-                M.TM_WRONG_TIME.print(player, args[2]);
+                M.TM_WRONG_TIME.print(player, args[0]);
             } else {
                 LocalTime.setPlayerTime(player, time);
                 M.MY_TIME_SET.print(player, Time.timeToString(time));
