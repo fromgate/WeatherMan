@@ -4,13 +4,28 @@ version: 1.1.0
 softdepend: [WorldEdit, WorldGuard]
 author: fromgate, fromgate@gmail.com
 commands:
-   wm:
+   weatherman:
       aliases: [wm, wman]
       description: Main WeatherMan command
       usage: |
            /wm help
    wth:
       aliases: [localweather, lweather, lwth]
-      description: Local wth control command
+      description: Local weather control command
       usage: |
            /wth <player|region|biome|world> [{name} <rain|clear|remove>]
+   wtm:
+      aliases: [ltime, localtime, ltm]
+      description: Local time control command
+      usage: |
+           /wtm <player|region|biome|world> [{name} <DAY|NIGHT|HH:SS|remove>]
+   mytime:
+      aliases: [mtime, mytm]
+      description: Configure your own personal time
+      usage: |
+           /mytime <DAY|NIGHT|HH:SS|remove>]
+   myweather:
+      aliases: [mweather, mwth, mywth]
+      description: Configure your own personal time
+      usage: |
+           /myweather <rain|clear|remove>

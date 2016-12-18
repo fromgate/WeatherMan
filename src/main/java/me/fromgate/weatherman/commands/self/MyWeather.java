@@ -20,35 +20,40 @@
  *
  */
 
-package me.fromgate.weatherman.commands.wm;
+package me.fromgate.weatherman.commands.self;
 
-import me.fromgate.weatherman.util.BiomeTools;
-import me.fromgate.weatherman.util.NMSUtil;
 import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
-import me.fromgate.weatherman.playerconfig.PlayerConfig;
+import me.fromgate.weatherman.localweather.LocalWeather;
 import me.fromgate.weatherman.util.M;
-import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 
-@CmdDefine(command = "weatherman", subCommands = "info", permission = "weatherman.basic",
-        description = M.CMD_WALKINFO, shortDescription = "/wm info")
-public class WmInfo extends Cmd {
+@CmdDefine(command = "myweather", subCommands = "(?i)rain|storm|clear|sun|remove|delete", permission = "weatherman.myweather",
+        description = M.MY_WEATHER, shortDescription = "/myweather <rain|clear|remove>",
+        allowConsole = false)
+public class MyWeather extends Cmd {
     @Override
     public boolean execute(Player player, String[] args) {
-        boolean newMode = !PlayerConfig.isWalkInfoMode(player);
-        PlayerConfig.setWalkInfoMode(player, newMode);
-        player.sendMessage(M.MSG_WALKINFO.getText() + ": " + M.enDis(newMode));
-        if (newMode) {
-            Biome b1 = player.getLocation().getBlock().getBiome();
-            Biome b2 = NMSUtil.getOriginalBiome(player.getLocation());
-            if (b1.equals(b2)) {
-                M.MSG_BIOMELOC.print(player, BiomeTools.biomeToString(b1));
-            } else {
-                M.MSG_BIOMELOC2.print(player, BiomeTools.biomeToString(b1), BiomeTools.biomeToString(b2));
-            }
+        switch (args[0].toLowerCase()) {
+            case "rain":
+            case "storm":
+                LocalWeather.setPlayerRain(player, true);
+                M.MY_WEATHER_SET.print(player, M.RAIN);
+                break;
+            case "sun":
+            case "clear":
+                LocalWeather.setPlayerRain(player, false);
+                M.MY_WEATHER_SET.print(player, M.CLEAR);
+                break;
+            case "remove":
+            case "delete":
+                LocalWeather.clearPlayerRain(player);
+                M.MY_WEATHER_REMOVED.print(player);
+                break;
+            default:
+                M.WTH_UNKNOWNWEATHER.print(player, args[2]);
+                break;
         }
         return true;
     }
-
 }

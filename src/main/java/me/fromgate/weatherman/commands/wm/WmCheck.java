@@ -1,3 +1,25 @@
+/*
+ *  WeatherMan, Minecraft bukkit plugin
+ *  (c)2012-2016, fromgate, fromgate@gmail.com
+ *  https://dev.bukkit.org/projects/weatherman
+ *
+ *  This file is part of WeatherMan.
+ *
+ *  WeatherMan is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  WeatherMan is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with WeatherMan.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package me.fromgate.weatherman.commands.wm;
 
 import me.fromgate.weatherman.util.BiomeTools;
@@ -14,7 +36,7 @@ import org.bukkit.entity.Player;
 import java.util.Map;
 
 
-@CmdDefine(command = "wm", subCommands = "check", permission = "wm.basic",
+@CmdDefine(command = "weatherman", subCommands = "check", permission = "weatherman.basic",
         description = M.CMD_CHECK, shortDescription = "/wm check [loc:<world>,<x>,<z>]",
         allowConsole = true)
 public class WmCheck extends Cmd {
@@ -32,9 +54,9 @@ public class WmCheck extends Cmd {
         Biome b1 = loc.getBlock().getBiome();
         Biome b2 = NMSUtil.getOriginalBiome(loc);
         if (b1.equals(b2)) {
-            M.MSG_BIOMELOC.print(sender, BiomeTools.colorBiomeName(BiomeTools.biome2Str(b1)));
+            M.MSG_BIOMELOC.print(sender, BiomeTools.colorBiomeName(BiomeTools.biomeToString(b1)));
         } else {
-            M.MSG_BIOMELOC2.print(sender, BiomeTools.colorBiomeName(BiomeTools.biome2Str(b1)), BiomeTools.colorBiomeName(BiomeTools.biome2Str(b2)));
+            M.MSG_BIOMELOC2.print(sender, BiomeTools.colorBiomeName(BiomeTools.biomeToString(b1)), BiomeTools.colorBiomeName(BiomeTools.biomeToString(b2)));
         }
         return true;
     }

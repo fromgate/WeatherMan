@@ -1,7 +1,7 @@
-/*  
+/*
  *  WeatherMan, Minecraft bukkit plugin
- *  (c)2012-2014, fromgate, fromgate@gmail.com
- *  http://dev.bukkit.org/server-mods/weatherman/
+ *  (c)2012-2016, fromgate, fromgate@gmail.com
+ *  https://dev.bukkit.org/projects/weatherman
  *    
  *  This file is part of WeatherMan.
  *  
@@ -53,38 +53,60 @@ public class LocalWeather {
         regions = new HashMap<>(); // true  - дождь
         biomes = new HashMap<>();
         worlds = new HashMap<>();
+        loadLocalWeather();
     }
 
     public static boolean getRain(Player p) {
-        int r = PlayerConfig.getPersonalWeather(p);
-        if (r < 0) r = getRegionRain(p);
-        if (r < 0) r = getBiomeRain(p.getLocation().getBlock().getBiome());
-        if (r == 0) return false;
-        if (r == 1) return true;
+        WeatherState r = PlayerConfig.getPersonalWeather(p);
+        if (r == WeatherState.UNSET) {
+            r = getRegionRain(p);
+        }
+        if (r == WeatherState.UNSET) {
+            r = getBiomeRain(p.getLocation().getBlock().getBiome());
+        }
+        if (r == WeatherState.CLEAR) {
+            return false;
+        }
+        if (r == WeatherState.RAIN) {
+            return true;
+        }
         return getWorldRain(p.getWorld());
     }
 
     public static boolean getRain(Player p, boolean world_to_rain) {
-        int r = PlayerConfig.getPersonalWeather(p);
-        if (r < 0) r = getRegionRain(p);
-        if (r < 0) r = getBiomeRain(p.getLocation().getBlock().getBiome());
-        if (r == 0) return false;
-        if (r == 1) return true;
+        WeatherState r = PlayerConfig.getPersonalWeather(p);
+        if (r == WeatherState.UNSET) {
+            r = getRegionRain(p);
+        }
+        if (r == WeatherState.UNSET) {
+            r = getBiomeRain(p.getLocation().getBlock().getBiome());
+        }
+        if (r == WeatherState.CLEAR) {
+            return false;
+        }
+        if (r == WeatherState.RAIN) {
+            return true;
+        }
         return world_to_rain;
     }
 
     public static boolean getRain(Location loc) {
-        int r = getRegionRain(loc);
-        if (r < 0) r = getBiomeRain(loc.getBlock().getBiome());
-        if (r == 0) return false;
-        if (r == 1) return true;
+        WeatherState r = getRegionRain(loc);
+        if (r == WeatherState.UNSET) {
+            r = getBiomeRain(loc.getBlock().getBiome());
+        }
+        if (r == WeatherState.CLEAR) {
+            return false;
+        }
+        if (r == WeatherState.RAIN) {
+            return true;
+        }
         return getWorldRain(loc.getWorld());
     }
 
     public static void sendWeather(Player player, boolean rain) {
         WeatherType newPlayerWeather = rain ? WeatherType.DOWNFALL : WeatherType.CLEAR;
         if (player.getPlayerWeather() != newPlayerWeather) {
-            player.sendMessage(newPlayerWeather.name());
             player.setPlayerWeather(newPlayerWeather);
         }
     }
@@ -106,7 +128,7 @@ public class LocalWeather {
      * Biome Weather
      */
     public static void setBiomeRain(Biome biome, boolean rain) {
-        setBiomeRain(BiomeTools.biome2Str(biome), rain);
+        setBiomeRain(BiomeTools.biomeToString(biome), rain);
     }
 
     public static void setBiomeRain(String biome, boolean rain) {
@@ -115,7 +137,7 @@ public class LocalWeather {
     }
 
     public static void clearBiomeRain(Biome biome) {
-        clearBiomeRain(BiomeTools.biome2Str(biome));
+        clearBiomeRain(BiomeTools.biomeToString(biome));
     }
 
     public static void clearBiomeRain(String biome) {
@@ -124,39 +146,41 @@ public class LocalWeather {
     }
 
     //0 - clear, 1 - rain, -1 - error/default
-    public static int getBiomeRain(Biome biome) {
-        if (biome == null) return -1;
-        return getBiomeRain(BiomeTools.biome2Str(biome));
+    public static WeatherState getBiomeRain(Biome biome) {
+        if (biome == null) return WeatherState.UNSET;
+        return getBiomeRain(BiomeTools.biomeToString(biome));
     }
 
-    public static int getBiomeRain(String biome) {
-        if (!biomes.containsKey(biome)) return -1;
-        if (biomes.get(biome)) return 1;
-        return 0;
+    public static WeatherState getBiomeRain(String biome) {
+        if (!biomes.containsKey(biome)) return WeatherState.UNSET;
+        if (biomes.get(biome)) return WeatherState.RAIN;
+        return WeatherState.CLEAR;
     }
 
     /*
      * Regions
      */
     //0 - clear, 1 - rain, -1 - error/default
-    public static int getRegionRain(Player p) {
+    public static WeatherState getRegionRain(Player p) {
         return getRegionRain(p.getLocation());
     }
 
 
-    public static int getRegionRain(Location loc) {
+    public static WeatherState getRegionRain(Location loc) {
         List<String> rgList = WMWorldEdit.getRegions(loc);
-        for (String rgStr : rgList)
-            if (regions.containsKey(rgStr)) return (regions.get(rgStr) ? 1 : 0);
-        return -1;
+        for (String rgStr : rgList) {
+            if (regions.containsKey(rgStr)) {
+                return (regions.get(rgStr) ? WeatherState.RAIN : WeatherState.CLEAR);
+            }
+        }
+        return WeatherState.UNSET;
     }
 
 
-    //0 - clear, 1 - rain, -1 - error/default
-    public static int getRegionRain(String region) {
-        if (!regions.containsKey(region)) return -1;
-        if (regions.get(region)) return 1;
-        return 0;
+    public static WeatherState getRegionRain(String region) {
+        if (!regions.containsKey(region)) return WeatherState.UNSET;
+        if (regions.get(region)) return WeatherState.RAIN;
+        return WeatherState.CLEAR;
     }
 
     public static void setRegionRain(String region, boolean rain) {
@@ -172,7 +196,6 @@ public class LocalWeather {
     /*
      * World wth
      */
-    //0 - clear, 1 - rain, -1 - error/default
     public static boolean getWorldRain(String world) {
         World w = Bukkit.getWorld(world);
         if (w == null) {
@@ -207,67 +230,67 @@ public class LocalWeather {
         saveLocalWeather();
     }
 
-    public static void updatePlayersRain(final World w, int delay, boolean to_weather) {
-        final boolean to_wstate = to_weather;
+    public static void updatePlayersRain(final World w, int delay, boolean toWeather) {
+        final boolean toWstate = toWeather;
         Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), new Runnable() {
             public void run() {
                 for (Player p : w.getPlayers()) {
-                    boolean newrain = getRain(p, to_wstate);
+                    boolean newrain = getRain(p, toWstate);
                     sendWeather(p, newrain);
                 }
             }
         }, delay);
     }
 
-    public static void updatePlayersRain(final World w, int delay) {
+    public static void updatePlayersRain(final World world, int delay) {
         Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), new Runnable() {
             public void run() {
-                for (Player p : w.getPlayers()) {
-                    boolean newrain = getRain(p);
-                    sendWeather(p, newrain);
+                for (Player player : world.getPlayers()) {
+                    boolean newrain = getRain(player);
+                    sendWeather(player, newrain);
                 }
             }
         }, delay);
     }
 
     public static void updatePlayerRain(Player player) {
-        boolean newrain = getRain(player);
-        if (PlayerConfig.isWeatherChanged(player, newrain)) {
-            sendWeather(player, newrain);
+        boolean newRain = getRain(player);
+        if (PlayerConfig.isWeatherChanged(player, newRain)) {
+            sendWeather(player, newRain);
         }
     }
 
 
     public static void saveLocalWeather() {
         try {
-            File f = new File(WeatherMan.getPlugin().getDataFolder() + File.separator + "localweather.yml");
-            if (f.exists()) {
-                f.delete();
+            File file = new File(WeatherMan.getPlugin().getDataFolder() + File.separator + "localweather.yml");
+            if (file.exists()) {
+                file.delete();
             }
             YamlConfiguration cfg = new YamlConfiguration();
             if (worlds.size() > 0) {
-                for (String wname : worlds.keySet())
-                    cfg.set("worlds." + wname, worlds.get(wname));
+                for (String worldName : worlds.keySet())
+                    cfg.set("worlds." + worldName, worlds.get(worldName));
             }
             if (biomes.size() > 0) {
-                for (String b : biomes.keySet())
-                    cfg.set("biomes." + b, biomes.get(b));
+                for (String biomeName : biomes.keySet())
+                    cfg.set("biomes." + biomeName, biomes.get(biomeName));
             }
             if (regions.size() > 0) {
-                for (String r : regions.keySet())
-                    cfg.set("regions." + r, regions.get(r));
+                for (String regionName : regions.keySet())
+                    cfg.set("regions." + regionName, regions.get(regionName));
             }
-            cfg.save(f);
+            cfg.save(file);
         } catch (Exception e) {
         }
     }
 
     public static void loadLocalWeather() {
         try {
-            File f = new File(WeatherMan.getPlugin().getDataFolder() + File.separator + "localweather.yml");
-            if (f.exists()) {
+            File file = new File(WeatherMan.getPlugin().getDataFolder() + File.separator + "localweather.yml");
+            if (file.exists()) {
                 YamlConfiguration cfg = new YamlConfiguration();
-                cfg.load(f);
+                cfg.load(file);
                 worlds.clear();
                 biomes.clear();
                 regions.clear();
@@ -277,9 +300,17 @@ public class LocalWeather {
                         if (kln.length == 2) {
                             String type = kln[0];
                             String keyfield = kln[1];
-                            if (type.equalsIgnoreCase("worlds")) worlds.put(keyfield, cfg.getBoolean(key));
-                            if (type.equalsIgnoreCase("biomes")) biomes.put(keyfield, cfg.getBoolean(key));
-                            if (type.equalsIgnoreCase("regions")) regions.put(keyfield, cfg.getBoolean(key));
+                            switch (type.toLowerCase()) {
+                                case "worlds":
+                                    worlds.put(keyfield, cfg.getBoolean(key));
+                                    break;
+                                case "biomes":
+                                    biomes.put(keyfield, cfg.getBoolean(key));
+                                    break;
+                                case "regions":
+                                    regions.put(keyfield, cfg.getBoolean(key));
+                                    break;
+                            }
                         }
                     }
                 }
@@ -293,9 +324,10 @@ public class LocalWeather {
         List<String> plst = new ArrayList<>();
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (!player.isOnline()) continue;
-            int pw = PlayerConfig.getPersonalWeather(player);
-            if (pw >= 0)
-                plst.add("&6" + player.getName() + "&e : " + ((pw == 1) ? M.RAIN : M.CLEAR).toString());
+            WeatherState pw = PlayerConfig.getPersonalWeather(player);
+            if (pw != WeatherState.UNSET) {
+                plst.add("&6" + player.getName() + "&e : " + (pw == WeatherState.CLEAR ? M.CLEAR : M.RAIN));
+            }
         }
         if (plst.size() > 0) {
             M.printPage(sender, plst, M.WTH_PLAYERLIST, page, sender instanceof Player ? 9 : 1000);
@@ -307,8 +339,9 @@ public class LocalWeather {
     public static void printBiomeList(CommandSender sender, int page) {
         if (biomes.size() > 0) {
             List<String> blst = new ArrayList<>();
-            for (String b : biomes.keySet())
+            for (String b : biomes.keySet()) {
                 blst.add("&6" + b + "&e : " + ((biomes.get(b)) ? M.RAIN : M.CLEAR));
+            }
             M.printPage(sender, blst, M.WTH_BIOMELIST, page, sender instanceof Player ? 9 : 1000);
         } else {
             M.WTH_BIOMELISTEMPTY.print(sender);
@@ -318,8 +351,9 @@ public class LocalWeather {
     public static void printRegionList(CommandSender sender, int page) {
         if (regions.size() > 0) {
             List<String> blst = new ArrayList<String>();
-            for (String b : regions.keySet())
+            for (String b : regions.keySet()) {
                 blst.add("&6" + b + "&e : " + ((regions.get(b)) ? M.RAIN : M.CLEAR));
+            }
             M.printPage(sender, blst, M.WTH_REGIONLIST, page, sender instanceof Player ? 9 : 1000);
         } else {
             M.WTH_REGIONLISTEMPTY.print(sender);
@@ -329,8 +363,9 @@ public class LocalWeather {
     public static void printWorldList(CommandSender sender, int page) {
         if (worlds.size() > 0) {
             List<String> blst = new ArrayList<String>();
-            for (String b : worlds.keySet())
+            for (String b : worlds.keySet()) {
                 blst.add("&6" + b + "&e : " + ((worlds.get(b)) ? M.RAIN : M.CLEAR));
+            }
             M.printPage(sender, blst, M.WTH_WORLDLIST, page, sender instanceof Player ? 9 : 1000);
         } else {
             M.WTH_WORLDLISTEMPTY.print(sender);
@@ -344,4 +379,5 @@ public class LocalWeather {
     public static boolean isWorldWeatherSet(World world) {
         return worlds.containsKey(world.getName());
     }
+
 }

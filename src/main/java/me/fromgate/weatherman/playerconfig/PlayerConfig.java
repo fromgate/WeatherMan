@@ -1,10 +1,10 @@
-/*  
+/*
  *  WeatherMan, Minecraft bukkit plugin
- *  (c)2012-2014, fromgate, fromgate@gmail.com
- *  http://dev.bukkit.org/server-mods/weatherman/
- *    
+ *  (c)2012-2016, fromgate, fromgate@gmail.com
+ *  https://dev.bukkit.org/projects/weatherman
+ *
  *  This file is part of WeatherMan.
- *  
+ *
  *  WeatherMan is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -17,161 +17,222 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with WeatherMan.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 package me.fromgate.weatherman.playerconfig;
 
-import me.fromgate.weatherman.util.*;
 import me.fromgate.weatherman.WeatherMan;
+import me.fromgate.weatherman.localweather.WeatherState;
+import me.fromgate.weatherman.util.BiomeBall;
 import org.bukkit.block.Biome;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class PlayerConfig {
 
     private static WeatherMan plg;
+    private static File folder;
 
     public static void init(WeatherMan plugin) {
         plg = plugin;
+        folder = new File(plugin.getDataFolder() + File.separator + "players" + File.separator);
+        folder.mkdirs();
     }
 
-
-    //HashMap<String, Cfg> pcfg = new HashMap<String, Cfg>();  //TODO перевести все на Metadata
-
-
-    //Common methods
-    public static void setMeta(Player player, String key, String value) {
-        player.setMetadata(key, new FixedMetadataValue(plg, value));
-    }
-
-    public static String getMeta(Player player, String key, String defaultValue) {
-        if (!player.hasMetadata(key)) return defaultValue;
-        if (player.getMetadata(key).isEmpty()) return defaultValue;
-        return player.getMetadata(key).get(0).asString();
-
-    }
-
-    public static String getMeta(Player player, String key) {
-        return getMeta(player, key, "");
-    }
-
-    public static boolean isMetaExists(Player player, String key) {
-        if (!player.hasMetadata(key)) return false;
-        if (player.getMetadata(key).isEmpty()) return false;
-        return true;
-    }
-
+    private static Map<String, PlayerData> players = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     // Personal configuration
     // Tree wand
     public static void setTree(Player player, String treeStr) {
-        setMeta(player, "wm.pcfg-tree", Forester.isTreeExists(treeStr, true) ? treeStr : "default");
+        getPlayerData(player).setBallTree(treeStr);
+        savePlayerData(player);
     }
 
     public static String getTree(Player player) {
-        return getMeta(player, "wm.pcfg-tree", "default");
+        return getPlayerData(player).getBallTree();
     }
 
 
     //Biome ball
     public static BiomeBall getBiomeBall(Player player) {
-        String biomeStr = getMeta(player, "wm.pcfg-biome", "");
-        Biome biome = BiomeTools.isBiomeExists(biomeStr) ? BiomeTools.str2Biome(biomeStr) : Cfg.getDefaultBiome();
-        String radiusStr = getMeta(player, "wm.pcfg-radius");
-        int radius = Util.isIntegerGZ(radiusStr) ? Integer.parseInt(radiusStr) : Cfg.getDefaultRadius();
+        PlayerData data = getPlayerData(player);
+        Biome biome = data.getBallBiome();
+        int radius = data.getBallRadius();
         return new BiomeBall(biome, radius);
     }
 
     public static void setBiomeBallCfg(Player player, String biomeStr, int radius) {
-        setMeta(player, "wm.pcfg-biome", BiomeTools.isBiomeExists(biomeStr) ? biomeStr : BiomeTools.biome2Str(Cfg.getDefaultBiome()));
-        setMeta(player, "wm.pcfg-radius", Integer.toString(radius));
+        PlayerData data = getPlayerData(player);
+        data.setBallBiome(biomeStr);
+        data.setBallRadius(radius);
+        savePlayerData(player);
     }
 
 
-    public static void clearPlayerConfig(Player p) {
-        if (p.hasMetadata("wm.infomode")) p.removeMetadata("wm.infomode", plg);
-        if (p.hasMetadata("wm.wandmode")) p.removeMetadata("wm.wandmode", plg);
-        if (p.hasMetadata("wm.last-wth")) p.removeMetadata("wm.last-wth", plg);
-        if (p.hasMetadata("wm.personal-wth")) p.removeMetadata("wm.personal-wth", plg);
+    public static void clearPlayerConfig(Player player) {
+        PlayerData data = getPlayerData(player);
+        data.setStateInfoMode(false);
+        data.setStateWand(false);
+        data.setStateLastWeather(false);
+        savePlayerData(player);
     }
 
 	/*
      * Local Weather
 	 */
 
-    public static boolean getLastWeather(Player p) {
-        if (!p.hasMetadata("wm.last-wth")) return p.getWorld().hasStorm();
-        if (p.getMetadata("wm.last-wth").isEmpty()) {
-            p.removeMetadata("wm.last-wth", plg);
-            return p.getWorld().hasStorm();
-        }
-        return p.getMetadata("wm.last-wth").get(0).asBoolean();
+    public static boolean getLastWeather(Player player) {
+        return getPlayerData(player).isStateLastWeather();
     }
 
-    public static void setLastWeather(Player p, boolean rain) {
-        p.setMetadata("wm.last-wth", new FixedMetadataValue(plg, rain));
+    public static void setLastWeather(Player player, boolean rain) {
+        getPlayerData(player).setStateLastWeather(rain);
+        savePlayerData(player);
     }
 
-    public static boolean isWeatherChanged(Player p, boolean newrain) {
-        boolean lastrain = getLastWeather(p);
-        setLastWeather(p, newrain);
-        return (newrain != lastrain);
+    public static boolean isWeatherChanged(Player player, boolean newRain) {
+        boolean lastrain = getLastWeather(player);
+        setLastWeather(player, newRain);
+        return (newRain != lastrain);
     }
 
     /*
      * Personal Weather
      */
-    public static int getPersonalWeather(Player p) {
-        if (!p.hasMetadata("wm.personal-wth")) return -1;
-        if (p.getMetadata("wm.personal-wth").size() == 0) {
-            p.removeMetadata("wm.personal-wth", plg);
-            return -1;
-        }
-        if (p.getMetadata("wm.personal-wth").get(0).asBoolean()) return 1;
-        return 0;
+    public static WeatherState getPersonalWeather(Player player) {
+        return getPlayerData(player).getPersonalWeather();
     }
 
-    public static void setPersonalWeather(Player p, boolean rain) {
-        p.setMetadata("wm.personal-wth", new FixedMetadataValue(plg, rain));
+    public static void setPersonalWeather(Player player, boolean rain) {
+        getPlayerData(player).setPersonalWeather(rain);
+        savePlayerData(player);
     }
 
-    public static void removePersonalWeather(Player p) {
-        if (p.hasMetadata("wm.personal-wth")) p.removeMetadata("wm.personal-wth", plg);
+    public static void removePersonalWeather(Player player) {
+        getPlayerData(player).setPersonalWeather(WeatherState.UNSET);
+        savePlayerData(player);
     }
+
+    /*
+     * Personal time
+     */
+    public static Long getPersonalTime(String player) {
+        return getPlayerData(player).getPersonalTime();
+    }
+
+    public static Long getPersonalTime(Player player) {
+        return getPlayerData(player).getPersonalTime();
+    }
+
+    public static void setPersonalTime(String player, Long time) {
+        getPlayerData(player).setPersonalTime(time);
+        savePlayerData(player);
+    }
+
+    public static void setPersonalTime(String player, String time) {
+        getPlayerData(player).setPersonalTime(time);
+        savePlayerData(player);
+    }
+
+    public static void removePersonalTime(String player) {
+        getPlayerData(player).setPersonalTime((Long) null);
+        savePlayerData(player);
+    }
+
 
     /*
      *  WalkInfo mode
      */
-    public static boolean isWalkInfoMode(Player p) {
-        if (!p.hasMetadata("wm.infomode")) return false;
-        if (p.getMetadata("wm.infomode").isEmpty()) return false;
-        return p.getMetadata("wm.infomode").get(0).asBoolean();
+    public static boolean isWalkInfoMode(Player player) {
+        return getPlayerData(player).isStateInfoMode();
     }
 
-    public static void setWalkInfoMode(Player p, boolean mode) {
-        p.setMetadata("wm.infomode", new FixedMetadataValue(plg, mode));
+    public static void setWalkInfoMode(Player player, boolean mode) {
+        getPlayerData(player).setStateInfoMode(mode);
+        savePlayerData(player);
     }
 
-    public static void toggleWalkInfoMode(Player p) {
-        p.setMetadata("wm.infomode", new FixedMetadataValue(plg, !isWalkInfoMode(p)));
+    public static void toggleWalkInfoMode(Player player) {
+        PlayerData data = getPlayerData(player);
+        data.setStateInfoMode(!data.isStateInfoMode());
+        savePlayerData(player);
     }
 
     /*
      *  Wand mode
      */
-    public static boolean isWandMode(Player p) {
-        if (!p.hasMetadata("wm.wandmode")) return false;
-        if (p.getMetadata("wm.wandmode").isEmpty()) return false;
-        return p.getMetadata("wm.wandmode").get(0).asBoolean();
+    public static boolean isWandMode(Player player) {
+        return getPlayerData(player).isStateWand();
     }
 
-    public static void setWandMode(Player p, boolean mode) {
-        p.setMetadata("wm.wandmode", new FixedMetadataValue(plg, mode));
+    public static void setWandMode(Player player, boolean mode) {
+        getPlayerData(player).setStateWand(mode);
     }
 
-    public static void toggleWandMode(Player p) {
-        p.setMetadata("wm.wandmode", new FixedMetadataValue(plg, !isWandMode(p)));
+    public static void toggleWandMode(Player player) {
+        PlayerData data = getPlayerData(player);
+        data.setStateWand(!data.isStateWand());
+        savePlayerData(player);
+    }
+
+
+    public static PlayerData getPlayerData(Player player) {
+        return getPlayerData(player.getName());
+    }
+
+    public static PlayerData getPlayerData(String name) {
+        if (players.containsKey(name)) {
+            return players.get(name);
+        }
+        PlayerData data = new PlayerData();
+        YamlConfiguration cfg = new YamlConfiguration();
+        File file = new File(folder, name + ".yml");
+        if (file.exists()) {
+            try {
+                cfg.load(file);
+                data.setBallRadius(cfg.getInt("brush.radius", data.getBallRadius()));
+                data.setBallBiome(cfg.getString("brush.biome"));
+                data.setBallTree(cfg.getString("brush.tree", data.getBallTree()));
+                data.setPersonalWeather(cfg.getString("personal.weather"));
+                data.setPersonalTime(cfg.getString("personal.time", data.getPersonalTimeStr()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        players.put(name, data);
+        return data;
+    }
+
+    public static void savePlayerData(Player player) {
+        savePlayerData(player.getName());
+    }
+
+    public static void savePlayerData(String name) {
+        PlayerData data;
+        if (players.containsKey(name)) {
+            data = players.get(name);
+        } else return;
+        YamlConfiguration cfg = new YamlConfiguration();
+        cfg.set("brush.radius", data.getBallRadius());
+        cfg.set("brush.biome", data.getBallBiome().name());
+        cfg.set("brush.tree", data.getBallTree());
+        cfg.set("personal.weather", data.personalWeather.name());
+        cfg.set("personal.time", data.getPersonalTimeStr());
+        try {
+            cfg.save(new File(folder, name + ".yml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getPersonalTimeStr(Player player) {
+        return getPlayerData(player).getPersonalTimeStr();
     }
 
 

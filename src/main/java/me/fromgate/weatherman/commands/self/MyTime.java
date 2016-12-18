@@ -20,35 +20,35 @@
  *
  */
 
-package me.fromgate.weatherman.commands.wm;
+package me.fromgate.weatherman.commands.self;
 
-import me.fromgate.weatherman.util.BiomeTools;
-import me.fromgate.weatherman.util.NMSUtil;
+
 import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
-import me.fromgate.weatherman.playerconfig.PlayerConfig;
+import me.fromgate.weatherman.localtime.LocalTime;
 import me.fromgate.weatherman.util.M;
-import org.bukkit.block.Biome;
+import me.fromgate.weatherman.util.Time;
 import org.bukkit.entity.Player;
 
-@CmdDefine(command = "weatherman", subCommands = "info", permission = "weatherman.basic",
-        description = M.CMD_WALKINFO, shortDescription = "/wm info")
-public class WmInfo extends Cmd {
+@CmdDefine(command = "mytime", subCommands = "(?i)day|noon|night|midnight|remove|reset|(\\d{1,2}:\\d{2})", permission = "weatherman.mytime",
+        description = M.MY_TIME, shortDescription = "/mytime <HH:MM|day|night|remove>",
+        allowConsole = false)
+public class MyTime extends Cmd {
     @Override
     public boolean execute(Player player, String[] args) {
-        boolean newMode = !PlayerConfig.isWalkInfoMode(player);
-        PlayerConfig.setWalkInfoMode(player, newMode);
-        player.sendMessage(M.MSG_WALKINFO.getText() + ": " + M.enDis(newMode));
-        if (newMode) {
-            Biome b1 = player.getLocation().getBlock().getBiome();
-            Biome b2 = NMSUtil.getOriginalBiome(player.getLocation());
-            if (b1.equals(b2)) {
-                M.MSG_BIOMELOC.print(player, BiomeTools.biomeToString(b1));
+        if (args[0].matches("(?i)remove|reset")) {
+            LocalTime.clearPlayerTime(player);
+            M.MY_TIME_REMOVED.print(player);
+        } else {
+            Long time = Time.parseTime(args[2]);
+            if (time == null) {
+                M.TM_WRONG_TIME.print(player, args[2]);
             } else {
-                M.MSG_BIOMELOC2.print(player, BiomeTools.biomeToString(b1), BiomeTools.biomeToString(b2));
+                LocalTime.setPlayerTime(player, time);
+                M.MY_TIME_SET.print(player, Time.timeToString(time));
             }
         }
         return true;
     }
-
 }
+

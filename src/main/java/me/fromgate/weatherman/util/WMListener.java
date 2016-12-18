@@ -1,7 +1,7 @@
 /*  
  *  WeatherMan, Minecraft bukkit plugin
- *  (c)2012-2014, fromgate, fromgate@gmail.com
- *  http://dev.bukkit.org/server-mods/weatherman/
+ *  (c)2012-2016, fromgate, fromgate@gmail.com
+ *  https://dev.bukkit.org/projects/weatherman
  *    
  *  This file is part of WeatherMan.
  *  
@@ -24,6 +24,7 @@ package me.fromgate.weatherman.util;
 
 
 import me.fromgate.weatherman.WeatherMan;
+import me.fromgate.weatherman.localtime.LocalTime;
 import me.fromgate.weatherman.localweather.LocalWeather;
 import me.fromgate.weatherman.playerconfig.PlayerConfig;
 import org.bukkit.ChatColor;
@@ -60,11 +61,11 @@ public class WMListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockForm(BlockFormEvent event) {
-        if ((event.getNewState().getType() == Material.SNOW) && (!Cfg.getUnsnowBiomes().isEmpty()) && (Util.isWordInList(BiomeTools.biome2Str(event.getBlock().getBiome()), Cfg.getUnsnowBiomes()))) {
+        if ((event.getNewState().getType() == Material.SNOW) && (!Cfg.getUnsnowBiomes().isEmpty()) && (Util.isWordInList(BiomeTools.biomeToString(event.getBlock().getBiome()), Cfg.getUnsnowBiomes()))) {
             event.setCancelled(true);
         }
 
-        if ((event.getNewState().getType() == Material.ICE) && (!Cfg.getUniceBiomes().isEmpty()) && (Util.isWordInList(BiomeTools.biome2Str(event.getBlock().getBiome()), Cfg.getUniceBiomes()))) {
+        if ((event.getNewState().getType() == Material.ICE) && (!Cfg.getUniceBiomes().isEmpty()) && (Util.isWordInList(BiomeTools.biomeToString(event.getBlock().getBiome()), Cfg.getUniceBiomes()))) {
             event.setCancelled(true);
         }
     }
@@ -95,7 +96,9 @@ public class WMListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if ((event.getAction() != Action.RIGHT_CLICK_AIR) && (event.getAction() != Action.RIGHT_CLICK_BLOCK)) return;
-        if (PlayerConfig.isWandMode(player)) Brush.shootWand(player);
+        if (PlayerConfig.isWandMode(player)) {
+            Brush.shootWand(player);
+        }
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -111,7 +114,7 @@ public class WMListener implements Listener {
             if (!p.hasPermission("wm.sign")) event.setLine(1, "{biome}");
             else {
                 if (!BiomeTools.isBiomeExists(event.getLine(0)))
-                    event.setLine(0, BiomeTools.biome2Str(event.getBlock().getBiome()));
+                    event.setLine(0, BiomeTools.biomeToString(event.getBlock().getBiome()));
                 event.setLine(0, ChatColor.GREEN + event.getLine(0));
                 event.setLine(1, ChatColor.BOLD + "" + ChatColor.DARK_AQUA + "[Biome]");
                 String l2 = event.getLine(2);
@@ -135,7 +138,7 @@ public class WMListener implements Listener {
                 }
                 if (event.getLine(3).isEmpty() ||
                         ((!event.getLine(3).isEmpty()) && (!BiomeTools.isBiomeExists(event.getLine(3)))))
-                    event.setLine(3, BiomeTools.biome2Str(Cfg.getDefaultBiome()));
+                    event.setLine(3, BiomeTools.biomeToString(Cfg.getDefaultBiome()));
                 event.setLine(3, ChatColor.RED + event.getLine(3));
             }
     }
@@ -183,11 +186,11 @@ public class WMListener implements Listener {
                         }
 
                         if (mode >= 0) {
-                            Biome biome = BiomeTools.str2Biome(b1);
+                            Biome biome = BiomeTools.biomeByName(b1);
                             sign.setLine(0, ChatColor.GREEN + b1);
                             sign.setLine(3, ChatColor.RED + b2);
                             if (b.isBlockIndirectlyPowered()) {
-                                biome = BiomeTools.str2Biome(b2);
+                                biome = BiomeTools.biomeByName(b2);
                                 sign.setLine(0, ChatColor.RED + b1);
                                 sign.setLine(3, ChatColor.GREEN + b2);
                             }
@@ -221,9 +224,9 @@ public class WMListener implements Listener {
             Biome b1 = event.getTo().getBlock().getBiome();
             Biome b2 = NMSUtil.getOriginalBiome(event.getTo());
             if (b1.equals(b2)) {
-                M.MSG_MOVETOBIOME.print(p, BiomeTools.biome2Str(b1));
+                M.MSG_MOVETOBIOME.print(p, BiomeTools.biomeToString(b1));
             } else {
-                M.MSG_MOVETOBIOME2.print(p, BiomeTools.biome2Str(b1), BiomeTools.biome2Str(b2));
+                M.MSG_MOVETOBIOME2.print(p, BiomeTools.biomeToString(b1), BiomeTools.biomeToString(b2));
             }
         }
     }
@@ -249,8 +252,8 @@ public class WMListener implements Listener {
                 event.getFrom().getBlockZ() == event.getTo().getBlockZ()) {
             return;
         }
-        M.BC("PlayerMoveEvent");
         LocalWeather.updatePlayerRain(event.getPlayer());
+        LocalTime.updatePlayerTime(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)

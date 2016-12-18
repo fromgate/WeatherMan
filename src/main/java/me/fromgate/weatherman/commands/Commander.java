@@ -1,10 +1,38 @@
+/*
+ *  WeatherMan, Minecraft bukkit plugin
+ *  (c)2012-2016, fromgate, fromgate@gmail.com
+ *  https://dev.bukkit.org/projects/weatherman
+ *
+ *  This file is part of WeatherMan.
+ *
+ *  WeatherMan is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  WeatherMan is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with WeatherMan.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package me.fromgate.weatherman.commands;
 
+import me.fromgate.weatherman.commands.self.MyTime;
+import me.fromgate.weatherman.commands.self.MyWeather;
+import me.fromgate.weatherman.commands.wm.*;
+import me.fromgate.weatherman.commands.wmt.WtmBiome;
+import me.fromgate.weatherman.commands.wmt.WtmPlayer;
+import me.fromgate.weatherman.commands.wmt.WtmRegion;
+import me.fromgate.weatherman.commands.wmt.WtmWorld;
 import me.fromgate.weatherman.commands.wth.WthBiome;
 import me.fromgate.weatherman.commands.wth.WthPlayer;
 import me.fromgate.weatherman.commands.wth.WthRegion;
 import me.fromgate.weatherman.commands.wth.WthWorld;
-import me.fromgate.weatherman.commands.wm.*;
 import me.fromgate.weatherman.util.M;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,7 +57,9 @@ public class Commander implements CommandExecutor {
         commander = new Commander();
         addNewCommands(WmHelp.class, WmSet.class, WmReplace.class, WmPopulate.class,
                 WmdWand.class, WmGive.class, WmCheck.class, WmInfo.class, WmList.class,
-                WthPlayer.class, WthRegion.class, WthBiome.class, WthWorld.class);
+                WthPlayer.class, WthRegion.class, WthBiome.class, WthWorld.class,
+                WtmPlayer.class, WtmRegion.class, WtmBiome.class, WtmWorld.class,
+                MyWeather.class, MyTime.class);
     }
 
     public static JavaPlugin getPlugin() {
@@ -69,9 +99,11 @@ public class Commander implements CommandExecutor {
     }
 
     public static void printHelp(CommandSender sender, int page) {
-        List<String> helpList = new ArrayList<String>();
+        List<String> helpList = new ArrayList<>();
         for (Cmd cmd : commands) {
-            helpList.add(cmd.getFullDescription());
+            if (cmd.canExecute(sender)) {
+                helpList.add(cmd.getFullDescription());
+            }
         }
         int pageHeight = (sender instanceof Player) ? 9 : 1000;
 

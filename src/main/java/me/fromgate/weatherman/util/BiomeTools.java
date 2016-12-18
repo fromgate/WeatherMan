@@ -1,6 +1,6 @@
 /*  
  *  WeatherMan, Minecraft bukkit plugin
- *  (c)2012-2014, fromgate, fromgate@gmail.com
+ *  (c)2012-2016, fromgate, fromgate@gmail.com
  *  http://dev.bukkit.org/server-mods/weatherman/
  *    
  *  This file is part of WeatherMan.
@@ -36,10 +36,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BiomeTools {
 
@@ -47,7 +44,7 @@ public class BiomeTools {
         return WeatherMan.getPlugin();
     }
 
-    private static HashMap<String, Biome> bioms = new HashMap<String, Biome>(); //возможно оставить для алиасов?!
+    private static Map<String, Biome> biomes = new TreeMap<>(String.CASE_INSENSITIVE_ORDER); //возможно оставить для алиасов?!
     private static String outdatedBiomes = "rainforest,seasonalforest,savanna,shrubland,icedesert,tundra";    //RAINFOREST, SEASONAL_FOREST, SAVANNA, SHRUBLAND, ICE_DESERT, TUNDRA - устаревшие биомы
 
     public static boolean replaceBiomeCommand(CommandSender sender, Map<String, String> params) {
@@ -58,7 +55,7 @@ public class BiomeTools {
         if (!isBiomeExists(biomeStr)) return false;
         Location loc1 = BiomeTools.parseLocation(ParamUtil.getParam(params, "loc", ParamUtil.getParam(params, "loc1", "")));
         Location loc2 = BiomeTools.parseLocation(ParamUtil.getParam(params, "loc2", ""));
-        Biome biome = BiomeTools.str2Biome(biomeStr);
+        Biome biome = BiomeTools.biomeByName(biomeStr);
         if (ParamUtil.getParam(params, "fill", false)) {
             if (loc1 != null) return BiomeTools.floodFill(sender, loc1, biome);
             else if (player != null) return BiomeTools.floodFill(sender, player.getLocation(), biome);
@@ -68,7 +65,7 @@ public class BiomeTools {
         String sourceBiomeStr = ParamUtil.getParam(params, "source", "");
         if (!isBiomeExists(sourceBiomeStr)) return false;
 
-        Biome sourceBiome = BiomeTools.str2Biome(sourceBiomeStr);
+        Biome sourceBiome = BiomeTools.biomeByName(sourceBiomeStr);
         int radius = Math.min(ParamUtil.getParam(params, "radius", -1), Cfg.getMaxRadiusCmd());
         if (radius > 0) {
             if (loc1 != null) return setBiomeRadius(sender, loc1, biome, radius, sourceBiome);
@@ -84,7 +81,7 @@ public class BiomeTools {
         if (params.isEmpty()) return false;
         String biomeStr = ParamUtil.getParam(params, "biome", "");
         if (!isBiomeExists(biomeStr)) return false;
-        Biome biome = BiomeTools.str2Biome(biomeStr);
+        Biome biome = BiomeTools.biomeByName(biomeStr);
         Location loc1 = BiomeTools.parseLocation(ParamUtil.getParam(params, "loc", ParamUtil.getParam(params, "loc1", "")));
         Location loc2 = BiomeTools.parseLocation(ParamUtil.getParam(params, "loc2", ""));
         if (ParamUtil.isParamExists(params, "radius")) {
@@ -127,13 +124,18 @@ public class BiomeTools {
     public static boolean isBiomeExists(String biomeStr) {
         if (biomeStr == null) return false;
         if (biomeStr.isEmpty()) return false;
-        for (String biome : bioms.keySet())
+        for (String biome : biomes.keySet())
             if (biome.equalsIgnoreCase(biomeStr)) return true;
         return false;
     }
 
-    public static Biome str2Biome(String bs) {
-        if (bioms.containsKey(bs)) return bioms.get(bs);
+    public static Biome biomeByName(String biomeStr) {
+        if (biomeStr != null) {
+            for (Map.Entry<String, Biome> e : biomes.entrySet()) {
+                if (e.getKey().equalsIgnoreCase(biomeStr)) return e.getValue();
+                if (e.getValue().name().equalsIgnoreCase(biomeStr)) return e.getValue();
+            }
+        }
         return null;
     }
 
@@ -142,9 +144,9 @@ public class BiomeTools {
         List<String> medium = new ArrayList<String>();
         List<String> warm = new ArrayList<String>();
         List<String> nullbiome = new ArrayList<String>();
-        for (String key : bioms.keySet()) {
+        for (String key : biomes.keySet()) {
             if (mask.isEmpty() || key.toLowerCase().contains(mask.toLowerCase())) {
-                Biome b = str2Biome(key);
+                Biome b = biomeByName(key);
                 if (b == null) nullbiome.add(colorBiomeName(key));
                 else if (getBiomeTemperature(b) == Temperature.COLD) cold.add(colorBiomeName(key));
                 else if (getBiomeTemperature(b) == Temperature.MEDIUM) medium.add(colorBiomeName(key));
@@ -171,7 +173,7 @@ public class BiomeTools {
     }
 
     public static String colorBiomeName(String biomestr) {
-        Biome biome = str2Biome(biomestr);
+        Biome biome = biomeByName(biomestr);
         if (biome == null) return "&d" + biomestr;
         Temperature t = getBiomeTemperature(biome);
         switch (t) {
@@ -186,17 +188,17 @@ public class BiomeTools {
     }
 
     public static String colorBiomeName(Biome biome) {
-        if (biome == null) return "&d" + biome2Str(biome);
+        if (biome == null) return "&d" + biomeToString(biome);
         Temperature t = getBiomeTemperature(biome);
         switch (t) {
             case COLD:
-                return "&9" + biome2Str(biome);
+                return "&9" + biomeToString(biome);
             case MEDIUM:
-                return "&2" + biome2Str(biome);
+                return "&2" + biomeToString(biome);
             case WARM:
-                return "&e" + biome2Str(biome);
+                return "&e" + biomeToString(biome);
         }
-        return "&d" + biome2Str(biome);
+        return "&d" + biomeToString(biome);
     }
 
     private static Temperature getBiomeTemperature(Biome biome) {
@@ -206,7 +208,7 @@ public class BiomeTools {
         return Temperature.WARM;
     }
 
-    public static String biome2Str(Biome b) {
+    public static String biomeToString(Biome b) {
         String bstr = "original";
         if (b != null) bstr = b.name().toLowerCase();
         bstr = bstr.replaceAll(" ", "_");
@@ -240,13 +242,13 @@ public class BiomeTools {
     }
 
     public static void initBioms() {
-        bioms.clear();
-        bioms.put("original", null);
+        biomes.clear();
+        biomes.put("original", null);
         Biome[] bm = Biome.values();
         if (bm.length > 0) {
             for (int i = 0; i < bm.length; i++) {
-                String bstr = BiomeTools.biome2Str(bm[i]);
-                if (!(Util.isWordInList(bstr, outdatedBiomes))) bioms.put(bstr, bm[i]);
+                String bstr = BiomeTools.biomeToString(bm[i]);
+                if (!(Util.isWordInList(bstr, outdatedBiomes))) biomes.put(bstr, bm[i]);
             }
         }
     }

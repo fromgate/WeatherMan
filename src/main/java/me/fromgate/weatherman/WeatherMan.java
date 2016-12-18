@@ -1,7 +1,7 @@
 /*  
  *  WeatherMan, Minecraft bukkit plugin
- *  (c)2012-2014, fromgate, fromgate@gmail.com
- *  http://dev.bukkit.org/server-mods/weatherman/
+ *  (c)2012-2016, fromgate, fromgate@gmail.com
+ *  https://dev.bukkit.org/projects/weatherman
  *    
  *  This file is part of WeatherMan.
  *  
@@ -20,16 +20,13 @@
  * 
  */
 
-/*
- * TODO 
- * - глобальные биомы, регенерацию чанков под заданный биом
- * - walk-mode ?
- */
 
 package me.fromgate.weatherman;
 
 
 import me.fromgate.weatherman.commands.Commander;
+import me.fromgate.weatherman.localtime.LocalTime;
+import me.fromgate.weatherman.localweather.LocalWeather;
 import me.fromgate.weatherman.playerconfig.PlayerConfig;
 import me.fromgate.weatherman.util.*;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -60,6 +57,8 @@ public class WeatherMan extends JavaPlugin {
         BiomeTools.initBioms();
         Repopulator.init();
         Forester.init();
+        LocalTime.init();
+        LocalWeather.init();
         getServer().getPluginManager().registerEvents(new WMListener(this), this);
 
         try {

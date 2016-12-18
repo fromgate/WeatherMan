@@ -21,51 +21,48 @@
  */
 
 
-package me.fromgate.weatherman.commands.wth;
+package me.fromgate.weatherman.commands.wmt;
 
-import me.fromgate.weatherman.util.WMWorldEdit;
 import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
+import me.fromgate.weatherman.localtime.LocalTime;
 import me.fromgate.weatherman.localweather.LocalWeather;
 import me.fromgate.weatherman.util.M;
+import me.fromgate.weatherman.util.Time;
+import me.fromgate.weatherman.util.WMWorldEdit;
 import org.bukkit.command.CommandSender;
 
-@CmdDefine(command = "wth", subCommands = "region|rg", permission = "weatherman.weather",
-        description = M.WTH_REGION, shortDescription = "/wth region [<region> <rain|clear|remove>]",
+@CmdDefine(command = "wtm", subCommands = "region|rg", permission = "wm.wth",
+        description = M.WTH_REGION, shortDescription = "/wth region [<region> <HH:MM|day|night|remove>]",
         allowConsole = true)
-public class WthRegion extends Cmd {
+public class WtmRegion extends Cmd {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if (!WMWorldEdit.isWG()) return M.WG_NOTFOUND.print(sender);
+        if (!WMWorldEdit.isWG()) {
+            return M.WG_NOTFOUND.print(sender);
+        }
         if (args.length <= 2) {
-            LocalWeather.printRegionList(sender, args.length == 2 && args[1].matches("\\d+") ? Integer.parseInt(args[1]) : 1);
+            LocalTime.printRegionList(sender, args.length == 2 && args[1].matches("\\d+") ? Integer.parseInt(args[1]) : 1);
         } else {
             String regionName = args[1];
             if (!WMWorldEdit.isRegionExists(regionName)) {
                 LocalWeather.clearRegionRain(regionName);
-                return M.WTH_UNKNOWNREGION.print(sender, regionName);
+                return M.TM_UNKNOWNREGION.print(sender, regionName);
             }
 
-            switch (args[2].toLowerCase()) {
-                case "rain":
-                case "storm":
-                    LocalWeather.setRegionRain(regionName, true);
-                    M.WTH_REGIONWEATHER.print(sender, regionName, M.RAIN);
-                    break;
-                case "sun":
-                case "clear":
-                    LocalWeather.setRegionRain(regionName, false);
-                    M.WTH_REGIONWEATHER.print(sender, regionName, M.CLEAR);
-                    break;
-                case "remove":
-                case "delete":
-                    LocalWeather.clearRegionRain(regionName);
-                    M.WTH_REGIONWEATHERREMOVED.print(sender, regionName);
-                    break;
-                default:
-                    M.WTH_UNKNOWNWEATHER.print(sender, args[2]);
-                    break;
+            if (args[2].equalsIgnoreCase("remove")) {
+                LocalTime.clearRegionTime(regionName);
+                M.TM_REGIONREMOVED.print(sender, regionName);
+            } else {
+                Long time = Time.parseTime(args[2]);
+                if (time == null) {
+                    M.TM_WRONG_TIME.print(sender, args[2]);
+                } else {
+                    LocalTime.setRegionTime(regionName, time);
+                    M.TM_REGION.print(sender, regionName, Time.timeToString(time));
+                }
             }
+
         }
         return true;
     }

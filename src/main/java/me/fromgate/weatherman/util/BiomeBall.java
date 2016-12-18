@@ -45,7 +45,7 @@ public class BiomeBall {
     }
 
     public BiomeBall(Biome b, int r) {
-        this.biome = b;
+        this.biome = b == null ? Cfg.getDefaultBiome() : b;
         this.radius = r;
     }
 

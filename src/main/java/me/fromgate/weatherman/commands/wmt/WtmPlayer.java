@@ -20,63 +20,44 @@
  *
  */
 
-package me.fromgate.weatherman.commands.wth;
+package me.fromgate.weatherman.commands.wmt;
 
 import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
-import me.fromgate.weatherman.localweather.LocalWeather;
+import me.fromgate.weatherman.localtime.LocalTime;
 import me.fromgate.weatherman.util.M;
+import me.fromgate.weatherman.util.Time;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 
-@CmdDefine(command = "wth", subCommands = "player", permission = "weatherman.weather",
-        description = M.WTH_PLAYER, shortDescription = "/wth player [<player> <rain|clear|remove>]",
+@CmdDefine(command = "wtm", subCommands = "player", permission = "weatherman.time",
+        description = M.WTH_PLAYER, shortDescription = "/wth player [<player> <HH:MM|day|night|remove>]",
         allowConsole = true)
-public class WthPlayer extends Cmd {
+public class WtmPlayer extends Cmd {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         if (args.length <= 2) {
-            LocalWeather.printPlayerList(sender, args.length == 2 && args[1].matches("\\d+") ? Integer.parseInt(args[1]) : 1);
+            LocalTime.printPlayerList(sender, args.length == 2 && args[1].matches("\\d+") ? Integer.parseInt(args[1]) : 1);
         } else {
-
             String playerName = args[1];
             if (!isKnownPlayer(playerName)) {
-                return M.WTH_UNKNOWNPLAYER.print(playerName);
+                return M.TM_UNKNOWNPLAYER.print(playerName);
             }
-
             @SuppressWarnings("deprecation") Player player = Bukkit.getPlayerExact(playerName);
-
-            switch (args[2].toLowerCase()) {
-                case "rain":
-                case "storm":
-                    LocalWeather.setPlayerRain(player, true);
-                    M.WTH_PLAYERWEATHER.print(sender, playerName, M.RAIN);
-                    if (player != null && !player.equals(sender)) {
-                        M.MY_WEATHER_SET.print(player, M.RAIN);
-                    }
-                    break;
-                case "sun":
-                case "clear":
-                    LocalWeather.setPlayerRain(player, false);
-                    M.WTH_PLAYERWEATHER.print(sender, playerName, M.CLEAR);
-                    if (player != null && !player.equals(sender)) {
-                        M.MY_WEATHER_SET.print(player, M.CLEAR);
-                    }
-                    break;
-                case "remove":
-                case "delete":
-                    LocalWeather.clearPlayerRain(player);
-                    M.WTH_PLAYERWEATHERREMOVED.print(sender, playerName);
-                    if (player != null && !player.equals(sender)) {
-                        M.MY_WEATHER_REMOVED.print(player);
-                    }
-                    break;
-                default:
-                    M.WTH_UNKNOWNWEATHER.print(sender, args[2]);
-                    break;
+            if (args[2].equalsIgnoreCase("remove")) {
+                LocalTime.clearPlayerTime(playerName);
+                M.TM_PLAYERTIMEREMOVED.print(sender, playerName);
+            } else {
+                Long time = Time.parseTime(args[2]);
+                if (time == null) {
+                    M.TM_WRONG_TIME.print(sender, args[2]);
+                } else {
+                    LocalTime.setPlayerTime(playerName, time);
+                    M.TM_PLAYERTIME.print(sender, playerName, Time.timeToString(time));
+                }
             }
         }
         return true;

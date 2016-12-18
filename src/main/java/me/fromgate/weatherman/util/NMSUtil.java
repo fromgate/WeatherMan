@@ -1,7 +1,7 @@
-/*  
+/*
  *  WeatherMan, Minecraft bukkit plugin
  *  (c)2012-2016, fromgate, fromgate@gmail.com
- *  http://dev.bukkit.org/server-mods/weatherman/
+ *  https://dev.bukkit.org/projects/weatherman
  *    
  *  This file is part of WeatherMan.
  *  
@@ -38,7 +38,7 @@ import java.util.logging.Logger;
 public class NMSUtil {
 
     private static Logger log;
-    private static String[] tested_versions = {"v1.10.R1", "v1.10.R2", "1.11.R1"};
+    private static String[] tested_versions = {"v1_10_R1", "v1_10_R2", "v1_11_R1"};
     private static String version = "";
     private static boolean blocked = false;
     private static String cboPrefix = "org.bukkit.craftbukkit.";

@@ -1,3 +1,25 @@
+/*
+ *  WeatherMan, Minecraft bukkit plugin
+ *  (c)2012-2016, fromgate, fromgate@gmail.com
+ *  https://dev.bukkit.org/projects/weatherman
+ *
+ *  This file is part of WeatherMan.
+ *
+ *  WeatherMan is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  WeatherMan is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with WeatherMan.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package me.fromgate.weatherman.util;
 
 import java.text.DecimalFormat;
@@ -120,35 +142,60 @@ public enum M {
     WG_UNKNOWNREGION("Unknown WorldGuard region: %1%", 'c', '4'),
     WG_NOTFOUND("WorldGuard plugin is not found (Is it installed?)", 'c'),
     MSG_WALKINFO("Walk-info mode"),
-    WTH_UNKNOWNPLAYER("Cannot change the personal wth. Player %1% is unknown."),
+
+    TM_PLAYERLIST("Player time settings:"),
+    TM_PLAYERLISTEMPTY("Personal time list is empty", 'c'),
+    TM_BIOMELIST("Biome time settings:"),
+    TM_BIOMELISTEMPTY("Biome time list is empty", 'c'),
+    TM_REGIONLIST("Region time settings:"),
+    TM_REGIONLISTEMPTY("Region time list is empty", 'c'),
+    TM_WORLDLIST("World time settings:"),
+    TM_WORLDLISTEMPTY("World time list is empty", 'c'),
+    TM_UNKNOWNPLAYER("Cannot change the personal time. Player %1% is unknown."),
+    TM_WRONG_TIME("Wrong time format '%1%'. You can use 'day', 'night' or 'HH:MM' (hours and minutes)"),
+    TM_PLAYERTIME("Personal time of player %1% was set to %2%"),
+    TM_PLAYERTIMEREMOVED("Personal time setting for player %1% was removed!"),
+    TM_UNKNOWNBIOME("Cannot change time in the biome. Biome %1% is unknown.", 'c', '4'),
+    TM_BIOMEREMOVED("Time settings for biome %1% was removed!"),
+    TM_REGIONREMOVED("Time settings for region %1% was removed!"),
+    TM_WORLDREMOVED("Time settings for world %1% was removed!"),
+    TM_BIOME("Time in biome %1% was set to %2%"),
+    TM_WORLD("Time in world %1% was set to %2%"),
+    TM_REGION("Time in region %1% was set to %2%"),
+    TM_UNKNOWNREGION("Cannot change time in the region. Region %1% is unknown.", 'c', '4'),
+    TM_UNKNOWNWORLD("Cannot change time in the world. World %1% is unknown.", 'c', '4'),
+
+
+    WTH_UNKNOWNPLAYER("Cannot change the personal weather. Player %1% is unknown."),
     WTH_PLAYERWEATHER("Weather state for player %1% was set to %2%"),
-    WTH_PLAYERWEATHERREMOVED("Personal wth setting for player %1% was removed!"),
+    WTH_PLAYERWEATHERREMOVED("Personal weather setting for player %1% was removed!"),
     WTH_BIOMEWEATHER("Weather state for biome %1% was set to %2%"),
     WTH_BIOMEWEATHERREMOVED("Weather settings for biome %1% was removed!"),
     WTH_REGIONWEATHER("Weather state for region %1% was set to %2%"),
     WTH_REGIONWEATHERREMOVED("Weather settings for region %1% was removed!"),
     WTH_WORLDWEATHER("Weather state for world %1% was set to %2%"),
     WTH_WORLDWEATHERREMOVED("Weather settings for world %1% was removed!"),
-    WTH_PLAYERLIST("Player wth settings:"),
-    WTH_PLAYERLISTEMPTY("Personal wth list is empty", 'c'),
-    WTH_REGIONLIST("Region wth settings:"),
-    WTH_REGIONLISTEMPTY("Region wth list is empty", 'c'),
-    WTH_BIOMELIST("Biome wth settings:"),
-    WTH_BIOMELISTEMPTY("Biome wth list is empty", 'c'),
-    WTH_WORLDLIST("World wth settings:"),
-    WTH_WORLDLISTEMPTY("World wth list is empty", 'c'),
-    WTH_UNKNOWNWEATHER("Unknown wth %1% (must be \"rain\" or \"clear\")", 'c', '4'),
-    WTH_UNKNOWNBIOME("Cannot change the biome wth. Biome %1% is unknown.", 'c', '4'),
-    WTH_UNKNOWNREGION("Cannot change the region wth. Region %1% is unknown.", 'c', '4'),
-    WTH_UNKNOWNWORLD("Cannot change the world wth. World %1% is unknown.", 'c', '4'),
-    WTH_BIOME("%1% - set wth state for defined biome"),
-    WTH_WORLD("%1% - set wth state for defined world"),
-    WTH_REGION("%1% - set wth state for defined WorldGuard region"),
-    WTH_PLAYER("%1% - set wth state for defined player"),
-    WTH_ENABLED("Local wth feature: %1%. You need to restart server to take effect."),
-    WTH_SORRYDISABLED("Action declined. Type %1% and restart server to enable local wth features."),
+    WTH_PLAYERLIST("Player weather settings:"),
+    WTH_PLAYERLISTEMPTY("Personal weather list is empty", 'c'),
+    WTH_REGIONLIST("Region weather settings:"),
+    WTH_REGIONLISTEMPTY("Region weather list is empty", 'c'),
+    WTH_BIOMELIST("Biome weather settings:"),
+    WTH_BIOMELISTEMPTY("Biome weather list is empty", 'c'),
+    WTH_WORLDLIST("World weather settings:"),
+    WTH_WORLDLISTEMPTY("World weather list is empty", 'c'),
+    WTH_UNKNOWNWEATHER("Unknown weather %1% (must be \"rain\" or \"clear\")", 'c', '4'),
+    WTH_UNKNOWNBIOME("Cannot change the biome weather. Biome %1% is unknown.", 'c', '4'),
+    WTH_UNKNOWNREGION("Cannot change the region weather. Region %1% is unknown.", 'c', '4'),
+    WTH_UNKNOWNWORLD("Cannot change the world weather. World %1% is unknown.", 'c', '4'),
+    WTH_BIOME("%1% - set weather state for defined biome"),
+    WTH_WORLD("%1% - set weather state for defined world"),
+    WTH_REGION("%1% - set weather state for defined WorldGuard region"),
+    WTH_PLAYER("%1% - set weather state for defined player"),
+    WTH_ENABLED("Local weather feature: %1%. You need to restart server to take effect."),
+    WTH_SORRYDISABLED("Action declined. Type %1% and restart server to enable local weather features."),
     RAIN("rain"),
     CLEAR("clear"),
+    UNSET("undefined"),
     MSG_WANDITEMGIVEN("Wand %1% was added to your inventory"),
     MSG_CMDNEEDPLAYER("This command could be executed by player only", 'c'),
     MSG_WRONGLOCATION("Wrong location format", 'c'),
@@ -158,8 +205,15 @@ public enum M {
     SEC("%1% sec."),
     MSG_WANDCONFIG("Wand: %1% Biome: %2% Radius: %3% Tree: %4%"),
     MSG_WANDLIST("Use command /wm give <wand name>. Availiable wands: %1%"),
-    MSG_TREELIST("Known tree types: %1%");
+    MSG_TREELIST("Known tree types: %1%"),
 
+    MY_TIME("%1% - set (or reset) your personal daytime"),
+    MY_TIME_REMOVED("Your personal time settings removed!"),
+    MY_TIME_SET("Your personal time set to %1%"),
+
+    MY_WEATHER("%1% - set (or reset) your personal weather"),
+    MY_WEATHER_REMOVED("Your personal weather settings removed!"),
+    MY_WEATHER_SET("Your personal weather set to %1%");
 
     private static Messenger messenger;
 
@@ -187,8 +241,9 @@ public enum M {
         if (!debugMode) return;
         if (s.length == 0) return;
         StringBuilder sb = new StringBuilder("&3[").append(pluginName).append("]&f ");
-        for (Object str : s)
-            sb.append(str.toString()).append(" ");
+        for (Object str : s) {
+            sb.append(str == null ? "null" : str.toString()).append(" ");
+        }
 
         messenger.broadcast(colorize(sb.toString().trim()));
     }
