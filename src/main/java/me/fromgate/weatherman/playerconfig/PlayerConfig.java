@@ -236,4 +236,9 @@ public class PlayerConfig {
     }
 
 
+    public static void quitPlayer(Player player) {
+        if (players.containsKey(player.getName())) {
+            players.remove(player.getName());
+        }
+    }
 }

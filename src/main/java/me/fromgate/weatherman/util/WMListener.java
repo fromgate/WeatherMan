@@ -257,19 +257,26 @@ public class WMListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onPlayerJoinWeather(PlayerJoinEvent event) {
+    public void onPlayerJoinWeatherTime(PlayerJoinEvent event) {
         LocalWeather.updatePlayerRain(event.getPlayer());
+        LocalTime.updatePlayerTime(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         LocalWeather.updatePlayerRain(event.getPlayer());
+        LocalTime.updatePlayerTime(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         LocalWeather.updatePlayerRain(event.getPlayer());
+        LocalTime.updatePlayerTime(event.getPlayer());
     }
 
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        PlayerConfig.quitPlayer(event.getPlayer());
+    }
 
 }
