@@ -40,21 +40,21 @@ public class WMWorldEdit {
 
     private static WorldEditPlugin worldedit;
     private static WorldGuardPlugin worldguard;
-    private static boolean worldedit_active = false;
-    private static boolean worldguard_active = false;
+    private static boolean worldeditActive = false;
+    private static boolean worldguardActive = false;
 
     public static void init() {
-        worldedit_active = ConnectWorldEdit();
-        worldguard_active = ConnectWorldGuard();
+        worldeditActive = ConnectWorldEdit();
+        worldguardActive = ConnectWorldGuard();
     }
 
 
     public static boolean isWE() {
-        return worldedit_active;
+        return worldeditActive;
     }
 
     public static boolean isWG() {
-        return worldguard_active;
+        return worldguardActive;
     }
 
 
@@ -77,7 +77,7 @@ public class WMWorldEdit {
     }
 
     public static Location getMinPoint(World world, String rg) {
-        if (!worldguard_active) return null;
+        if (!worldguardActive) return null;
         if (world == null) return null;
         if (rg.isEmpty()) return null;
         ProtectedRegion region = worldguard.getRegionManager(world).getRegion(rg);
@@ -86,7 +86,7 @@ public class WMWorldEdit {
     }
 
     public static Location getMaxPoint(World world, String rg) {
-        if (!worldguard_active) return null;
+        if (!worldguardActive) return null;
         if (world == null) return null;
         if (rg.isEmpty()) return null;
         ProtectedRegion region = worldguard.getRegionManager(world).getRegion(rg);
@@ -122,20 +122,20 @@ public class WMWorldEdit {
 
     //WorldEdit
     public static boolean isSelected(Player player) {
-        if (!worldedit_active) return false;
+        if (!worldeditActive) return false;
         Selection sel = worldedit.getSelection(player);
         return (sel != null);
     }
 
     public static Location getSelectionMinPoint(Player player) {
-        if (!worldedit_active) return null;
+        if (!worldeditActive) return null;
         Selection sel = worldedit.getSelection(player);
         if (sel == null) return null;
         return sel.getMinimumPoint();
     }
 
     public static Location getSelectionMaxPoint(Player player) {
-        if (!worldedit_active) return null;
+        if (!worldeditActive) return null;
         Selection sel = worldedit.getSelection(player);
         if (sel == null) return null;
         return sel.getMaximumPoint();

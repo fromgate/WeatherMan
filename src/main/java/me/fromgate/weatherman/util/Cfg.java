@@ -45,6 +45,8 @@ public class Cfg {
     private static String unsnowBiomes = "taiga";
     private static String uniceBiomes = "taiga";
 
+    private static boolean localTimeEnable = true;
+    private static boolean localWeatherEnable = true;
     private static boolean personalTimeClear = false;
     private static boolean personalWeatherClear = false;
     private static boolean personalBrushClear = true;
@@ -60,6 +62,10 @@ public class Cfg {
         personalTimeClear = getConfig().getBoolean("personal.time.reset-on-start", false);
         personalWeatherClear = getConfig().getBoolean("personal.weather.reset-on-start", false);
         personalBrushClear = getConfig().getBoolean("personal.brush.reset-on-start", true);
+
+        localTimeEnable = getConfig().getBoolean("local.time-enable", false);
+        localWeatherEnable = getConfig().getBoolean("local.weather-enable", false);
+
         smoke = getConfig().getBoolean("effect.smoke-effect", true);
         smokeChance = getConfig().getInt("effect.smoke-chance", 50);
         maxRadiusCmd = getConfig().getInt("limits.maximum-command-radius", 250);
@@ -83,9 +89,11 @@ public class Cfg {
         getConfig().set("general.language-save", languageSave);
         getConfig().set("general.debug", debug);
         getConfig().set("general.check-updates", checkUpdates);
+        getConfig().set("local.time-enable", localTimeEnable);
+        getConfig().set("local.weather-enable", localWeatherEnable);
         getConfig().set("personal.time.reset-on-start", personalTimeClear);
-        getConfig().getBoolean("personal.weather.reset-on-start", personalWeatherClear);
-        getConfig().getBoolean("personal.brush.reset-on-start", personalBrushClear);
+        getConfig().set("personal.weather.reset-on-start", personalWeatherClear);
+        getConfig().set("personal.brush.reset-on-start", personalBrushClear);
         getConfig().set("effect.smoke-effect", smoke);
         getConfig().set("effect.smoke-chance", smokeChance);
         getConfig().set("limits.maximum-command-radius", maxRadiusCmd);
@@ -256,6 +264,22 @@ public class Cfg {
 
     private static FileConfiguration getConfig() {
         return WeatherMan.getPlugin().getConfig();
+    }
+
+    public static boolean isLocalTimeEnable() {
+        return localTimeEnable;
+    }
+
+    public static void setLocalTimeEnable(boolean localTimeEnable) {
+        Cfg.localTimeEnable = localTimeEnable;
+    }
+
+    public static boolean isLocalWeatherEnable() {
+        return localWeatherEnable;
+    }
+
+    public static void setLocalWeatherEnable(boolean localWeatherEnable) {
+        Cfg.localWeatherEnable = localWeatherEnable;
     }
 
 }

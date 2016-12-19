@@ -24,6 +24,7 @@
 package me.fromgate.weatherman.localweather;
 
 import me.fromgate.weatherman.util.BiomeTools;
+import me.fromgate.weatherman.util.Cfg;
 import me.fromgate.weatherman.util.WMWorldEdit;
 import me.fromgate.weatherman.WeatherMan;
 import me.fromgate.weatherman.playerconfig.PlayerConfig;
@@ -254,6 +255,7 @@ public class LocalWeather {
     }
 
     public static void updatePlayerRain(Player player) {
+        if (!Cfg.isLocalWeatherEnable()) return;
         boolean newRain = getRain(player);
         if (PlayerConfig.isWeatherChanged(player, newRain)) {
             sendWeather(player, newRain);

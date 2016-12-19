@@ -24,10 +24,7 @@ package me.fromgate.weatherman.localtime;
 
 import me.fromgate.weatherman.WeatherMan;
 import me.fromgate.weatherman.playerconfig.PlayerConfig;
-import me.fromgate.weatherman.util.BiomeTools;
-import me.fromgate.weatherman.util.M;
-import me.fromgate.weatherman.util.Time;
-import me.fromgate.weatherman.util.WMWorldEdit;
+import me.fromgate.weatherman.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -344,13 +341,17 @@ public class LocalTime {
 
     @SuppressWarnings("deprecation")
     public static void updatePlayerTime(String playerName) {
+        if (!Cfg.isLocalTimeEnable()) return;
         Player player = Bukkit.getPlayerExact(playerName);
-        if (player != null) {
-            updatePlayerTime(player);
+        if (player == null) return;
+        Long time = getTime(player);
+        if (isTimeChanged(player, time)) {
+            sendTime(player, time);
         }
     }
 
     public static void updatePlayerTime(Player player) {
+        if (!Cfg.isLocalTimeEnable()) return;
         Long time = getTime(player);
         if (isTimeChanged(player, time)) {
             sendTime(player, time);
