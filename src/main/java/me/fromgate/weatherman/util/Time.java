@@ -46,7 +46,7 @@ public class Time {
 
     public static String timeToString(Long time) {
         if (time == null) {
-            return "UNDEFINED";
+            return "UNSET";
         }
         int hours = (int) ((time / 1000 + 6) % 24);
         int minutes = (int) (60 * (time % 1000) / 1000);

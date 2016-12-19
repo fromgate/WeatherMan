@@ -25,6 +25,7 @@ package me.fromgate.weatherman.playerconfig;
 import me.fromgate.weatherman.WeatherMan;
 import me.fromgate.weatherman.localweather.WeatherState;
 import me.fromgate.weatherman.util.BiomeBall;
+import me.fromgate.weatherman.util.Cfg;
 import org.bukkit.block.Biome;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -196,11 +197,19 @@ public class PlayerConfig {
         if (file.exists()) {
             try {
                 cfg.load(file);
-                data.setBallRadius(cfg.getInt("brush.radius", data.getBallRadius()));
-                data.setBallBiome(cfg.getString("brush.biome"));
-                data.setBallTree(cfg.getString("brush.tree", data.getBallTree()));
-                data.setPersonalWeather(cfg.getString("personal.weather"));
-                data.setPersonalTime(cfg.getString("personal.time", data.getPersonalTimeStr()));
+                if (Cfg.isPersonalBrushClear()) {
+                    data.setBallRadius(cfg.getInt("brush.radius", data.getBallRadius()));
+                    data.setBallBiome(cfg.getString("brush.biome"));
+                    data.setBallTree(cfg.getString("brush.tree", data.getBallTree()));
+                }
+
+                if (Cfg.isPersonalWeatherClear()) {
+                    data.setPersonalWeather(cfg.getString("personal.weather"));
+                }
+
+                if (Cfg.isPersonalTimeClear()) {
+                    data.setPersonalTime(cfg.getString("personal.time", data.getPersonalTimeStr()));
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
