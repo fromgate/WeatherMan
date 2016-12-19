@@ -30,7 +30,7 @@ import me.fromgate.weatherman.util.M;
 import org.bukkit.command.CommandSender;
 
 
-@CmdDefine(command = "weatherman", subCommands = "set", permission = "weatherman.weather.biome",
+@CmdDefine(command = "weatherman", subCommands = "set", permission = "weatherman.cmdbiome",
         description = M.CMD_SET, shortDescription = "/wm set biome:<biome> [radius:<radius> [loc:<world,x,z]|region:region]",
         allowConsole = true)
 public class WmSet extends Cmd {

@@ -28,4 +28,29 @@ commands:
       aliases: [mweather, mwth, mywth]
       description: Configure your own personal time
       usage: |
-           /myweather <rain|clear|remove>
+
+permissions:
+   weatherman.basic:
+      description: Basic permissions
+      default: op
+   weatherman.mytime:
+      description: Allows to set player own time
+      default: op
+   weatherman.myweather:
+      description: Allows to set player weather time
+      default: op
+   weatherman.wandbiome:
+      description: Allows to use wand commands
+      default: op
+   weatherman.repopulate:
+      description: Allows to repopulation commands
+      default: op
+   weatherman.cmdbiome:
+      description: Allows to use set and replace biome commands
+      default: op
+   weatherman.time:
+      description: Allows to configure local time
+      default: op
+   weatherman.weather:
+      description: Allows to configure local weather
+      default: op

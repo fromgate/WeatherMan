@@ -50,11 +50,13 @@ public class Commander implements CommandExecutor {
     private static List<Cmd> commands;
     private static JavaPlugin plugin;
     private static Commander commander;
+    private static Cmd helpCommand;
 
     public static void init(JavaPlugin plg) {
         commands = new ArrayList<>();
         plugin = plg;
         commander = new Commander();
+        helpCommand = null;
         addNewCommands(WmHelp.class, WmSet.class, WmReplace.class, WmPopulate.class,
                 WmdWand.class, WmGive.class, WmCheck.class, WmInfo.class, WmList.class,
                 WthPlayer.class, WthRegion.class, WthBiome.class, WthWorld.class,
@@ -82,6 +84,9 @@ public class Commander implements CommandExecutor {
         if (cmd.getCommand().isEmpty()) return false;
         plugin.getCommand(cmd.getCommand()).setExecutor(commander);
         commands.add(cmd);
+        if (cmd instanceof WmHelp) {
+            helpCommand = cmd;
+        }
         return true;
     }
 
@@ -94,6 +99,10 @@ public class Commander implements CommandExecutor {
         for (Cmd cmd : commands) {
             if (!cmd.getCommand().equalsIgnoreCase(command.getLabel())) continue;
             if (cmd.executeCommand(sender, args)) return true;
+        }
+        if (args.length == 0) {
+            helpCommand.executeCommand(sender, new String[]{"help"});
+            return true;
         }
         return false;
     }
