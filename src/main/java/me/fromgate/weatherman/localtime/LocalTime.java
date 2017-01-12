@@ -24,7 +24,11 @@ package me.fromgate.weatherman.localtime;
 
 import me.fromgate.weatherman.WeatherMan;
 import me.fromgate.weatherman.playerconfig.PlayerConfig;
-import me.fromgate.weatherman.util.*;
+import me.fromgate.weatherman.util.BiomeTools;
+import me.fromgate.weatherman.util.Cfg;
+import me.fromgate.weatherman.util.M;
+import me.fromgate.weatherman.util.Time;
+import me.fromgate.weatherman.util.WMWorldEdit;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -39,9 +43,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Igor on 12.12.2016.
- */
 public class LocalTime {
 
     private static Map<String, Long> regions;
@@ -198,9 +199,8 @@ public class LocalTime {
     }
 
     /*
-     * World wth
+     * World time
      */
-    //0 - clear, 1 - rain, -1 - error/default
     public static Long getWorldTime(String world) {
         World w = Bukkit.getWorld(world);
         if (w == null) {

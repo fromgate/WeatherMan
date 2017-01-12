@@ -72,13 +72,15 @@ public class NMSUtil {
     private static Method craftPlayer_getHandle;
     private static Class<?> Packet;
     private static Class<?> PacketPlayOutMapChunk;
-    private static Constructor<?> newPacket;
+    private static Constructor<?> newPacketOutChunk;
+    private static Class<?> PacketPlayOutUnloadChunk;
+    private static Constructor<?> newPacketUnloadChunk;
     private static Class<?> EntityPlayer;
     private static Field playerConnection;
     private static Class<?> PlayerConnection;
     private static Method sendPacket;
 
-    public static void init() {
+    static {
         log = Logger.getLogger("Minecraft");
         try {
             Object s = Bukkit.getServer();
@@ -130,7 +132,9 @@ public class NMSUtil {
             playerConnection = EntityPlayer.getField("playerConnection");
             Packet = nmsClass("Packet");
             PacketPlayOutMapChunk = nmsClass("PacketPlayOutMapChunk");
-            newPacket = PacketPlayOutMapChunk.getConstructor(NmsChunk, int.class);
+            newPacketOutChunk = PacketPlayOutMapChunk.getConstructor(NmsChunk, int.class);
+            PacketPlayOutUnloadChunk = nmsClass("PacketPlayOutUnloadChunk");
+            newPacketUnloadChunk = PacketPlayOutUnloadChunk.getConstructor(int.class, int.class);
             PlayerConnection = nmsClass("PlayerConnection");
             sendPacket = PlayerConnection.getMethod("sendPacket", Packet);
         } catch (Exception e) {
@@ -207,14 +211,16 @@ public class NMSUtil {
         }
     }
 
-    public static void repopulateChunk(Chunk chunk) {
+    @SuppressWarnings("deprecation")
+    public static void repopulateChunk(final Chunk chunk) {
         if (blocked) return;
         try {
             Object craftchunk = CraftChunk.cast(chunk);
             Object nmsChunk = craftChunk_getHandle.invoke(craftchunk);
             field_NmsChunk_done.setAccessible(true);
             field_NmsChunk_done.set(nmsChunk, false);
-            refreshChunk(chunk);
+            saveChunk(chunk);
+            chunk.getWorld().refreshChunk(chunk.getX(), chunk.getZ());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -235,24 +241,38 @@ public class NMSUtil {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public static void refreshChunk(Chunk ch) {
         World w = ch.getWorld();
-        for (Player p : w.getPlayers()) {
-            if (p.isOnline()) {
-                Location loc = ch.getBlock(7, p.getLocation().getBlockY(), 7).getLocation();
-                if (p.getLocation().distance(loc) <= Bukkit.getServer().getViewDistance() * 16) {
+        for (Player player : w.getPlayers()) {
+            /*ch.unload(true);
+            ch.load(); */
+            if (player.isOnline()) {
+                Location loc = ch.getBlock(7, player.getLocation().getBlockY(), 7).getLocation();
+                if (player.getLocation().distance(loc) <= Bukkit.getServer().getViewDistance() * 16) {
                     try {
-                        Object nmsPlayer = craftPlayer_getHandle.invoke(p);
+                        Object nmsPlayer = craftPlayer_getHandle.invoke(player);
                         Object nmsChunk = craftChunk_getHandle.invoke(ch);
                         Object nmsPlayerConnection = playerConnection.get(nmsPlayer);
-                        Object chunkPacket = newPacket.newInstance(nmsChunk, 65535);
+                        Object unloadPacket = newPacketUnloadChunk.newInstance(ch.getX(), ch.getZ());
+                        Object chunkPacket = newPacketOutChunk.newInstance(nmsChunk, 65535);
+                        sendPacket.invoke(nmsPlayerConnection, unloadPacket);
                         sendPacket.invoke(nmsPlayerConnection, chunkPacket);
                     } catch (Exception e) {
                     }
                 }
             }
-            ch.unload(true);
-            ch.load();
+            // ch.getWorld().refreshChunk(ch.getX(), ch.getZ());
         }
     }
+
+/*    public static void refreshChunk(final Chunk ch, int delay) {
+        Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), new Runnable() {
+            @Override
+            public void run() {
+                refreshChunk(ch);
+            }
+        }, delay);
+
+    }*/
 }

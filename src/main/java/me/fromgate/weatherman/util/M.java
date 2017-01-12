@@ -213,7 +213,9 @@ public enum M {
 
     MY_WEATHER("%1% - set (or reset) your personal weather"),
     MY_WEATHER_REMOVED("Your personal weather settings removed!"),
-    MY_WEATHER_SET("Your personal weather set to %1%");
+    MY_WEATHER_SET("Your personal weather set to %1%"),
+    TM_DISABLED("Local time feature is disabled"),
+    WTH_DISABLED("Local weather feature is disabled");
 
     private static Messenger messenger;
 
@@ -394,8 +396,10 @@ public enum M {
             } else if (s.equals("FULLFLOAT")) {
                 fullFloat = true;
                 continue;
-            } else if (keys[i] instanceof Double || keys[i] instanceof Float) {
+            } else if (keys[i] instanceof Double) {
                 if (!fullFloat) s = fmt.format((Double) keys[i]);
+            } else if (keys[i] instanceof Float) {
+                if (!fullFloat) s = fmt.format((Float) keys[i]);
             }
 
             String from = (new StringBuilder("%").append(count).append("%")).toString();

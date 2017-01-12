@@ -25,6 +25,7 @@ package me.fromgate.weatherman.commands.wth;
 import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
 import me.fromgate.weatherman.localweather.LocalWeather;
+import me.fromgate.weatherman.util.Cfg;
 import me.fromgate.weatherman.util.M;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -36,6 +37,7 @@ import org.bukkit.command.CommandSender;
 public class WthWorld extends Cmd {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
+        if (!Cfg.isLocalTimeEnable()) return M.WTH_DISABLED.print(sender);
         if (args.length <= 2) {
             LocalWeather.printWorldList(sender, args.length == 2 && args[1].matches("\\d+") ? Integer.parseInt(args[1]) : 1);
         } else {

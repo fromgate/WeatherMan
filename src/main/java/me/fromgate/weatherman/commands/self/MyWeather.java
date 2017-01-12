@@ -25,6 +25,7 @@ package me.fromgate.weatherman.commands.self;
 import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
 import me.fromgate.weatherman.localweather.LocalWeather;
+import me.fromgate.weatherman.util.Cfg;
 import me.fromgate.weatherman.util.M;
 import org.bukkit.entity.Player;
 
@@ -34,6 +35,7 @@ import org.bukkit.entity.Player;
 public class MyWeather extends Cmd {
     @Override
     public boolean execute(Player player, String[] args) {
+        if (!Cfg.isLocalTimeEnable()) return M.WTH_DISABLED.print(player);
         switch (args[0].toLowerCase()) {
             case "rain":
             case "storm":
