@@ -39,6 +39,7 @@
             <artifactId>bukkit</artifactId>
             <version>1.11.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>com.sk89q</groupId>
             <artifactId>worldedit</artifactId>
@@ -50,6 +51,6 @@
             <artifactId>worldguard</artifactId>
             <version>6.1.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>        
+        </dependency>
     </dependencies>
 </project>
