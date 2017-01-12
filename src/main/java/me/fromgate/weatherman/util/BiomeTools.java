@@ -132,6 +132,7 @@ public class BiomeTools {
     public static Biome biomeByName(String biomeStr) {
         if (biomeStr != null) {
             for (Map.Entry<String, Biome> e : biomes.entrySet()) {
+                if (e.getKey().equals("original")) continue;
                 if (e.getKey().equalsIgnoreCase(biomeStr)) return e.getValue();
                 if (e.getValue().name().equalsIgnoreCase(biomeStr)) return e.getValue();
             }

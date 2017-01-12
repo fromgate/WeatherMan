@@ -27,30 +27,28 @@ import org.bukkit.block.Biome;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class Cfg {
+    private static String language;
+    private static boolean languageSave;
+    private static boolean debug;
+    private static int defaultRadius;
+    private static boolean smoke;
+    private static int smokeChance;
+    private static boolean meltSnow;
+    private static boolean meltIce;
+    private static Biome defaultBiome;
+    private static int maxRadiusCmd;
+    private static int maxRadiusWand;
+    private static int maxRadiusSign;
+    private static boolean netherMob;
+    private static String unsnowBiomes;
+    private static String uniceBiomes;
 
-
-    private static String language = "english";
-    private static boolean languageSave = false;
-    private static boolean debug = false;
-    private static int defaultRadius = 5;
-    private static boolean smoke = true;
-    private static int smokeChance = 50;
-    private static boolean meltSnow = true;
-    private static boolean meltIce = true;
-    private static Biome defaultBiome = Biome.ICE_FLATS;
-    private static int maxRadiusCmd = 250;
-    private static int maxRadiusWand = 15;
-    private static int maxRadiusSign = 100;
-    private static boolean netherMob = true;
-    private static String unsnowBiomes = "taiga";
-    private static String uniceBiomes = "taiga";
-
-    private static boolean localTimeEnable = true;
-    private static boolean localWeatherEnable = true;
-    private static boolean personalTimeClear = false;
-    private static boolean personalWeatherClear = false;
-    private static boolean personalBrushClear = true;
-    private static boolean checkUpdates = true;
+    private static boolean localTimeEnable;
+    private static boolean localWeatherEnable;
+    private static boolean personalTimeClear;
+    private static boolean personalWeatherClear;
+    private static boolean personalBrushClear;
+    private static boolean checkUpdates;
     // private static boolean consoleColored = false;
 
     public static void loadCfg() {
@@ -63,8 +61,8 @@ public class Cfg {
         personalWeatherClear = getConfig().getBoolean("personal.weather.reset-on-start", false);
         personalBrushClear = getConfig().getBoolean("personal.brush.reset-on-start", true);
 
-        localTimeEnable = getConfig().getBoolean("local.time-enable", false);
-        localWeatherEnable = getConfig().getBoolean("local.weather-enable", false);
+        localTimeEnable = getConfig().getBoolean("local.time-enable", true);
+        localWeatherEnable = getConfig().getBoolean("local.weather-enable", true);
 
         smoke = getConfig().getBoolean("effect.smoke-effect", true);
         smokeChance = getConfig().getInt("effect.smoke-chance", 50);

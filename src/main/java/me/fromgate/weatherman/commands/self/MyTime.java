@@ -26,6 +26,7 @@ package me.fromgate.weatherman.commands.self;
 import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
 import me.fromgate.weatherman.localtime.LocalTime;
+import me.fromgate.weatherman.util.Cfg;
 import me.fromgate.weatherman.util.M;
 import me.fromgate.weatherman.util.Time;
 import org.bukkit.entity.Player;
@@ -36,6 +37,7 @@ import org.bukkit.entity.Player;
 public class MyTime extends Cmd {
     @Override
     public boolean execute(Player player, String[] args) {
+        if (!Cfg.isLocalTimeEnable()) return M.TM_DISABLED.print(player);
         if (args[0].matches("(?i)remove|reset")) {
             LocalTime.clearPlayerTime(player);
             M.MY_TIME_REMOVED.print(player);

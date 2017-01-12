@@ -51,7 +51,7 @@ public class WeatherMan extends JavaPlugin {
         M.init("WeatherMan", new BukkitMessenger(this), Cfg.getLanguage(), false, Cfg.isLanguageSave());
         M.setDebugMode(Cfg.isDebug());
         Commander.init(this);
-        NMSUtil.init();
+        // NMSUtil.init();
         WMWorldEdit.init();
         PlayerConfig.init(this);
         BiomeTools.initBioms();

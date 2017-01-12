@@ -139,6 +139,23 @@ public class Repopulator {
         NMSUtil.repopulateChunk(chunk);
     }
 
+    /*
+    public static int findTree (Chunk chunk) {
+        int count = 0;
+        for (int x = 0; x<16; x++) {
+            for (int z = 0; z < 16; z++){
+                for (int y = 64; y<worldHeight; y++) {
+                    Block b = chunk.getBlock(x, y, z);
+                    b.setType(b.getType());
+                    if (clearBlocks.contains(b.getType().name())) {
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
+    } */
+
 
     public static void rePopulate(Set<Chunk> chunks) {
         for (Chunk chunk : chunks) rePopulate(chunk);
