@@ -2,7 +2,7 @@ checkout:
   post:
     - mvn clean
     - mvn package
-    - cp -R ./target/nukkit-1.0-SNAPSHOT.jar $CIRCLE_ARTIFACTS
+    - cp -R ./target/WeatherMan-1.0.0-SNAPSHOT.jar $CIRCLE_ARTIFACTS
 
 machine:
   java:
