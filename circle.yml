@@ -6,4 +6,4 @@ checkout:
 
 machine:
   java:
-    version: oraclejdk7
+    version: openjdk7
