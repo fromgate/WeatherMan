@@ -223,10 +223,8 @@ public class PlayerConfig {
     }
 
     public static void savePlayerData(String name) {
-        PlayerData data;
-        if (players.containsKey(name)) {
-            data = players.get(name);
-        } else return;
+        PlayerData data = players.containsKey(name) ? data = players.get(name) : null;
+        if (data == null) return;
         YamlConfiguration cfg = new YamlConfiguration();
         cfg.set("brush.radius", data.getBallRadius());
         cfg.set("brush.biome", data.getBallBiome().name());
