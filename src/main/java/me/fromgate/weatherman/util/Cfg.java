@@ -155,7 +155,7 @@ public class Cfg {
     }
 
     public static Biome getDefaultBiome() {
-        return defaultBiome;
+        return defaultBiome == null ? Biome.ICE_FLATS : defaultBiome;
     }
 
     public static void setDefaultBiome(Biome defaultBiome) {
