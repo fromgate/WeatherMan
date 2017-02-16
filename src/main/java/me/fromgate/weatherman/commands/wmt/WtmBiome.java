@@ -34,7 +34,7 @@ import org.bukkit.command.CommandSender;
 
 
 @CmdDefine(command = "wtm", subCommands = "biome|biom", permission = "weatherman.time",
-        description = M.WTH_BIOME, shortDescription = "/wth biome [<biome> <HH:MM|day|night|remove>]",
+        description = M.WTH_BIOME, shortDescription = "/wtm biome [<biome> <HH:MM|day|night|remove>]",
         allowConsole = true)
 public class WtmBiome extends Cmd {
 

@@ -34,7 +34,7 @@ import me.fromgate.weatherman.util.WMWorldEdit;
 import org.bukkit.command.CommandSender;
 
 @CmdDefine(command = "wtm", subCommands = "region|rg", permission = "wm.wth",
-        description = M.WTH_REGION, shortDescription = "/wth region [<region> <HH:MM|day|night|remove>]",
+        description = M.WTH_REGION, shortDescription = "/wtm region [<region> <HH:MM|day|night|remove>]",
         allowConsole = true)
 public class WtmRegion extends Cmd {
     @Override

@@ -34,7 +34,7 @@ import org.bukkit.entity.Player;
 
 
 @CmdDefine(command = "wtm", subCommands = "player", permission = "weatherman.time",
-        description = M.WTH_PLAYER, shortDescription = "/wth player [<player> <HH:MM|day|night|remove>]",
+        description = M.WTH_PLAYER, shortDescription = "/wtm player [<player> <HH:MM|day|night|remove>]",
         allowConsole = true)
 public class WtmPlayer extends Cmd {
     @Override

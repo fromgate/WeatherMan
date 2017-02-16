@@ -34,7 +34,7 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 
 @CmdDefine(command = "wtm", subCommands = "world", permission = "wm.wth",
-        description = M.WTH_WORLD, shortDescription = "/wth world [<world> <HH:MM|day|night|remove>]",
+        description = M.WTH_WORLD, shortDescription = "/wtm world [<world> <HH:MM|day|night|remove>]",
         allowConsole = true)
 public class WtmWorld extends Cmd {
     @Override
