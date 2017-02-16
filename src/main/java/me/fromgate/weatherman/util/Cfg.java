@@ -75,10 +75,8 @@ public class Cfg {
         meltIce = getConfig().getBoolean("biomes.melt-ice", true);
         meltSnow = getConfig().getBoolean("biomes.melt-snow", true);
         defaultRadius = getConfig().getInt("brush.default-radius", 5);
-        String biomeStr = getConfig().getString("brush.biome.default-biome", "iceplains");
-        if (BiomeTools.isBiomeExists(biomeStr)) {
-            defaultBiome = BiomeTools.biomeByName(biomeStr);
-        }
+        String biomeStr = getConfig().getString("brush.biome.default-biome", "iceflats");
+        defaultBiome = BiomeTools.isBiomeExists(biomeStr) ? BiomeTools.biomeByName(biomeStr) : Biome.ICE_FLATS;
         Brush.load(WeatherMan.getPlugin().getConfig());
     }
 
