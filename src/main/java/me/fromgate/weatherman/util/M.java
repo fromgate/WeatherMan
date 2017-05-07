@@ -556,6 +556,6 @@ public enum M {
     }
 
     public static String enDis(boolean value) {
-        return value ? M.ENABLED.toString() : M.ENABLED.toString();
+        return value ? M.ENABLED.toString() : M.DISABLED.toString();
     }
 }
