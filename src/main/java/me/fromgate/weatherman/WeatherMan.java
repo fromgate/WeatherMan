@@ -28,10 +28,17 @@ import me.fromgate.weatherman.commands.Commander;
 import me.fromgate.weatherman.localtime.LocalTime;
 import me.fromgate.weatherman.localweather.LocalWeather;
 import me.fromgate.weatherman.playerconfig.PlayerConfig;
-import me.fromgate.weatherman.util.*;
+import me.fromgate.weatherman.util.BiomeTools;
+import me.fromgate.weatherman.util.BukkitMessenger;
+import me.fromgate.weatherman.util.Cfg;
+import me.fromgate.weatherman.util.Forester;
+import me.fromgate.weatherman.util.M;
+import me.fromgate.weatherman.util.Repopulator;
+import me.fromgate.weatherman.util.UpdateChecker;
+import me.fromgate.weatherman.util.WMListener;
+import me.fromgate.weatherman.util.WMWorldEdit;
+import org.bstats.MetricsLite;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.IOException;
 
 
 public class WeatherMan extends JavaPlugin {
@@ -61,11 +68,7 @@ public class WeatherMan extends JavaPlugin {
         LocalWeather.init();
         getServer().getPluginManager().registerEvents(new WMListener(this), this);
 
-        try {
-            MetricsLite metrics = new MetricsLite(this);
-            metrics.start();
-        } catch (IOException e) {
-        }
         UpdateChecker.init(this, "WeatherMan", "38125", "wm", Cfg.isCheckUpdates());
+        new MetricsLite(this);
     }
 }
