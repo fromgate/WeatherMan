@@ -49,7 +49,7 @@
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit-lite</artifactId>
             <version>1.1</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
@@ -78,7 +78,7 @@
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <shadedPattern>me.fromgate.obscura.bstats</shadedPattern>
+                            <shadedPattern>me.fromgate.weatherman.bstats</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
