@@ -91,12 +91,12 @@ Just copy it in your server `/plugins/` folder.
 If you need to set back an original biomes at defined area, you can use `original` biome type with commands /wm set, /wm replace, /wm biome (and use wand to change biomes). Command /wm replace source:<source biome> biome:<target biome> supporting "original" only as biome parameter (`<target biome>`).
 
 ## Permissions
-`weatherman.basic` - allows to use commands `/wm help`, `/wm check`, `/wm list`  
-`weatherman.cmdbiome` - allows to use command `/wm set` and `/wm fill`
-`weatherman.sign` - allows to create `[biome]` signs
-`weatherman.wandbiome` - allows to use wand and commands `/wm wand`, `/wm radius`, `/wm biome`
-`weatherman.config` - allows to setup plugin with command `/wm cfg`
-`weatherman.weather` - allows to use local weather command `/wth` 
+`weatherman.basic` - allows to use commands `/wm help`, `/wm check`, `/wm list`    
+`weatherman.cmdbiome` - allows to use command `/wm set` and `/wm fill`  
+`weatherman.sign` - allows to create `[biome]` signs  
+`weatherman.wandbiome` - allows to use wand and commands `/wm wand`, `/wm radius`, `/wm biome`  
+`weatherman.config` - allows to setup plugin with command `/wm cfg`  
+`weatherman.weather` - allows to use local weather command `/wth`  
 `weatherman.time` - allows to use local time command `/wtm` 
 
 ## Update checker and bStats
