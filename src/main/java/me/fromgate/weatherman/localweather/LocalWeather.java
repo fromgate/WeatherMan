@@ -233,23 +233,19 @@ public class LocalWeather {
 
     public static void updatePlayersRain(final World w, int delay, boolean toWeather) {
         final boolean toWstate = toWeather;
-        Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), new Runnable() {
-            public void run() {
-                for (Player p : w.getPlayers()) {
-                    boolean newrain = getRain(p, toWstate);
-                    sendWeather(p, newrain);
-                }
+        Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), () -> {
+            for (Player p : w.getPlayers()) {
+                boolean newrain = getRain(p, toWstate);
+                sendWeather(p, newrain);
             }
         }, delay);
     }
 
     public static void updatePlayersRain(final World world, int delay) {
-        Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), new Runnable() {
-            public void run() {
-                for (Player player : world.getPlayers()) {
-                    boolean newrain = getRain(player);
-                    sendWeather(player, newrain);
-                }
+        Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), () -> {
+            for (Player player : world.getPlayers()) {
+                boolean newrain = getRain(player);
+                sendWeather(player, newrain);
             }
         }, delay);
     }
@@ -283,7 +279,7 @@ public class LocalWeather {
                     cfg.set("regions." + regionName, regions.get(regionName));
             }
             cfg.save(file);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -317,7 +313,7 @@ public class LocalWeather {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
     }
@@ -352,7 +348,7 @@ public class LocalWeather {
 
     public static void printRegionList(CommandSender sender, int page) {
         if (regions.size() > 0) {
-            List<String> blst = new ArrayList<String>();
+            List<String> blst = new ArrayList<>();
             for (String b : regions.keySet()) {
                 blst.add("&6" + b + "&e : " + ((regions.get(b)) ? M.RAIN : M.CLEAR));
             }
@@ -364,7 +360,7 @@ public class LocalWeather {
 
     public static void printWorldList(CommandSender sender, int page) {
         if (worlds.size() > 0) {
-            List<String> blst = new ArrayList<String>();
+            List<String> blst = new ArrayList<>();
             for (String b : worlds.keySet()) {
                 blst.add("&6" + b + "&e : " + ((worlds.get(b)) ? M.RAIN : M.CLEAR));
             }

@@ -55,7 +55,7 @@ public class ParamUtil {
     }
 
     public static Map<String, String> parseParams(String param, String defaultKey, boolean includeLine) {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         if (param.isEmpty()) return params;
         String[] ln = param.split(" ");
         params = parseParams(ln, 0, defaultKey);
@@ -98,10 +98,10 @@ public class ParamUtil {
     }
 
     public static String toString(Map<String, String> params) {
-        String str = "";
+        StringBuilder str = new StringBuilder();
         for (String key : params.keySet())
-            str += key + "[" + params.get(key) + "] ";
-        return str.isEmpty() ? "empty" : str;
+            str.append(key).append("[").append(params.get(key)).append("] ");
+        return (str.length() == 0) ? "empty" : str.toString();
     }
 
     public static boolean isParamExists(Map<String, String> params, String key) {

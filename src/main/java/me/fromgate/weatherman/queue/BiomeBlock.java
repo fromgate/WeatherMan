@@ -92,22 +92,29 @@ public class BiomeBlock {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (!(obj instanceof BiomeBlock))
+        }
+        if (!(obj instanceof BiomeBlock)) {
             return false;
+        }
         BiomeBlock other = (BiomeBlock) obj;
         if (world == null) {
-            if (other.world != null)
+            if (other.world != null) {
                 return false;
-        } else if (!world.equals(other.world))
+            }
+        } else if (!world.equals(other.world)) {
             return false;
-        if (x != other.x)
+        }
+        if (x != other.x) {
             return false;
-        if (z != other.z)
+        }
+        if (z != other.z) {
             return false;
+        }
         return true;
     }
 

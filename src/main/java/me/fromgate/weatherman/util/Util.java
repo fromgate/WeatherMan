@@ -36,8 +36,8 @@ public class Util {
 
     public static boolean isWordInList(String word, String str) {
         String[] ln = str.split(",");
-        for (int i = 0; i < ln.length; i++) {
-            if (ln[i].equalsIgnoreCase(word)) return true;
+        for (String element : ln) {
+            if (element.equalsIgnoreCase(word)) return true;
         }
         return false;
     }
@@ -45,8 +45,8 @@ public class Util {
 
     public static boolean isIdInList(int id, String str) {
         String[] ln = str.split(",");
-        for (int i = 0; i < ln.length; i++) {
-            if ((!ln[i].isEmpty()) && ln[i].matches("[0-9]*") && (Integer.parseInt(ln[i]) == id)) {
+        for (String element : ln) {
+            if ((!element.isEmpty()) && element.matches("[0-9]*") && (Integer.parseInt(element) == id)) {
                 return true;
             }
         }

@@ -32,12 +32,12 @@ public class FloodFill {
 
     public static Set<BiomeBlock> scanArea(Location loc, Biome toBiome) {
         Biome fromBiome = loc.getBlock().getBiome();
-        Set<BiomeBlock> result = new HashSet<BiomeBlock>();
+        Set<BiomeBlock> result = new HashSet<>();
         if (toBiome == fromBiome) return result;
-        Set<BiomeBlock> scanFrom = new HashSet<BiomeBlock>();
+        Set<BiomeBlock> scanFrom = new HashSet<>();
         scanFrom.add(new BiomeBlock(loc, toBiome));
         do {
-            Set<BiomeBlock> nextScan = new HashSet<BiomeBlock>();
+            Set<BiomeBlock> nextScan = new HashSet<>();
             for (BiomeBlock scanBlock : scanFrom) {
                 Set<BiomeBlock> scanLine = scanLine(scanBlock, toBiome);
                 result.addAll(scanLine);
@@ -56,8 +56,8 @@ public class FloodFill {
 
 
     public static Set<BiomeBlock> findNext(Set<BiomeBlock> line, Biome fromBiome) {
-        Set<BiomeBlock> tmp = new HashSet<BiomeBlock>();
-        Set<BiomeBlock> next = new HashSet<BiomeBlock>();
+        Set<BiomeBlock> tmp = new HashSet<>();
+        Set<BiomeBlock> next = new HashSet<>();
         for (BiomeBlock biomeBlock : line) {
             Location tmpLoc = biomeBlock.getLocation().add(0, 0, 1);
             if (tmpLoc.getBlock().getBiome() == fromBiome) tmp.add(new BiomeBlock(tmpLoc, biomeBlock.biome));
@@ -93,7 +93,7 @@ public class FloodFill {
 
 
     public static Set<BiomeBlock> scanLine(BiomeBlock scanFrom, Biome toBiome) {
-        Set<BiomeBlock> line = new HashSet<BiomeBlock>();
+        Set<BiomeBlock> line = new HashSet<>();
         Location loc = scanFrom.getLocation();
         Biome fromBiome = loc.getBlock().getBiome();
 

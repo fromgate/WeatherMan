@@ -69,6 +69,7 @@ public class Commander implements CommandExecutor {
     }
 
 
+    @SafeVarargs
     public static void addNewCommands(Class<? extends Cmd>... cmdClasses) {
         for (Class<? extends Cmd> cmdClass : cmdClasses) {
             try {

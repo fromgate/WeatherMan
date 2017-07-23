@@ -35,6 +35,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -71,15 +72,10 @@ public class UpdateChecker {
         projectBukkitDev = "http://dev.bukkit.org/projects/" + bukkitDevName + "/";
         informPermission = bukkitDevName + ".config";
         projectLastVersion = "";
-        setUpdateMessage(new ArrayList<String>());
+        setUpdateMessage(new ArrayList<>());
         if (enableUpdateChecker) {
             updateMsg();
-            Bukkit.getScheduler().runTaskTimerAsynchronously(pluginInstance, new Runnable() {
-                @Override
-                public void run() {
-                    updateMsg();
-                }
-            }, (40 + (new Random()).nextInt(20)) * 1200, 60 * 1200);
+            Bukkit.getScheduler().runTaskTimerAsynchronously(pluginInstance, () -> updateMsg(), (40 + (new Random()).nextInt(20)) * 1200, 60 * 1200);
         }
     }
 
@@ -111,7 +107,7 @@ public class UpdateChecker {
      */
     public static void setUpdateMessage(List<String> list) {
         if (list == null || list.isEmpty()) {
-            updateMessages = new ArrayList<String>();
+            updateMessages = new ArrayList<>();
             updateMessages.add("&6%plugin% &eis outdated! Recommended version is &6v%newversion%");
             updateMessages.add("&ePlease download new version from BukkitDev:");
             updateMessages.add("&b%url%");
@@ -130,9 +126,8 @@ public class UpdateChecker {
      *            "&ePlease download new version from BukkitDev:","&b%url%");
      */
     public static void setUpdateMessage(String... str) {
-        List<String> list = new ArrayList<String>();
-        for (String s : str)
-            list.add(s);
+        List<String> list = new ArrayList<>();
+        Collections.addAll(list, str);
         setUpdateMessage(list);
     }
 
@@ -155,14 +150,11 @@ public class UpdateChecker {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private static void updateMsg() {
-        pluginInstance.getServer().getScheduler().runTaskAsynchronously(pluginInstance, new Runnable() {
-            @Override
-            public void run() {
-                updateLastVersion();
-                if (isUpdateRequired()) {
-                    log(projectName + " v" + projectCurrentVersion + " is outdated! Recommended version is v" + projectLastVersion);
-                    log(projectBukkitDev);
-                }
+        pluginInstance.getServer().getScheduler().runTaskAsynchronously(pluginInstance, () -> {
+            updateLastVersion();
+            if (isUpdateRequired()) {
+                log(projectName + " v" + projectCurrentVersion + " is outdated! Recommended version is v" + projectLastVersion);
+                log(projectBukkitDev);
             }
         });
     }

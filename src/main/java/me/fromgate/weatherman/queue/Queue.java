@@ -51,8 +51,8 @@ public class Queue {
     int blockNum = 0;
 
 
-    List<BiomeBlock> queue = new ArrayList<BiomeBlock>();
-    HashMap<WMChunk, Set<BiomeBlock>> queueSource = new HashMap<WMChunk, Set<BiomeBlock>>();
+    List<BiomeBlock> queue = new ArrayList<>();
+    HashMap<WMChunk, Set<BiomeBlock>> queueSource = new HashMap<>();
 
     public Queue(CommandSender sender, boolean setBiomeNotRepopulate) {
         this.sender = sender;
@@ -72,7 +72,7 @@ public class Queue {
 
     public void addBiomeBlock(BiomeBlock biomeBlock) {
         if (!this.queueSource.containsKey(biomeBlock.wmChunk))
-            this.queueSource.put(biomeBlock.wmChunk, new HashSet<BiomeBlock>());
+            this.queueSource.put(biomeBlock.wmChunk, new HashSet<>());
         this.queueSource.get(biomeBlock.wmChunk).add(biomeBlock);
     }
 
@@ -94,7 +94,7 @@ public class Queue {
             }
         }
 
-        Set<WMChunk> chunksToProcess = new HashSet<WMChunk>();
+        Set<WMChunk> chunksToProcess = new HashSet<>();
         for (WMChunk wmChunk : queueSource.keySet()) {
             chunksToProcess.add(wmChunk);
             for (BiomeBlock biomeBlock : queueSource.get(wmChunk)) {
@@ -110,12 +110,7 @@ public class Queue {
         }
 
         if (!chunksToProcess.isEmpty()) {
-            Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), new Runnable() {
-                @Override
-                public void run() {
-                    processQueue();
-                }
-            }, 1);
+            Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), () -> processQueue(), 1);
 
         } else {
             this.finished = true;

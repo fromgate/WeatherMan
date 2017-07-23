@@ -38,22 +38,22 @@ import java.util.*;
 
 public class Repopulator {
     private static int worldHeight = 128;
-    private static Set<String> clearBlocks = new HashSet<String>();
-    private static Set<String> treeBlocks = new HashSet<String>();
+    private static Set<String> clearBlocks = new HashSet<>();
+    private static Set<String> treeBlocks = new HashSet<>();
 
     public static void save() {
         File f = new File(WeatherMan.getPlugin().getDataFolder() + File.separator + "repopulator.yml");
         YamlConfiguration cfg = new YamlConfiguration();
-        List<String> clearBlocksList = new ArrayList<String>();
+        List<String> clearBlocksList = new ArrayList<>();
         clearBlocksList.addAll(clearBlocks);
-        List<String> treeBlocksList = new ArrayList<String>();
+        List<String> treeBlocksList = new ArrayList<>();
         treeBlocksList.addAll(treeBlocks);
         cfg.set("depopulator.clear-max-height", worldHeight);
         cfg.set("depopulator.all-natural-blocks", clearBlocksList);
         cfg.set("depopulator.tree-blocks", treeBlocksList);
         try {
             cfg.save(f);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -67,14 +67,14 @@ public class Repopulator {
             clearBlocks.addAll(clearBlocksList);
             List<String> treeBlocksList = cfg.getStringList("depopulator.depopulator.tree-blocks");
             treeBlocks.addAll(treeBlocksList);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         if (clearBlocks.isEmpty()) {
             String clearBlockList = "LOG,LOG_2,LEAVES,LEAVES_2,LONG_GRASS,DEAD_BUSH," +
                     "YELLOW_FLOWER,RED_ROSE,BROWN_MUSHROOM,RED_MUSHROOM,SNOW,CACTUS," +
                     "SUGAR_CANE_BLOCK,PUMPKIN,HUGE_MUSHROOM_1,HUGE_MUSHROOM_2," +
                     "MELON_BLOCK,VINE,COCOA,PACKED_ICE,WATER_LILY,DOUBLE_PLANT,SNOW";
-            for (String blockStr : clearBlockList.split(",")) clearBlocks.add(blockStr);
+            Collections.addAll(clearBlocks, clearBlockList.split(","));
         }
         if (treeBlocks.isEmpty()) {
             treeBlocks.add(Material.LOG.name());
@@ -216,7 +216,7 @@ public class Repopulator {
         if (loc == null) return false;
         if (radius <= 0) depopulateColumnTree(loc);
         else {
-            List<Location> locs = new ArrayList<Location>();
+            List<Location> locs = new ArrayList<>();
             for (int i = 0; i <= radius; i++) {
                 int mj = (int) Math.sqrt(radius * radius - i * i);
                 for (int j = 0; j <= mj; j++) {
@@ -249,11 +249,11 @@ public class Repopulator {
     }
 
     public static Set<Block> getNaturalBlocks(Location loc, boolean treesOnly) {
-        Set<Block> blocks = new HashSet<Block>();
+        Set<Block> blocks = new HashSet<>();
         addNewBlock(blocks, blocks, loc.getBlock(), BlockFace.SELF, treesOnly);
         Set<Block> newblocks;
         do {
-            newblocks = new HashSet<Block>();
+            newblocks = new HashSet<>();
             for (Block b : blocks) {
                 addNewBlock(blocks, newblocks, b, BlockFace.UP, treesOnly);
                 addNewBlock(blocks, newblocks, b, BlockFace.DOWN, treesOnly);

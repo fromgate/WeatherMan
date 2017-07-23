@@ -142,10 +142,10 @@ public class BiomeTools {
     }
 
     public static String getBiomeList(String mask) {
-        List<String> cold = new ArrayList<String>();
-        List<String> medium = new ArrayList<String>();
-        List<String> warm = new ArrayList<String>();
-        List<String> nullbiome = new ArrayList<String>();
+        List<String> cold = new ArrayList<>();
+        List<String> medium = new ArrayList<>();
+        List<String> warm = new ArrayList<>();
+        List<String> nullbiome = new ArrayList<>();
         for (String key : biomes.keySet()) {
             if (mask.isEmpty() || key.toLowerCase().contains(mask.toLowerCase())) {
                 Biome b = biomeByName(key);
@@ -155,15 +155,15 @@ public class BiomeTools {
                 else warm.add(colorBiomeName(key));
             }
         }
-        List<String> blist = new ArrayList<String>();
+        List<String> blist = new ArrayList<>();
         blist.addAll(cold);
         blist.addAll(medium);
         blist.addAll(warm);
         blist.addAll(nullbiome);
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < blist.size(); i++) {
-            if (sb.toString().isEmpty()) sb.append(blist.get(i));
-            else sb.append("&2, ").append(blist.get(i));
+        for (String biomeStr : blist) {
+            if (sb.toString().isEmpty()) sb.append(biomeStr);
+            else sb.append("&2, ").append(biomeStr);
         }
         return sb.toString();
     }
@@ -171,7 +171,7 @@ public class BiomeTools {
     public enum Temperature {
         COLD,
         MEDIUM,
-        WARM;
+        WARM
     }
 
     public static String colorBiomeName(String biomestr) {
@@ -246,49 +246,47 @@ public class BiomeTools {
     public static void initBioms() {
         biomes.clear();
         biomes.put("original", null);
-        Biome[] bm = Biome.values();
-        if (bm.length > 0) {
-            for (int i = 0; i < bm.length; i++) {
-                String bstr = BiomeTools.biomeToString(bm[i]);
-                if (!(Util.isWordInList(bstr, outdatedBiomes))) biomes.put(bstr, bm[i]);
+        Biome[] biomes = Biome.values();
+        if (biomes.length > 0) {
+            for (Biome biome : biomes) {
+                String bstr = BiomeTools.biomeToString(biome);
+                if (!(Util.isWordInList(bstr, outdatedBiomes))) BiomeTools.biomes.put(bstr, biome);
             }
         }
     }
 
     protected static boolean floodFill(CommandSender sender, Location loc, Biome toBiome) {
         if (loc == null) return false;
-        List<BiomeBlock> blocks = new ArrayList<BiomeBlock>();
+        List<BiomeBlock> blocks = new ArrayList<>();
         blocks.addAll(FloodFill.scanArea(loc, toBiome));
         if (blocks.isEmpty()) return false;
         return QueueManager.addQueue(sender, blocks, true, null);
     }
 
     public static boolean replaceBiome(CommandSender sender, Biome b1, Biome tobiome, Location loc1, Location loc2) {
-        List<BiomeBlock> blocks = new ArrayList<BiomeBlock>();
-        Biome b2 = tobiome;
+        List<BiomeBlock> blocks = new ArrayList<>();
         World w = loc1.getWorld();
         for (int x = Math.min(loc1.getBlockX(), loc2.getBlockX()); x <= Math.max(loc1.getBlockX(), loc2.getBlockX()); x++)
             for (int z = Math.min(loc1.getBlockZ(), loc2.getBlockZ()); z <= Math.max(loc1.getBlockZ(), loc2.getBlockZ()); z++)
-                if (w.getBiome(x, z).equals(b1)) blocks.add(new BiomeBlock(w, x, z, b2));
+                if (w.getBiome(x, z).equals(b1)) blocks.add(new BiomeBlock(w, x, z, tobiome));
         return QueueManager.addQueue(sender, blocks, true, null);
     }
 
     public static String checkBiomes(String biomelist) {
-        String str = "";
+        StringBuilder str = new StringBuilder();
         if (!biomelist.isEmpty()) {
-            String[] ln = biomelist.split(",");
-            if (ln.length > 0) {
-                for (int i = 0; i < ln.length; i++)
-                    if (BiomeTools.isBiomeExists(ln[i])) str = str + "," + ln[i];
-                str = str.replaceFirst(",", "");
+            String[] biomes = biomelist.split(",");
+            if (biomes.length > 0) {
+                for (String biomeStr : biomes) if (BiomeTools.isBiomeExists(biomeStr)) str.append(",").append(biomeStr);
+                str = new StringBuilder(str.toString().replaceFirst(",", ""));
             }
         }
-        return str;
+        return str.toString();
     }
 
     public static List<BiomeBlock> refilter(List<BiomeBlock> blocks, Biome filterBiome) {
         if (filterBiome == null) return blocks;
-        List<BiomeBlock> newBlocks = new ArrayList<BiomeBlock>();
+        List<BiomeBlock> newBlocks = new ArrayList<>();
         for (BiomeBlock biomeBlock : blocks)
             if (biomeBlock.getBiome().equals(filterBiome)) newBlocks.add(biomeBlock);
         return newBlocks;

@@ -221,12 +221,7 @@ public class ItemUtil {
     }
 
     public static void removeItemInInventory(final Player p, final String itemstr) {
-        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-            @Override
-            public void run() {
-                removeItemInInventory(p.getInventory(), itemstr);
-            }
-        }, 1);
+        Bukkit.getScheduler().runTaskLater(plugin, () -> removeItemInInventory(p.getInventory(), itemstr), 1);
     }
 
 
@@ -289,7 +284,7 @@ public class ItemUtil {
     public static int removeItemInInventory(Inventory inv, String istr, int amount) {
         String itemstr = istr;
         int left = 1;
-        if (left <= 0) return -1;
+        // if (left <= 0) return -1;
         int id = -1;
         int data = -1;
         String name = "";

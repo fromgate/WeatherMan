@@ -38,7 +38,7 @@ import java.util.logging.Logger;
 public class NMSUtil {
 
     private static Logger log;
-    private static String[] tested_versions = {"v1_10_R1", "v1_10_R2", "v1_11_R1"};
+    private static String[] testedVersions = {"v1_10_R1", "v1_10_R2", "v1_11_R1"};
     private static String version = "";
     private static boolean blocked = false;
     private static String cboPrefix = "org.bukkit.craftbukkit.";
@@ -92,7 +92,6 @@ public class NMSUtil {
                 version = v[3];
                 cboPrefix = "org.bukkit.craftbukkit." + version + ".";
                 nmsPrefix = "net.minecraft.server." + version + ".";
-                ;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -168,8 +167,8 @@ public class NMSUtil {
     }
 
     public static boolean isTestedVersion() {
-        for (int i = 0; i < tested_versions.length; i++) {
-            if (tested_versions[i].equalsIgnoreCase(version)) return true;
+        for (String testedVersion : testedVersions) {
+            if (testedVersion.equalsIgnoreCase(version)) return true;
         }
         return false;
     }
@@ -203,8 +202,7 @@ public class NMSUtil {
             Object blockPosition = constructBlockPosition.newInstance(x, 0, z);
             Object biomeBase = getBiome.invoke(d, blockPosition);
             Object biome = biomeBaseToBiome.invoke(null, biomeBase);
-            Biome b = (Biome) biome;
-            return b;
+            return (Biome) biome;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -258,7 +256,7 @@ public class NMSUtil {
                         Object chunkPacket = newPacketOutChunk.newInstance(nmsChunk, 65535);
                         sendPacket.invoke(nmsPlayerConnection, unloadPacket);
                         sendPacket.invoke(nmsPlayerConnection, chunkPacket);
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
                     }
                 }
             }

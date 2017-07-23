@@ -112,10 +112,10 @@ public class WMWorldEdit {
     }
 
     public static List<String> getRegions(Location loc) {
-        List<String> rgList = new ArrayList<String>();
+        List<String> rgList = new ArrayList<>();
         if (!WMWorldEdit.isWG()) return rgList;
         ApplicableRegionSet rset = worldguard.getRegionManager(loc.getWorld()).getApplicableRegions(loc);
-        if ((rset == null) || (rset.size() == 0)) return rgList;
+        if (rset == null || (rset.size() == 0)) return rgList;
         for (ProtectedRegion rg : rset) rgList.add(rg.getId());
         return rgList;
     }

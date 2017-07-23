@@ -230,7 +230,7 @@ public class LocalTime {
     }
 
     private static boolean isTimeChanged(Player player, Long newTime) {
-        return player.getPlayerTime() != (newTime == null ? player.getWorld().getTime() : newTime.longValue());
+        return player.getPlayerTime() != (newTime == null ? player.getWorld().getTime() : newTime);
     }
 
 
@@ -247,7 +247,7 @@ public class LocalTime {
                 cfg.set("regions." + r, regions.get(r));
             }
             cfg.save(new File(WeatherMan.getPlugin().getDataFolder() + File.separator + "localtime.yml"));
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -273,7 +273,7 @@ public class LocalTime {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
     }

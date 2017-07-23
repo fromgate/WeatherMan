@@ -37,7 +37,7 @@ import java.util.List;
 
 public class QueueManager {
 
-    private static List<Queue> queues = new ArrayList<Queue>();
+    private static List<Queue> queues = new ArrayList<>();
 
     public static boolean addQueue(Queue queue) {
         queues.add(queue);
@@ -56,7 +56,7 @@ public class QueueManager {
         if (loc1 == null || loc2 == null) {
             return M.MSG_WRONGLOCATION.print(sender);
         }
-        List<BiomeBlock> blocks = new ArrayList<BiomeBlock>();
+        List<BiomeBlock> blocks = new ArrayList<>();
         for (int x = Math.min(loc1.getBlockX(), loc2.getBlockX()); x <= Math.max(loc1.getBlockX(), loc2.getBlockX()); x++)
             for (int z = Math.min(loc1.getBlockZ(), loc2.getBlockZ()); z <= Math.max(loc1.getBlockZ(), loc2.getBlockZ()); z++)
                 blocks.add(new BiomeBlock(loc1.getWorld(), x, z, biome));
@@ -105,7 +105,7 @@ public class QueueManager {
         if (loc == null) {
             return M.MSG_WRONGLOCATION.print(sender);
         }
-        List<BiomeBlock> blocks = new ArrayList<BiomeBlock>();
+        List<BiomeBlock> blocks = new ArrayList<>();
         if (radius <= 0) blocks.add(new BiomeBlock(loc, biome));
         else for (int i = 0; i <= radius; i++) {
             int mj = (int) Math.sqrt(radius * radius - i * i);
@@ -121,17 +121,14 @@ public class QueueManager {
 
 
     public static void restartQueues() {
-        Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), new Runnable() {
-            @Override
-            public void run() {
-                if (queues.isEmpty()) return;
-                boolean started = false;
-                for (int i = queues.size() - 1; i >= 0; i--) {
-                    if (queues.get(i).isActive()) started = true;
-                    if (queues.get(i).isFinished()) queues.remove(i);
-                }
-                if (!started && queues.size() > 0) queues.get(0).processQueue();
+        Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), () -> {
+            if (queues.isEmpty()) return;
+            boolean started = false;
+            for (int i = queues.size() - 1; i >= 0; i--) {
+                if (queues.get(i).isActive()) started = true;
+                if (queues.get(i).isFinished()) queues.remove(i);
             }
+            if (!started && queues.size() > 0) queues.get(0).processQueue();
         }, 3);
     }
 

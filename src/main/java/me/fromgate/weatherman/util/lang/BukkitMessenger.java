@@ -99,7 +99,7 @@ public class BukkitMessenger implements Messenger {
 
     @Override
     public boolean broadcast(String permission, String text) {
-        List<Player> playerList = new ArrayList<Player>();
+        List<Player> playerList = new ArrayList<>();
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (permission == null || permission.isEmpty() || player.hasPermission(permission)) {
                 player.sendMessage(text);

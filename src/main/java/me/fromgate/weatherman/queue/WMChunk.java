@@ -64,23 +64,30 @@ public class WMChunk {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (!(obj instanceof WMChunk))
+        }
+        if (!(obj instanceof WMChunk)) {
             return false;
+        }
 
         WMChunk other = (WMChunk) obj;
         if (world == null) {
-            if (other.world != null)
+            if (other.world != null) {
                 return false;
-        } else if (!world.equals(other.world))
+            }
+        } else if (!world.equals(other.world)) {
             return false;
-        if (x != other.x)
+        }
+        if (x != other.x) {
             return false;
-        if (z != other.z)
+        }
+        if (z != other.z) {
             return false;
+        }
         return true;
     }
 
@@ -97,12 +104,9 @@ public class WMChunk {
     }
 
     public void entityUpdate(final Chunk chunk) {
-        Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), new Runnable() {
-            @Override
-            public void run() {
-                for (Entity e : chunk.getEntities())
-                    e.teleport(e);
-            }
+        Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), () -> {
+            for (Entity e : chunk.getEntities())
+                e.teleport(e);
         }, 1);
 
     }
