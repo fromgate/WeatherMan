@@ -259,7 +259,7 @@ public enum M {
      * return Message.ERROR_MESSAGE.log(variable1); // print in log and return value true
      */
     public boolean log(Object... s) {
-        messenger.log(getText(s));
+        messenger.log(clean(getText(s)));
         return true;
     }
 
@@ -270,8 +270,9 @@ public enum M {
      * @return — always returns true.
      */
     public boolean debug(Object... s) {
-        if (debugMode)
+        if (debugMode) {
             log(messenger.clean(getText(s)));
+        }
         return true;
     }
 
@@ -441,7 +442,7 @@ public enum M {
 
     @Override
     public String toString() {
-        return this.getText("NOCOLOR");
+        return clean(getText());
     }
 
     /**

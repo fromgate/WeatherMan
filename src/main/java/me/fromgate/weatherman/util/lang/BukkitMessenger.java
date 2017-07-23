@@ -34,7 +34,10 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static me.fromgate.weatherman.util.lang.M.LNG_LOAD_FAIL;
 import static me.fromgate.weatherman.util.lang.M.LNG_SAVE_FAIL;
