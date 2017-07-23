@@ -20,7 +20,7 @@
  *
  */
 
-package me.fromgate.weatherman.util;
+package me.fromgate.weatherman.util.lang;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -33,7 +33,6 @@ public enum M {
     LNG_PRINT_FAIL("Failed to print message %1%. Sender object is null."),
     LNG_CONFIG("[MESSAGES] Messages: %1% Language: %2% Save translate file: %1% Debug mode: %3%"),
     WORD_UNKNOWN("Unknown"),
-    WRONG_PERMISSION("You have not enough permissions to execute this command"),
     PERMISSION_FAIL("You have not enough permissions to execute this command", 'c'),
     PLAYER_COMMAD_ONLY("You can use this command in-game only!", 'c'),
     CMD_REGISTERED("Command registered: %1%"),
@@ -484,7 +483,7 @@ public enum M {
     }
 
     private static void saveMessages() {
-        Map<String, String> messages = new LinkedHashMap<String, String>();
+        Map<String, String> messages = new LinkedHashMap<>();
         for (M msg : M.values()) {
             messages.put(msg.name().toLowerCase(), msg.message);
         }

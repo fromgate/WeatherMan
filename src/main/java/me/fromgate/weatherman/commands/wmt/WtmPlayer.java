@@ -25,7 +25,7 @@ package me.fromgate.weatherman.commands.wmt;
 import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
 import me.fromgate.weatherman.localtime.LocalTime;
-import me.fromgate.weatherman.util.M;
+import me.fromgate.weatherman.util.lang.M;
 import me.fromgate.weatherman.util.Time;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

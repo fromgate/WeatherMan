@@ -22,7 +22,7 @@
 
 package me.fromgate.weatherman.commands;
 
-import me.fromgate.weatherman.util.M;
+import me.fromgate.weatherman.util.lang.M;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -25,7 +25,7 @@ package me.fromgate.weatherman.commands.wm;
 import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
 import me.fromgate.weatherman.commands.Commander;
-import me.fromgate.weatherman.util.M;
+import me.fromgate.weatherman.util.lang.M;
 import org.bukkit.command.CommandSender;
 
 @CmdDefine(command = "weatherman", subCommands = "help|hlp", permission = "weatherman.basic",

@@ -28,7 +28,7 @@ import me.fromgate.weatherman.util.WMWorldEdit;
 import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
 import me.fromgate.weatherman.localweather.LocalWeather;
-import me.fromgate.weatherman.util.M;
+import me.fromgate.weatherman.util.lang.M;
 import org.bukkit.command.CommandSender;
 
 @CmdDefine(command = "wth", subCommands = "region|rg", permission = "weatherman.weather",

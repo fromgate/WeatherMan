@@ -27,7 +27,7 @@ import me.fromgate.weatherman.util.ParamUtil;
 import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
 import me.fromgate.weatherman.playerconfig.PlayerConfig;
-import me.fromgate.weatherman.util.M;
+import me.fromgate.weatherman.util.lang.M;
 import org.bukkit.entity.Player;
 
 import java.util.Map;

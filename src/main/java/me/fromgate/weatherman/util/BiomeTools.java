@@ -26,6 +26,7 @@ import me.fromgate.weatherman.WeatherMan;
 import me.fromgate.weatherman.queue.BiomeBlock;
 import me.fromgate.weatherman.queue.FloodFill;
 import me.fromgate.weatherman.queue.QueueManager;
+import me.fromgate.weatherman.util.lang.M;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;

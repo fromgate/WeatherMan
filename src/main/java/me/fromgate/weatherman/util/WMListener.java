@@ -27,6 +27,7 @@ import me.fromgate.weatherman.WeatherMan;
 import me.fromgate.weatherman.localtime.LocalTime;
 import me.fromgate.weatherman.localweather.LocalWeather;
 import me.fromgate.weatherman.playerconfig.PlayerConfig;
+import me.fromgate.weatherman.util.lang.M;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;

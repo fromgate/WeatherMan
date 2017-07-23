@@ -23,7 +23,7 @@
 package me.fromgate.weatherman.queue;
 
 import me.fromgate.weatherman.WeatherMan;
-import me.fromgate.weatherman.util.M;
+import me.fromgate.weatherman.util.lang.M;
 import me.fromgate.weatherman.util.WMWorldEdit;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

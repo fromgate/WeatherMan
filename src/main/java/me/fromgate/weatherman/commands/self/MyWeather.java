@@ -26,7 +26,7 @@ import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
 import me.fromgate.weatherman.localweather.LocalWeather;
 import me.fromgate.weatherman.util.Cfg;
-import me.fromgate.weatherman.util.M;
+import me.fromgate.weatherman.util.lang.M;
 import org.bukkit.entity.Player;
 
 @CmdDefine(command = "myweather", subCommands = "(?i)rain|storm|clear|sun|remove|delete", permission = "weatherman.myweather",

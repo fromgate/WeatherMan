@@ -26,7 +26,7 @@ import me.fromgate.weatherman.util.Brush;
 import me.fromgate.weatherman.util.ItemUtil;
 import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
-import me.fromgate.weatherman.util.M;
+import me.fromgate.weatherman.util.lang.M;
 import org.bukkit.entity.Player;
 
 @CmdDefine(command = "weatherman", subCommands = "give", permission = "weatherman.wandbiome",

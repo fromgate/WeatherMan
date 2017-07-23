@@ -27,7 +27,7 @@ import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
 import me.fromgate.weatherman.localtime.LocalTime;
 import me.fromgate.weatherman.util.Cfg;
-import me.fromgate.weatherman.util.M;
+import me.fromgate.weatherman.util.lang.M;
 import me.fromgate.weatherman.util.Time;
 import org.bukkit.entity.Player;
 

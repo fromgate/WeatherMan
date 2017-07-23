@@ -20,7 +20,7 @@
  *
  */
 
-package me.fromgate.weatherman.util;
+package me.fromgate.weatherman.util.lang;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -36,8 +36,8 @@ import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.*;
 
-import static me.fromgate.weatherman.util.M.LNG_LOAD_FAIL;
-import static me.fromgate.weatherman.util.M.LNG_SAVE_FAIL;
+import static me.fromgate.weatherman.util.lang.M.LNG_LOAD_FAIL;
+import static me.fromgate.weatherman.util.lang.M.LNG_SAVE_FAIL;
 
 public class BukkitMessenger implements Messenger {
 
@@ -126,7 +126,7 @@ public class BukkitMessenger implements Messenger {
     @SuppressWarnings("deprecation")
     @Override
     public Map<String, String> load(String language) {
-        Map<String, String> msg = new HashMap<String, String>();
+        Map<String, String> msg = new HashMap<>();
         YamlConfiguration lng = new YamlConfiguration();
         File f = new File(plugin.getDataFolder() + File.separator + language + ".lng");
         try {

@@ -20,7 +20,7 @@
  *
  */
 
-package me.fromgate.weatherman.util;
+package me.fromgate.weatherman.util.lang;
 
 import java.util.Map;
 

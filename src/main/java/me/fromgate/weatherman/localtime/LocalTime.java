@@ -26,7 +26,7 @@ import me.fromgate.weatherman.WeatherMan;
 import me.fromgate.weatherman.playerconfig.PlayerConfig;
 import me.fromgate.weatherman.util.BiomeTools;
 import me.fromgate.weatherman.util.Cfg;
-import me.fromgate.weatherman.util.M;
+import me.fromgate.weatherman.util.lang.M;
 import me.fromgate.weatherman.util.Time;
 import me.fromgate.weatherman.util.WMWorldEdit;
 import org.bukkit.Bukkit;

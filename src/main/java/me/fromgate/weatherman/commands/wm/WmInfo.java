@@ -27,7 +27,7 @@ import me.fromgate.weatherman.util.NMSUtil;
 import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
 import me.fromgate.weatherman.playerconfig.PlayerConfig;
-import me.fromgate.weatherman.util.M;
+import me.fromgate.weatherman.util.lang.M;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 

@@ -33,7 +33,7 @@ import me.fromgate.weatherman.commands.wth.WthBiome;
 import me.fromgate.weatherman.commands.wth.WthPlayer;
 import me.fromgate.weatherman.commands.wth.WthRegion;
 import me.fromgate.weatherman.commands.wth.WthWorld;
-import me.fromgate.weatherman.util.M;
+import me.fromgate.weatherman.util.lang.M;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -98,7 +98,12 @@ public class Commander implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String cmdLabel, String[] args) {
         for (Cmd cmd : commands) {
             if (!cmd.getCommand().equalsIgnoreCase(command.getLabel())) continue;
-            if (cmd.executeCommand(sender, args)) return true;
+            if (!cmd.canExecute(sender)) {
+                return M.PERMISSION_FAIL.print(sender);
+            }
+            if (cmd.executeCommand(sender, args)) {
+                return true;
+            }
         }
         if (args.length == 0) {
             helpCommand.executeCommand(sender, new String[]{"help"});
