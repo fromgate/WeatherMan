@@ -38,7 +38,7 @@ import java.util.logging.Logger;
 public class NmsUtil {
 
     private static Logger log;
-    private static String[] testedVersions = {"v1_10_R1", "v1_10_R2", "v1_11_R1"};
+    private static String[] testedVersions = {"v1_10_R1", "v1_10_R2", "v1_11_R1", "v1_12_R1"};
     private static String version = "";
     private static boolean blocked = false;
     private static String cboPrefix = "org.bukkit.craftbukkit.";
@@ -64,7 +64,10 @@ public class NmsUtil {
     private static Method getChunkProvider;
     private static Class<?> NmsChunk;
     private static Class<?> ChunkProviderServer;
+
     private static Method saveChunk;
+    private static boolean saveChunkBool;
+
     private static Method saveChunkNOP;
     private static Class<?> BlockPosition;
     private static Constructor<?> constructBlockPosition;
@@ -123,7 +126,15 @@ public class NmsUtil {
             NmsWorldServer = nmsClass("WorldServer");
             getChunkProvider = NmsWorldServer.getMethod("getChunkProvider");
             ChunkProviderServer = nmsClass("ChunkProviderServer");
-            saveChunk = ChunkProviderServer.getDeclaredMethod("saveChunk", NmsChunk);
+
+            try {
+                saveChunk = ChunkProviderServer.getDeclaredMethod("saveChunk", NmsChunk);
+                saveChunkBool = false;
+            } catch (Exception e) {
+                saveChunk = ChunkProviderServer.getDeclaredMethod("saveChunk", NmsChunk, boolean.class);
+                saveChunkBool = true;
+            }
+
             saveChunkNOP = ChunkProviderServer.getDeclaredMethod("saveChunkNOP", NmsChunk);
             CraftPlayer = cboClass("entity.CraftPlayer");
             craftPlayer_getHandle = CraftPlayer.getMethod("getHandle");
@@ -232,7 +243,12 @@ public class NmsUtil {
             Object nms_world = nms_chunk_world.get(nms_chunk);
             getChunkProvider.invoke(nms_world);
             Object chunkProvider = getChunkProvider.invoke(nms_world);
-            saveChunk.invoke(chunkProvider, nms_chunk);
+            if (saveChunkBool) {
+                saveChunk.invoke(chunkProvider, nms_chunk, false);
+            } else {
+                saveChunk.invoke(chunkProvider, nms_chunk);
+            }
+
             saveChunkNOP.invoke(chunkProvider, nms_chunk);
         } catch (Exception e) {
             e.printStackTrace();
@@ -242,35 +258,23 @@ public class NmsUtil {
     @SuppressWarnings("deprecation")
     public static void refreshChunk(Chunk ch) {
         World w = ch.getWorld();
+        // w.refreshChunk(ch.getX(), ch.getZ()); // This method works, but hides entities :(
         for (Player player : w.getPlayers()) {
             /*ch.unload(true);
             ch.load(); */
-            if (player.isOnline()) {
-                Location loc = ch.getBlock(7, player.getLocation().getBlockY(), 7).getLocation();
-                if (player.getLocation().distance(loc) <= Bukkit.getServer().getViewDistance() * 16) {
-                    try {
-                        Object nmsPlayer = craftPlayer_getHandle.invoke(player);
-                        Object nmsChunk = craftChunk_getHandle.invoke(ch);
-                        Object nmsPlayerConnection = playerConnection.get(nmsPlayer);
-                        Object unloadPacket = newPacketUnloadChunk.newInstance(ch.getX(), ch.getZ());
-                        Object chunkPacket = newPacketOutChunk.newInstance(nmsChunk, 65535);
-                        sendPacket.invoke(nmsPlayerConnection, unloadPacket);
-                        sendPacket.invoke(nmsPlayerConnection, chunkPacket);
-                    } catch (Exception ignored) {
-                    }
+            Location loc = ch.getBlock(7, player.getLocation().getBlockY(), 7).getLocation();
+            if (player.getLocation().distance(loc) <= Bukkit.getServer().getViewDistance() * 16) {
+                try {
+                    Object nmsPlayer = craftPlayer_getHandle.invoke(player);
+                    Object nmsChunk = craftChunk_getHandle.invoke(ch);
+                    Object nmsPlayerConnection = playerConnection.get(nmsPlayer);
+                    Object unloadPacket = newPacketUnloadChunk.newInstance(ch.getX(), ch.getZ());
+                    Object chunkPacket = newPacketOutChunk.newInstance(nmsChunk, 65535);
+                    sendPacket.invoke(nmsPlayerConnection, unloadPacket);
+                    sendPacket.invoke(nmsPlayerConnection, chunkPacket);
+                } catch (Exception ignored) {
                 }
             }
-            // ch.getWorld().refreshChunk(ch.getX(), ch.getZ());
         }
     }
-
-/*    public static void refreshChunk(final Chunk ch, int delay) {
-        Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), new Runnable() {
-            @Override
-            public void run() {
-                refreshChunk(ch);
-            }
-        }, delay);
-
-    }*/
 }
