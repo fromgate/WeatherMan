@@ -136,7 +136,7 @@ public class Repopulator {
     }
 
     public static void rePopulate(Chunk chunk) {
-        NMSUtil.repopulateChunk(chunk);
+        NmsUtil.repopulateChunk(chunk);
     }
 
     /*

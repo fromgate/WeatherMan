@@ -23,7 +23,7 @@
 package me.fromgate.weatherman.commands.wm;
 
 import me.fromgate.weatherman.util.BiomeTools;
-import me.fromgate.weatherman.util.NMSUtil;
+import me.fromgate.weatherman.util.NmsUtil;
 import me.fromgate.weatherman.util.ParamUtil;
 import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
@@ -52,7 +52,7 @@ public class WmCheck extends Cmd {
             }
         }
         Biome b1 = loc.getBlock().getBiome();
-        Biome b2 = NMSUtil.getOriginalBiome(loc);
+        Biome b2 = NmsUtil.getOriginalBiome(loc);
         if (b1.equals(b2)) {
             M.MSG_BIOMELOC.print(sender, BiomeTools.colorBiomeName(BiomeTools.biomeToString(b1)));
         } else {

@@ -22,7 +22,7 @@
 
 package me.fromgate.weatherman.queue;
 
-import me.fromgate.weatherman.util.NMSUtil;
+import me.fromgate.weatherman.util.NmsUtil;
 import me.fromgate.weatherman.WeatherMan;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -95,11 +95,11 @@ public class WMChunk {
     public void processChunk(boolean setBiomeOrDepopulate) {
         Chunk chunk = getChunk();
         if (setBiomeOrDepopulate) {
-            NMSUtil.saveChunk(chunk);
+            NmsUtil.saveChunk(chunk);
             //world.refreshChunk(this.x, this.z);
-            NMSUtil.refreshChunk(chunk);
+            NmsUtil.refreshChunk(chunk);
         } else {
-            NMSUtil.repopulateChunk(chunk);
+            NmsUtil.repopulateChunk(chunk);
         }
     }
 

@@ -35,7 +35,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Logger;
 
-public class NMSUtil {
+public class NmsUtil {
 
     private static Logger log;
     private static String[] testedVersions = {"v1_10_R1", "v1_10_R2", "v1_11_R1"};

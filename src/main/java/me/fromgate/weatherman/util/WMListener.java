@@ -223,7 +223,7 @@ public class WMListener implements Listener {
         if (PlayerConfig.isWalkInfoMode(p)) {
             if (event.getFrom().getBlock().getBiome().equals(event.getTo().getBlock().getBiome())) return;
             Biome b1 = event.getTo().getBlock().getBiome();
-            Biome b2 = NMSUtil.getOriginalBiome(event.getTo());
+            Biome b2 = NmsUtil.getOriginalBiome(event.getTo());
             if (b1.equals(b2)) {
                 M.MSG_MOVETOBIOME.print(p, BiomeTools.biomeToString(b1));
             } else {

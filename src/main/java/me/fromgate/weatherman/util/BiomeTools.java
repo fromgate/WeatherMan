@@ -204,7 +204,7 @@ public class BiomeTools {
     }
 
     private static Temperature getBiomeTemperature(Biome biome) {
-        double temperature = NMSUtil.getBiomeTemperature(biome);
+        double temperature = NmsUtil.getBiomeTemperature(biome);
         if (temperature < 0.2) return Temperature.COLD;
         if (temperature < 1.0) return Temperature.MEDIUM;
         return Temperature.WARM;

@@ -22,7 +22,7 @@
 
 package me.fromgate.weatherman.queue;
 
-import me.fromgate.weatherman.util.NMSUtil;
+import me.fromgate.weatherman.util.NmsUtil;
 import me.fromgate.weatherman.util.Repopulator;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -66,7 +66,7 @@ public class BiomeBlock {
 
     private void setBiome() {
         Biome b = this.biome;
-        if (this.biome == null) b = NMSUtil.getOriginalBiome(this.x, this.z, this.world);
+        if (this.biome == null) b = NmsUtil.getOriginalBiome(this.x, this.z, this.world);
         if (b != null) this.world.setBiome(this.x, this.z, b);
     }
 

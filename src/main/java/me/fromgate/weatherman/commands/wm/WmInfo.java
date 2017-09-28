@@ -23,7 +23,7 @@
 package me.fromgate.weatherman.commands.wm;
 
 import me.fromgate.weatherman.util.BiomeTools;
-import me.fromgate.weatherman.util.NMSUtil;
+import me.fromgate.weatherman.util.NmsUtil;
 import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
 import me.fromgate.weatherman.playerconfig.PlayerConfig;
@@ -41,7 +41,7 @@ public class WmInfo extends Cmd {
         player.sendMessage(M.MSG_WALKINFO.getText() + ": " + M.enDis(newMode));
         if (newMode) {
             Biome b1 = player.getLocation().getBlock().getBiome();
-            Biome b2 = NMSUtil.getOriginalBiome(player.getLocation());
+            Biome b2 = NmsUtil.getOriginalBiome(player.getLocation());
             if (b1.equals(b2)) {
                 M.MSG_BIOMELOC.print(player, BiomeTools.biomeToString(b1));
             } else {
