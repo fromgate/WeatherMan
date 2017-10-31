@@ -219,6 +219,7 @@ public class WMListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerMove(PlayerMoveEvent event) {
+        if (isSameBlocks(event.getFrom(), event.getTo())) return;
         Player p = event.getPlayer();
         if (PlayerConfig.isWalkInfoMode(p)) {
             if (event.getFrom().getBlock().getBiome().equals(event.getTo().getBlock().getBiome())) return;
@@ -247,12 +248,7 @@ public class WMListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onWeatherMove(PlayerMoveEvent event) {
-        if (event.getFrom().getWorld().equals(event.getTo().getWorld()) &&
-                event.getFrom().getBlockX() == event.getTo().getBlockX() &&
-                event.getFrom().getBlockY() == event.getTo().getBlockY() &&
-                event.getFrom().getBlockZ() == event.getTo().getBlockZ()) {
-            return;
-        }
+        if (isSameBlocks(event.getFrom(), event.getTo())) return;
         LocalWeather.updatePlayerRain(event.getPlayer());
         LocalTime.updatePlayerTime(event.getPlayer());
     }
@@ -278,6 +274,11 @@ public class WMListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         PlayerConfig.quitPlayer(event.getPlayer());
+    }
+
+
+    private boolean isSameBlocks(Location loc1, Location loc2) {
+        return loc1.getBlockX() == loc2.getBlockX() && loc1.getBlockY() == loc2.getBlockY() && loc1.getBlockZ() == loc2.getBlockZ();
     }
 
 }
