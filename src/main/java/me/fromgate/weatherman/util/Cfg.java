@@ -51,7 +51,7 @@ public class Cfg {
 
     public static void loadCfg() {
         WeatherMan.getPlugin().reloadConfig();
-        language = getConfig().getString("general.language", "english").toLowerCase();
+        language = getString("general.language", "english").toLowerCase();
         languageSave = getBoolean("general.language-save", false);
         debug = getBoolean("general.debug", false);
         checkUpdates = getBoolean("general.check-updates", true);
@@ -65,8 +65,8 @@ public class Cfg {
         maxRadiusWand = getInt("limits.maximum-wand-radius", 15);
         maxRadiusSign = getInt("limits.maximum-sign-radius", 100);
         netherMob = getBoolean("biomes.spawn-nether-mobs-in-normal", true);
-        unsnowBiomes = getConfig().getString("biomes.disable-snow-forming", "");
-        uniceBiomes = getConfig().getString("biomes.disable-ice-forming", "");
+        unsnowBiomes = getString("biomes.disable-snow-forming", "");
+        uniceBiomes = getString("biomes.disable-ice-forming", "");
         meltIce = getBoolean("biomes.melt-ice", true);
         meltSnow = getBoolean("biomes.melt-snow", true);
         defaultRadius = getInt("brush.default-radius", 5);
