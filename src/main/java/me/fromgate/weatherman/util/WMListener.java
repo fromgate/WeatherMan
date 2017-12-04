@@ -219,23 +219,6 @@ public class WMListener implements Listener {
         }
     }
 
-    /*
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onPlayerMove(PlayerMoveEvent event) {
-        if (isSameBlocks(event.getFrom(), event.getTo())) return;
-        Player p = event.getPlayer();
-        if (PlayerConfig.isWalkInfoMode(p)) {
-            if (event.getFrom().getBlock().getBiome().equals(event.getTo().getBlock().getBiome())) return;
-            Biome b1 = event.getTo().getBlock().getBiome();
-            Biome b2 = NmsUtil.getOriginalBiome(event.getTo());
-            if (b1.equals(b2)) {
-                M.MSG_MOVETOBIOME.print(p, BiomeTools.biomeToString(b1));
-            } else {
-                M.MSG_MOVETOBIOME2.print(p, BiomeTools.biomeToString(b1), BiomeTools.biomeToString(b2));
-            }
-        }
-    } */
-
     // LocalWeather events
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onWeatherChange(WeatherChangeEvent event) {
@@ -248,15 +231,6 @@ public class WMListener implements Listener {
         }
 
     }
-
-    /*
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onWeatherMove(PlayerMoveEvent event) {
-        if (isSameBlocks(event.getFrom(), event.getTo())) return;
-        LocalWeather.updatePlayerRain(event.getPlayer());
-        LocalTime.updatePlayerTime(event.getPlayer());
-    }
-    */
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerJoinWeatherTime(PlayerJoinEvent event) {
