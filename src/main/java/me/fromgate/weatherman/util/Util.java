@@ -23,6 +23,8 @@
 package me.fromgate.weatherman.util;
 
 
+import org.bukkit.Location;
+
 import java.util.regex.Pattern;
 
 public class Util {
@@ -51,6 +53,14 @@ public class Util {
             }
         }
         return false;
+    }
+
+    public static boolean isSameBlocks(Location loc1, Location loc2) {
+        if (!loc1.getWorld().equals(loc2.getWorld())) return false;
+        if (loc1.getBlockX() != loc2.getBlockX()) return false;
+        if (loc1.getBlockZ() != loc2.getBlockZ()) return false;
+        if (loc1.getBlockY() != loc2.getBlockY()) return false;
+        return true;
     }
 
 }

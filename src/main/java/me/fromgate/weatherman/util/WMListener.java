@@ -28,6 +28,8 @@ import me.fromgate.weatherman.localtime.LocalTime;
 import me.fromgate.weatherman.localweather.LocalWeather;
 import me.fromgate.weatherman.playerconfig.PlayerConfig;
 import me.fromgate.weatherman.util.lang.M;
+import me.fromgate.weatherman.util.tasks.InfoTask;
+import me.fromgate.weatherman.util.tasks.LocalWeatherTask;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -217,6 +219,7 @@ public class WMListener implements Listener {
         }
     }
 
+    /*
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerMove(PlayerMoveEvent event) {
         if (isSameBlocks(event.getFrom(), event.getTo())) return;
@@ -231,7 +234,7 @@ public class WMListener implements Listener {
                 M.MSG_MOVETOBIOME2.print(p, BiomeTools.biomeToString(b1), BiomeTools.biomeToString(b2));
             }
         }
-    }
+    } */
 
     // LocalWeather events
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
@@ -246,12 +249,14 @@ public class WMListener implements Listener {
 
     }
 
+    /*
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onWeatherMove(PlayerMoveEvent event) {
         if (isSameBlocks(event.getFrom(), event.getTo())) return;
         LocalWeather.updatePlayerRain(event.getPlayer());
         LocalTime.updatePlayerTime(event.getPlayer());
     }
+    */
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerJoinWeatherTime(PlayerJoinEvent event) {
@@ -273,7 +278,10 @@ public class WMListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        PlayerConfig.quitPlayer(event.getPlayer());
+        Player player = event.getPlayer();
+        PlayerConfig.quitPlayer(player);
+        InfoTask.removePrevLocation(player);
+        LocalWeatherTask.removePrevLocation(player);
     }
 
 
