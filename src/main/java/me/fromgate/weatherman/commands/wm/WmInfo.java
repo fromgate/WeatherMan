@@ -22,13 +22,13 @@
 
 package me.fromgate.weatherman.commands.wm;
 
-import me.fromgate.weatherman.util.BiomeTools;
-import me.fromgate.weatherman.util.tasks.InfoTask;
-import me.fromgate.weatherman.util.NmsUtil;
 import me.fromgate.weatherman.commands.Cmd;
 import me.fromgate.weatherman.commands.CmdDefine;
 import me.fromgate.weatherman.playerconfig.PlayerConfig;
+import me.fromgate.weatherman.util.BiomeTools;
+import me.fromgate.weatherman.util.NmsUtil;
 import me.fromgate.weatherman.util.lang.M;
+import me.fromgate.weatherman.util.tasks.InfoTask;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 

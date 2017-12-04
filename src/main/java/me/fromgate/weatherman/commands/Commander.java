@@ -24,7 +24,15 @@ package me.fromgate.weatherman.commands;
 
 import me.fromgate.weatherman.commands.self.MyTime;
 import me.fromgate.weatherman.commands.self.MyWeather;
-import me.fromgate.weatherman.commands.wm.*;
+import me.fromgate.weatherman.commands.wm.WmCheck;
+import me.fromgate.weatherman.commands.wm.WmGive;
+import me.fromgate.weatherman.commands.wm.WmHelp;
+import me.fromgate.weatherman.commands.wm.WmInfo;
+import me.fromgate.weatherman.commands.wm.WmList;
+import me.fromgate.weatherman.commands.wm.WmPopulate;
+import me.fromgate.weatherman.commands.wm.WmReplace;
+import me.fromgate.weatherman.commands.wm.WmSet;
+import me.fromgate.weatherman.commands.wm.WmdWand;
 import me.fromgate.weatherman.commands.wmt.WtmBiome;
 import me.fromgate.weatherman.commands.wmt.WtmPlayer;
 import me.fromgate.weatherman.commands.wmt.WtmRegion;

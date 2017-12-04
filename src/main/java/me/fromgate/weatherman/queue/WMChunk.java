@@ -22,8 +22,8 @@
 
 package me.fromgate.weatherman.queue;
 
-import me.fromgate.weatherman.util.NmsUtil;
 import me.fromgate.weatherman.WeatherMan;
+import me.fromgate.weatherman.util.NmsUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;

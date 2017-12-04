@@ -24,7 +24,11 @@ package me.fromgate.weatherman.util;
 
 import me.fromgate.weatherman.WeatherMan;
 import me.fromgate.weatherman.queue.QueueManager;
-import org.bukkit.*;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.TreeType;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
@@ -34,7 +38,12 @@ import org.bukkit.entity.Snowball;
 import org.bukkit.util.BlockIterator;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Repopulator {
     private static int worldHeight = 128;

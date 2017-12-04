@@ -23,7 +23,11 @@
 package me.fromgate.weatherman.util.lang;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public enum M {
 

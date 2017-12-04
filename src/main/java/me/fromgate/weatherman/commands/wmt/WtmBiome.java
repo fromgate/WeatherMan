@@ -27,8 +27,8 @@ import me.fromgate.weatherman.commands.CmdDefine;
 import me.fromgate.weatherman.localtime.LocalTime;
 import me.fromgate.weatherman.util.BiomeTools;
 import me.fromgate.weatherman.util.Cfg;
-import me.fromgate.weatherman.util.lang.M;
 import me.fromgate.weatherman.util.Time;
+import me.fromgate.weatherman.util.lang.M;
 import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
 
