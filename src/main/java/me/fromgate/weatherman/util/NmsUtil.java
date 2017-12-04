@@ -28,7 +28,6 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
-import org.bukkit.entity.Player;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -258,23 +257,32 @@ public class NmsUtil {
     @SuppressWarnings("deprecation")
     public static void refreshChunk(Chunk ch) {
         World w = ch.getWorld();
-        // w.refreshChunk(ch.getX(), ch.getZ()); // This method works, but hides entities :(
-        for (Player player : w.getPlayers()) {
-            /*ch.unload(true);
-            ch.load(); */
-            Location loc = ch.getBlock(7, player.getLocation().getBlockY(), 7).getLocation();
-            if (player.getLocation().distance(loc) <= Bukkit.getServer().getViewDistance() * 16) {
-                try {
-                    Object nmsPlayer = craftPlayer_getHandle.invoke(player);
-                    Object nmsChunk = craftChunk_getHandle.invoke(ch);
-                    Object nmsPlayerConnection = playerConnection.get(nmsPlayer);
-                    Object unloadPacket = newPacketUnloadChunk.newInstance(ch.getX(), ch.getZ());
-                    Object chunkPacket = newPacketOutChunk.newInstance(nmsChunk, 65535);
-                    sendPacket.invoke(nmsPlayerConnection, unloadPacket);
-                    sendPacket.invoke(nmsPlayerConnection, chunkPacket);
-                } catch (Exception ignored) {
-                }
-            }
+        switch (Cfg.chunkUpdateMethod) {
+            case 1:
+                w.refreshChunk(ch.getX(), ch.getZ());
+                ch.unload();
+                ch.load();
+                break;
+            case 2:
+                w.getPlayers().forEach(player -> {
+                    Location loc = ch.getBlock(7, player.getLocation().getBlockY(), 7).getLocation();
+                    if (player.getLocation().distance(loc) <= Bukkit.getServer().getViewDistance() * 16) {
+                        try {
+                            Object nmsPlayer = craftPlayer_getHandle.invoke(player);
+                            Object nmsChunk = craftChunk_getHandle.invoke(ch);
+                            Object nmsPlayerConnection = playerConnection.get(nmsPlayer);
+                            Object unloadPacket = newPacketUnloadChunk.newInstance(ch.getX(), ch.getZ());
+                            Object chunkPacket = newPacketOutChunk.newInstance(nmsChunk, 65535);
+                            sendPacket.invoke(nmsPlayerConnection, unloadPacket);
+                            sendPacket.invoke(nmsPlayerConnection, chunkPacket);
+                        } catch (Exception ignored) {
+                        }
+                    }
+                });
+                break;
+            default:
+                w.refreshChunk(ch.getX(), ch.getZ());
+                break;
         }
     }
 }

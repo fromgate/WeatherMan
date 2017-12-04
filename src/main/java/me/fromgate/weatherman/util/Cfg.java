@@ -49,7 +49,8 @@ public class Cfg {
     private static boolean personalWeatherClear;
     private static boolean personalBrushClear;
     private static boolean checkUpdates;
-    // private static boolean consoleColored = false;
+
+    public static int chunkUpdateMethod = 0; // 0 - default, 1 - experimental1, etc.
 
     public static void loadCfg() {
         WeatherMan.getPlugin().reloadConfig();
@@ -57,6 +58,7 @@ public class Cfg {
         languageSave = getConfig().getBoolean("general.language-save", false);
         debug = getConfig().getBoolean("general.debug", false);
         checkUpdates = getConfig().getBoolean("general.check-updates", true);
+        chunkUpdateMethod = getConfig().getInt("system.chunk-update-method", 0);
         personalTimeClear = getConfig().getBoolean("personal.time.reset-on-start", false);
         personalWeatherClear = getConfig().getBoolean("personal.weather.reset-on-start", false);
         personalBrushClear = getConfig().getBoolean("personal.brush.reset-on-start", true);
@@ -85,6 +87,7 @@ public class Cfg {
         getConfig().set("general.language-save", languageSave);
         getConfig().set("general.debug", debug);
         getConfig().set("general.check-updates", checkUpdates);
+        getConfig().set("system.chunk-update-method", chunkUpdateMethod);
         getConfig().set("local.time-enable", localTimeEnable);
         getConfig().set("local.weather-enable", localWeatherEnable);
         getConfig().set("personal.time.reset-on-start", personalTimeClear);

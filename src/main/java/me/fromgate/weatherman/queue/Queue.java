@@ -110,7 +110,7 @@ public class Queue {
         }
 
         if (!chunksToProcess.isEmpty()) {
-            Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), () -> processQueue(), 1);
+            Bukkit.getScheduler().runTaskLater(WeatherMan.getPlugin(), this::processQueue, 3);
 
         } else {
             this.finished = true;

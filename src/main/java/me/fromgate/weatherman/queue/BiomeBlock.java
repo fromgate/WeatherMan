@@ -65,9 +65,9 @@ public class BiomeBlock {
     }
 
     private void setBiome() {
-        Biome b = this.biome;
-        if (this.biome == null) b = NmsUtil.getOriginalBiome(this.x, this.z, this.world);
-        if (b != null) this.world.setBiome(this.x, this.z, b);
+        Biome biome = this.biome;
+        if (this.biome == null) biome = NmsUtil.getOriginalBiome(this.x, this.z, this.world);
+        if (biome != null) this.world.setBiome(this.x, this.z, biome);
     }
 
     public Location getLocation() {
