@@ -37,7 +37,7 @@ import org.bukkit.entity.Player;
 public class MyTime extends Cmd {
     @Override
     public boolean execute(Player player, String[] args) {
-        if (!Cfg.isLocalTimeEnable()) return M.TM_DISABLED.print(player);
+        if (!Cfg.localTimeEnable) return M.TM_DISABLED.print(player);
         if (args[0].matches("(?i)remove|reset")) {
             LocalTime.clearPlayerTime(player);
             M.MY_TIME_REMOVED.print(player);

@@ -24,261 +24,95 @@ package me.fromgate.weatherman.util;
 
 import me.fromgate.weatherman.WeatherMan;
 import org.bukkit.block.Biome;
-import org.bukkit.configuration.file.FileConfiguration;
 
 public class Cfg {
-    private static String language;
-    private static boolean languageSave;
-    private static boolean debug;
-    private static int defaultRadius;
-    private static boolean smoke;
-    private static int smokeChance;
-    private static boolean meltSnow;
-    private static boolean meltIce;
-    private static Biome defaultBiome;
-    private static int maxRadiusCmd;
-    private static int maxRadiusWand;
-    private static int maxRadiusSign;
-    private static boolean netherMob;
-    private static String unsnowBiomes;
-    private static String uniceBiomes;
+    public static String language;
+    public static boolean languageSave;
+    public static boolean debug;
+    public static int defaultRadius;
+    public static boolean meltSnow;
+    public static boolean meltIce;
+    public static Biome defaultBiome;
+    public static int maxRadiusCmd;
+    public static int maxRadiusWand;
+    public static int maxRadiusSign;
+    public static boolean netherMob;
+    public static String unsnowBiomes;
+    public static String uniceBiomes;
 
-    private static boolean localTimeEnable;
-    private static boolean localWeatherEnable;
-    private static boolean personalTimeClear;
-    private static boolean personalWeatherClear;
-    private static boolean personalBrushClear;
-    private static boolean checkUpdates;
+    public static boolean localTimeEnable;
+    public static boolean localWeatherEnable;
+    public static boolean personalTimeClear;
+    public static boolean personalWeatherClear;
+    public static boolean personalBrushClear;
+    public static boolean checkUpdates;
 
     public static int chunkUpdateMethod = 0; // 0 - default, 1 - experimental1, etc.
 
     public static void loadCfg() {
         WeatherMan.getPlugin().reloadConfig();
         language = getConfig().getString("general.language", "english").toLowerCase();
-        languageSave = getConfig().getBoolean("general.language-save", false);
-        debug = getConfig().getBoolean("general.debug", false);
-        checkUpdates = getConfig().getBoolean("general.check-updates", true);
-        chunkUpdateMethod = getConfig().getInt("system.chunk-update-method", 0);
-        personalTimeClear = getConfig().getBoolean("personal.time.reset-on-start", false);
-        personalWeatherClear = getConfig().getBoolean("personal.weather.reset-on-start", false);
-        personalBrushClear = getConfig().getBoolean("personal.brush.reset-on-start", true);
-
-        localTimeEnable = getConfig().getBoolean("local.time-enable", true);
-        localWeatherEnable = getConfig().getBoolean("local.weather-enable", true);
-
-        smoke = getConfig().getBoolean("effect.smoke-effect", true);
-        smokeChance = getConfig().getInt("effect.smoke-chance", 50);
-        maxRadiusCmd = getConfig().getInt("limits.maximum-command-radius", 250);
-        maxRadiusWand = getConfig().getInt("limits.maximum-wand-radius", 15);
-        maxRadiusSign = getConfig().getInt("limits.maximum-sign-radius", 100);
-        netherMob = getConfig().getBoolean("biomes.spawn-nether-mobs-in-normal", true);
+        languageSave = getBoolean("general.language-save", false);
+        debug = getBoolean("general.debug", false);
+        checkUpdates = getBoolean("general.check-updates", true);
+        chunkUpdateMethod = getInt("system.chunk-update-method", 0);
+        personalTimeClear = getBoolean("personal.time.reset-on-start", false);
+        personalWeatherClear = getBoolean("personal.weather.reset-on-start", false);
+        personalBrushClear = getBoolean("personal.brush.reset-on-start", true);
+        localTimeEnable = getBoolean("local.time-enable", true);
+        localWeatherEnable = getBoolean("local.weather-enable", true);
+        maxRadiusCmd = getInt("limits.maximum-command-radius", 250);
+        maxRadiusWand = getInt("limits.maximum-wand-radius", 15);
+        maxRadiusSign = getInt("limits.maximum-sign-radius", 100);
+        netherMob = getBoolean("biomes.spawn-nether-mobs-in-normal", true);
         unsnowBiomes = getConfig().getString("biomes.disable-snow-forming", "");
         uniceBiomes = getConfig().getString("biomes.disable-ice-forming", "");
-        meltIce = getConfig().getBoolean("biomes.melt-ice", true);
-        meltSnow = getConfig().getBoolean("biomes.melt-snow", true);
-        defaultRadius = getConfig().getInt("brush.default-radius", 5);
-        String biomeStr = getConfig().getString("brush.biome.default-biome", "iceflats");
+        meltIce = getBoolean("biomes.melt-ice", true);
+        meltSnow = getBoolean("biomes.melt-snow", true);
+        defaultRadius = getInt("brush.default-radius", 5);
+        String biomeStr = getString("brush.biome.default-biome", "iceflats");
         defaultBiome = BiomeTools.isBiomeExists(biomeStr) ? BiomeTools.biomeByName(biomeStr) : Biome.ICE_FLATS;
         Brush.load(WeatherMan.getPlugin().getConfig());
     }
 
     public static void saveCfg() {
-        getConfig().set("general.language", language);
-        getConfig().set("general.language-save", languageSave);
-        getConfig().set("general.debug", debug);
-        getConfig().set("general.check-updates", checkUpdates);
-        getConfig().set("system.chunk-update-method", chunkUpdateMethod);
-        getConfig().set("local.time-enable", localTimeEnable);
-        getConfig().set("local.weather-enable", localWeatherEnable);
-        getConfig().set("personal.time.reset-on-start", personalTimeClear);
-        getConfig().set("personal.weather.reset-on-start", personalWeatherClear);
-        getConfig().set("personal.brush.reset-on-start", personalBrushClear);
-        getConfig().set("effect.smoke-effect", smoke);
-        getConfig().set("effect.smoke-chance", smokeChance);
-        getConfig().set("limits.maximum-command-radius", maxRadiusCmd);
-        getConfig().set("limits.maximum-wand-radius", maxRadiusWand);
-        getConfig().set("limits.maximum-sign-radius", maxRadiusSign);
-        getConfig().set("biomes.melt-snow", meltSnow);
-        getConfig().set("biomes.melt-ice", meltIce);
-        getConfig().set("biomes.spawn-nether-mobs-in-normal", netherMob);
-        getConfig().set("biomes.disable-snow-forming", unsnowBiomes);
-        getConfig().set("biomes.disable-ice-forming", uniceBiomes);
-        getConfig().set("brush.default-radius", defaultRadius);
-        getConfig().set("brush.biome.default-biome", BiomeTools.biomeToString(defaultBiome));
+        set("general.language", language);
+        set("general.language-save", languageSave);
+        set("general.debug", debug);
+        set("general.check-updates", checkUpdates);
+        set("system.chunk-update-method", chunkUpdateMethod);
+        set("local.time-enable", localTimeEnable);
+        set("local.weather-enable", localWeatherEnable);
+        set("personal.time.reset-on-start", personalTimeClear);
+        set("personal.weather.reset-on-start", personalWeatherClear);
+        set("personal.brush.reset-on-start", personalBrushClear);
+        set("limits.maximum-command-radius", maxRadiusCmd);
+        set("limits.maximum-wand-radius", maxRadiusWand);
+        set("limits.maximum-sign-radius", maxRadiusSign);
+        set("biomes.melt-snow", meltSnow);
+        set("biomes.melt-ice", meltIce);
+        set("biomes.spawn-nether-mobs-in-normal", netherMob);
+        set("biomes.disable-snow-forming", unsnowBiomes);
+        set("biomes.disable-ice-forming", uniceBiomes);
+        set("brush.default-radius", defaultRadius);
+        set("brush.biome.default-biome", BiomeTools.biomeToString(defaultBiome));
         Brush.save(WeatherMan.getPlugin().getConfig());
         WeatherMan.getPlugin().saveConfig();
     }
 
-    public static boolean isDebug() {
-        return debug;
+    private static void set(String key, Object value) {
+        WeatherMan.getPlugin().getConfig().set(key, value);
     }
 
-    public static void setDebug(boolean debug) {
-        Cfg.debug = debug;
+    private static boolean getBoolean(String key, boolean defaultValue) {
+        return WeatherMan.getPlugin().getConfig().getBoolean(key, defaultValue);
     }
 
-    public static int getDefaultRadius() {
-        return defaultRadius;
+    private static int getInt(String key, int defaultValue) {
+        return WeatherMan.getPlugin().getConfig().getInt(key, defaultValue);
     }
 
-    public static void setDefaultRadius(int defaultRadius) {
-        Cfg.defaultRadius = defaultRadius;
+    private static String getString(String key, String defaultValue) {
+        return WeatherMan.getPlugin().getConfig().getString(key, defaultValue);
     }
-
-    public static boolean isSmoke() {
-        return smoke;
-    }
-
-    public static void setSmoke(boolean smoke) {
-        Cfg.smoke = smoke;
-    }
-
-    public static int getSmokeChance() {
-        return smokeChance;
-    }
-
-    public static void setSmokeChance(int smokeChance) {
-        Cfg.smokeChance = smokeChance;
-    }
-
-    public static boolean isMeltSnow() {
-        return meltSnow;
-    }
-
-    public static void setMeltSnow(boolean meltSnow) {
-        Cfg.meltSnow = meltSnow;
-    }
-
-    public static boolean isMeltIce() {
-        return meltIce;
-    }
-
-    public static void setMeltIce(boolean meltIce) {
-        Cfg.meltIce = meltIce;
-    }
-
-    public static Biome getDefaultBiome() {
-        return defaultBiome == null ? Biome.ICE_FLATS : defaultBiome;
-    }
-
-    public static void setDefaultBiome(Biome defaultBiome) {
-        Cfg.defaultBiome = defaultBiome;
-    }
-
-    public static int getMaxRadiusCmd() {
-        return maxRadiusCmd;
-    }
-
-    public static void setMaxRadiusCmd(int maxRadiusCmd) {
-        Cfg.maxRadiusCmd = maxRadiusCmd;
-    }
-
-    public static int getMaxRadiusWand() {
-        return maxRadiusWand;
-    }
-
-    public static void setMaxRadiusWand(int maxRadiusWand) {
-        Cfg.maxRadiusWand = maxRadiusWand;
-    }
-
-    public static int getMaxRadiusSign() {
-        return maxRadiusSign;
-    }
-
-    public static void setMaxRadiusSign(int maxRadiusSign) {
-        Cfg.maxRadiusSign = maxRadiusSign;
-    }
-
-    public static boolean isNetherMob() {
-        return netherMob;
-    }
-
-    public static void setNetherMob(boolean netherMob) {
-        Cfg.netherMob = netherMob;
-    }
-
-    public static String getUnsnowBiomes() {
-        return unsnowBiomes;
-    }
-
-    public static void setUnsnowBiomes(String unsnowBiomes) {
-        Cfg.unsnowBiomes = unsnowBiomes;
-    }
-
-    public static String getUniceBiomes() {
-        return uniceBiomes;
-    }
-
-    public static void setUniceBiomes(String uniceBiomes) {
-        Cfg.uniceBiomes = uniceBiomes;
-    }
-
-    public static String getLanguage() {
-        return language;
-    }
-
-    public static void setLanguage(String language) {
-        Cfg.language = language;
-    }
-
-    public static boolean isLanguageSave() {
-        return languageSave;
-    }
-
-    public static void setLanguageSave(boolean languageSave) {
-        Cfg.languageSave = languageSave;
-    }
-
-    public static boolean isCheckUpdates() {
-        return checkUpdates;
-    }
-
-    public static void setCheckUpdates(boolean checkUpdates) {
-        Cfg.checkUpdates = checkUpdates;
-    }
-
-    public static boolean isPersonalTimeClear() {
-        return personalTimeClear;
-    }
-
-    public static void setPersonalTimeClear(boolean personalTimeClear) {
-        Cfg.personalTimeClear = personalTimeClear;
-    }
-
-    public static boolean isPersonalWeatherClear() {
-        return personalWeatherClear;
-    }
-
-    public static void setPersonalWeatherClear(boolean personalWeatherClear) {
-        Cfg.personalWeatherClear = personalWeatherClear;
-    }
-
-    public static boolean isPersonalBrushClear() {
-        return personalBrushClear;
-    }
-
-    public static void setPersonalBrushClear(boolean personalBrushClear) {
-        Cfg.personalBrushClear = personalBrushClear;
-    }
-
-    private static FileConfiguration getConfig() {
-        return WeatherMan.getPlugin().getConfig();
-    }
-
-    public static boolean isLocalTimeEnable() {
-        return localTimeEnable;
-    }
-
-    public static void setLocalTimeEnable(boolean localTimeEnable) {
-        Cfg.localTimeEnable = localTimeEnable;
-    }
-
-    public static boolean isLocalWeatherEnable() {
-        return localWeatherEnable;
-    }
-
-    public static void setLocalWeatherEnable(boolean localWeatherEnable) {
-        Cfg.localWeatherEnable = localWeatherEnable;
-    }
-
 }

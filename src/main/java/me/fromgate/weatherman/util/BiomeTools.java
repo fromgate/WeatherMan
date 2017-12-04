@@ -67,7 +67,7 @@ public class BiomeTools {
         if (!isBiomeExists(sourceBiomeStr)) return false;
 
         Biome sourceBiome = BiomeTools.biomeByName(sourceBiomeStr);
-        int radius = Math.min(ParamUtil.getParam(params, "radius", -1), Cfg.getMaxRadiusCmd());
+        int radius = Math.min(ParamUtil.getParam(params, "radius", -1), Cfg.maxRadiusCmd);
         if (radius > 0) {
             if (loc1 != null) return setBiomeRadius(sender, loc1, biome, radius, sourceBiome);
             else return setBiomeRadius(player, biome, radius, sourceBiome);
@@ -86,7 +86,7 @@ public class BiomeTools {
         Location loc1 = BiomeTools.parseLocation(ParamUtil.getParam(params, "loc", ParamUtil.getParam(params, "loc1", "")));
         Location loc2 = BiomeTools.parseLocation(ParamUtil.getParam(params, "loc2", ""));
         if (ParamUtil.isParamExists(params, "radius")) {
-            int radius = Math.min(ParamUtil.getParam(params, "radius", -1), Cfg.getMaxRadiusCmd());
+            int radius = Math.min(ParamUtil.getParam(params, "radius", -1), Cfg.maxRadiusCmd);
             if (loc1 == null) return setBiomeRadius(sender, biome, radius, null);
             else return setBiomeRadius(sender, loc1, biome, radius, null);
         }
@@ -220,11 +220,11 @@ public class BiomeTools {
     public static void meltSnow(World w, int x, int z) {
         Block b = getHighestBlock(w, x, z);
         if (getBiomeTemperature(b.getBiome()) == Temperature.COLD) return;
-        if (Cfg.isMeltSnow() && (b.getType() == Material.SNOW)) {
+        if (Cfg.meltSnow && (b.getType() == Material.SNOW)) {
             b.setType(Material.AIR);
             b = getHighestBlock(w, x, z);
             if (b.getType() == Material.SNOW) b.setType(Material.AIR);
-        } else if (Cfg.isMeltIce() && (b.getType() == Material.ICE)) {
+        } else if (Cfg.meltIce && (b.getType() == Material.ICE)) {
             // TODO Change to PACKED_ICE
             b.setType(Material.WATER);
         }

@@ -197,17 +197,17 @@ public class PlayerConfig {
         if (file.exists()) {
             try {
                 cfg.load(file);
-                if (Cfg.isPersonalBrushClear()) {
+                if (Cfg.personalBrushClear) {
                     data.setBallRadius(cfg.getInt("brush.radius", data.getBallRadius()));
                     data.setBallBiome(cfg.getString("brush.biome"));
                     data.setBallTree(cfg.getString("brush.tree", data.getBallTree()));
                 }
 
-                if (Cfg.isPersonalWeatherClear()) {
+                if (Cfg.personalWeatherClear) {
                     data.setPersonalWeather(cfg.getString("personal.weather"));
                 }
 
-                if (Cfg.isPersonalTimeClear()) {
+                if (Cfg.personalTimeClear) {
                     data.setPersonalTime(cfg.getString("personal.time", data.getPersonalTimeStr()));
                 }
             } catch (Exception e) {

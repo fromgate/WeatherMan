@@ -341,7 +341,7 @@ public class LocalTime {
 
     @SuppressWarnings("deprecation")
     public static void updatePlayerTime(String playerName) {
-        if (!Cfg.isLocalTimeEnable()) return;
+        if (!Cfg.localTimeEnable) return;
         Player player = Bukkit.getPlayerExact(playerName);
         if (player == null) return;
         Long time = getTime(player);
@@ -351,7 +351,7 @@ public class LocalTime {
     }
 
     public static void updatePlayerTime(Player player) {
-        if (!Cfg.isLocalTimeEnable()) return;
+        if (!Cfg.localTimeEnable) return;
         Long time = getTime(player);
         if (isTimeChanged(player, time)) {
             sendTime(player, time);

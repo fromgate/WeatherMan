@@ -64,11 +64,11 @@ public class WMListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockForm(BlockFormEvent event) {
-        if ((event.getNewState().getType() == Material.SNOW) && (!Cfg.getUnsnowBiomes().isEmpty()) && (Util.isWordInList(BiomeTools.biomeToString(event.getBlock().getBiome()), Cfg.getUnsnowBiomes()))) {
+        if ((event.getNewState().getType() == Material.SNOW) && (!Cfg.unsnowBiomes.isEmpty()) && (Util.isWordInList(BiomeTools.biomeToString(event.getBlock().getBiome()), Cfg.unsnowBiomes))) {
             event.setCancelled(true);
         }
 
-        if ((event.getNewState().getType() == Material.ICE) && (!Cfg.getUniceBiomes().isEmpty()) && (Util.isWordInList(BiomeTools.biomeToString(event.getBlock().getBiome()), Cfg.getUniceBiomes()))) {
+        if ((event.getNewState().getType() == Material.ICE) && (!Cfg.uniceBiomes.isEmpty()) && (Util.isWordInList(BiomeTools.biomeToString(event.getBlock().getBiome()), Cfg.uniceBiomes))) {
             event.setCancelled(true);
         }
     }
@@ -86,7 +86,7 @@ public class WMListener implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onCreatureSpawn(CreatureSpawnEvent event) {
-        if (Cfg.isNetherMob()) return;
+        if (Cfg.netherMob) return;
         if (event.getEntity().getWorld().getEnvironment() == Environment.NETHER) return;
         if (event.getSpawnReason() != SpawnReason.NATURAL) return;
         if ((event.getEntityType() == EntityType.PIG_ZOMBIE) ||
@@ -126,7 +126,7 @@ public class WMListener implements Listener {
                 else if ((l2.toLowerCase().startsWith("radius=")) && (l2.toLowerCase().replace("radius=", "").matches("[1-9]+[0-9]*")))
                     event.setLine(2, ChatColor.BLUE + "radius=" + l2.toLowerCase().replace("radius=", ""));
                 else if (l2.isEmpty())
-                    event.setLine(2, ChatColor.BLUE + "radius=" + Integer.toString(Cfg.getDefaultRadius()));
+                    event.setLine(2, ChatColor.BLUE + "radius=" + Integer.toString(Cfg.defaultRadius));
                 else {
                     event.setLine(2, ChatColor.BLUE + l2);
                     if (WMWorldEdit.isWG()) {
@@ -136,12 +136,12 @@ public class WMListener implements Listener {
                         }
                     } else {
                         M.WG_NOTFOUND.print(p);
-                        event.setLine(2, ChatColor.BLUE + "radius=" + Integer.toString(Cfg.getDefaultRadius()));
+                        event.setLine(2, ChatColor.BLUE + "radius=" + Integer.toString(Cfg.defaultRadius));
                     }
                 }
                 if (event.getLine(3).isEmpty() ||
                         ((!event.getLine(3).isEmpty()) && (!BiomeTools.isBiomeExists(event.getLine(3)))))
-                    event.setLine(3, BiomeTools.biomeToString(Cfg.getDefaultBiome()));
+                    event.setLine(3, BiomeTools.biomeToString(Cfg.defaultBiome));
                 event.setLine(3, ChatColor.RED + event.getLine(3));
             }
     }
@@ -173,7 +173,7 @@ public class WMListener implements Listener {
                         if (rs.startsWith("radius=")) {
                             rs = rs.replace("radius=", "");
                             if (rs.matches("[1-9]+[0-9]*")) {
-                                radius = Math.min(Integer.parseInt(rs), Cfg.getMaxRadiusSign());
+                                radius = Math.min(Integer.parseInt(rs), Cfg.maxRadiusSign);
                                 mode = 0;
                             }
                         } else if (rs.equalsIgnoreCase("replace")) mode = 1;

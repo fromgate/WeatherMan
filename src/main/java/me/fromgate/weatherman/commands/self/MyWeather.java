@@ -35,7 +35,7 @@ import org.bukkit.entity.Player;
 public class MyWeather extends Cmd {
     @Override
     public boolean execute(Player player, String[] args) {
-        if (!Cfg.isLocalTimeEnable()) return M.WTH_DISABLED.print(player);
+        if (!Cfg.localTimeEnable) return M.WTH_DISABLED.print(player);
         switch (args[0].toLowerCase()) {
             case "rain":
             case "storm":

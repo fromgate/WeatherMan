@@ -51,8 +51,8 @@ public class PlayerData {
         stateWand = false;
         stateLastWeather = false;
         ballTree = "default";
-        ballBiome = Cfg.getDefaultBiome();
-        ballRadius = Cfg.getDefaultRadius();
+        ballBiome = Cfg.defaultBiome;
+        ballRadius = Cfg.defaultRadius;
         personalWeather = WeatherState.UNSET;
         personalTime = null;
     }
@@ -100,7 +100,7 @@ public class PlayerData {
 
     public void setBallBiome(String biomeStr) {
         Biome biome = BiomeTools.biomeByName(biomeStr);
-        this.ballBiome = biome == null ? Cfg.getDefaultBiome() : biome;
+        this.ballBiome = biome == null ? Cfg.defaultBiome : biome;
     }
 
 

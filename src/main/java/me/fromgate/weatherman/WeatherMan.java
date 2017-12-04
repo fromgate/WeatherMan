@@ -57,8 +57,8 @@ public class WeatherMan extends JavaPlugin {
         instance = this;
         Cfg.loadCfg();
         Cfg.saveCfg();
-        M.init("WeatherMan", new BukkitMessenger(this), Cfg.getLanguage(), false, Cfg.isLanguageSave());
-        M.setDebugMode(Cfg.isDebug());
+        M.init("WeatherMan", new BukkitMessenger(this), Cfg.language, false, Cfg.languageSave);
+        M.setDebugMode(Cfg.debug);
         Commander.init(this);
         WMWorldEdit.init();
         PlayerConfig.init(this);
@@ -70,7 +70,7 @@ public class WeatherMan extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new WMListener(this), this);
         new LocalWeatherTask().runTaskTimer(this, 30, 11);
         new InfoTask().runTaskTimer(this, 30, 8);
-        UpdateChecker.init(this, "WeatherMan", "38125", "wm", Cfg.isCheckUpdates());
+        UpdateChecker.init(this, "WeatherMan", "38125", "wm", Cfg.checkUpdates);
         new MetricsLite(this);
     }
 }

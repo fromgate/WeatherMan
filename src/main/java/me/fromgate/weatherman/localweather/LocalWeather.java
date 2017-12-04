@@ -251,7 +251,7 @@ public class LocalWeather {
     }
 
     public static void updatePlayerRain(Player player) {
-        if (!Cfg.isLocalWeatherEnable()) return;
+        if (!Cfg.localWeatherEnable) return;
         boolean newRain = getRain(player);
         if (PlayerConfig.isWeatherChanged(player, newRain)) {
             sendWeather(player, newRain);

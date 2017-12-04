@@ -91,14 +91,9 @@ public class Repopulator {
 
     }
 
-    /*
-        radius
-
-     */
-
     public static boolean populateCommand(CommandSender sender, Map<String, String> params) {
         if (params.isEmpty()) return populateSelection(sender);
-        int radius = Math.min(ParamUtil.getParam(params, "radius", -1), Cfg.getMaxRadiusCmd());
+        int radius = Math.min(ParamUtil.getParam(params, "radius", -1), Cfg.maxRadiusCmd);
         Location loc1 = BiomeTools.parseLocation(ParamUtil.getParam(params, "loc", ParamUtil.getParam(params, "loc1", "")));
         Location loc2 = BiomeTools.parseLocation(ParamUtil.getParam(params, "loc2", ""));
 

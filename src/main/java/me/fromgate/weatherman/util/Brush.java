@@ -132,7 +132,7 @@ public enum Brush {
             case BIOME:
                 if (!snowBalls.containsKey(sb)) return;
                 BiomeBall bb = snowBalls.get(sb);
-                BiomeTools.setBiomeRadius(null, sb.getLocation(), bb.biome, Math.min(bb.radius, Cfg.getMaxRadiusWand()), null);
+                BiomeTools.setBiomeRadius(null, sb.getLocation(), bb.biome, Math.min(bb.radius, Cfg.maxRadiusWand), null);
                 snowBalls.remove(sb);
                 break;
             case DEPOPULATOR:

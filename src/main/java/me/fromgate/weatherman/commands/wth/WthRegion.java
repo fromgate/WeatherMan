@@ -37,7 +37,7 @@ import org.bukkit.command.CommandSender;
 public class WthRegion extends Cmd {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if (!Cfg.isLocalTimeEnable()) return M.WTH_DISABLED.print(sender);
+        if (!Cfg.localTimeEnable) return M.WTH_DISABLED.print(sender);
         if (!WMWorldEdit.isWG()) return M.WG_NOTFOUND.print(sender);
         if (args.length <= 2) {
             LocalWeather.printRegionList(sender, args.length == 2 && args[1].matches("\\d+") ? Integer.parseInt(args[1]) : 1);

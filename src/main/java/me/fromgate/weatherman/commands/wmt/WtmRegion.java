@@ -39,7 +39,7 @@ import org.bukkit.command.CommandSender;
 public class WtmRegion extends Cmd {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if (!Cfg.isLocalTimeEnable()) return M.TM_DISABLED.print(sender);
+        if (!Cfg.localTimeEnable) return M.TM_DISABLED.print(sender);
         if (!WMWorldEdit.isWG()) {
             return M.WG_NOTFOUND.print(sender);
         }

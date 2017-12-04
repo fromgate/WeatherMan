@@ -38,7 +38,7 @@ import org.bukkit.command.CommandSender;
 public class WthBiome extends Cmd {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
-        if (!Cfg.isLocalTimeEnable()) return M.WTH_DISABLED.print(sender);
+        if (!Cfg.localTimeEnable) return M.WTH_DISABLED.print(sender);
         if (args.length <= 2) {
             LocalWeather.printBiomeList(sender, args.length == 2 && args[1].matches("\\d+") ? Integer.parseInt(args[1]) : 1);
         } else {
