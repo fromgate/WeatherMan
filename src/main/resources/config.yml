@@ -1,0 +1,45 @@
+#General Configuration
+general:
+  language: english             # Supported languages: russian.
+                                # Partially translated: dutch, french, german, polish, romanian, spanish, ukranian
+  language-save: false          # Set language-save to true to save language file
+  debug: false                  # Debug mode. For development purpose only.
+  check-updates: true           # Enable update checker
+system:
+  chunk-update-method: 0        # 0 - default, 1 & 2 - experimental methods
+# Enable/Disable Local Time and Local Weather features
+local:
+  time-enable: true             # true - enable Local Time feature
+  weather-enable: true          # true - enable Local Weather feature
+# Per-player Options Configuration
+personal:
+  time:
+    reset-on-start: false       # Disable personal time when player joins server
+  weather:
+    reset-on-start: false       # Disable personal weather when player joins server
+  brush:
+    reset-on-start: true        # Reset brush settings when player joins server
+# Configure Limits
+limits:
+  maximum-command-radius: 250
+  maximum-wand-radius: 15
+  maximum-sign-radius: 100
+# Biome Configuration
+biomes:
+  melt-snow: true               # Melt snow when changing to warm biomes
+  melt-ice: true                # Melt ice when changing to warm biomes
+  spawn-nether-mobs-in-normal: true  # Allow to spawn Nether mobs in Overworld
+  disable-snow-forming: ''      # List of biomes whith disabled snow forming
+  disable-ice-forming: ''       # List of biomes whith disabled ice forming
+# Brush configuration
+brush:
+  default-radius: 5             # Default brush radius
+  biome:                        # Default brush biome
+    default-biome: ice_flats    # Default brush biome
+    item: '&6WeatherMan wand&1&0&2$370' # Item that will count as Biome brush
+  woodcutter:
+    item: '&6Woodcutter&1&0&2$370'      # Item that will count as Woodcutter brush
+  depopulator:
+    item: '&4Depopulator&1&0&2$370'     # Item that will count as Depopulator brush
+  forester:
+    item: '&2Forester&1&0&2$370'        # Item that will count as Forester brush

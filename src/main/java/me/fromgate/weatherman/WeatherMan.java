@@ -56,7 +56,7 @@ public class WeatherMan extends JavaPlugin {
     public void onEnable() {
         instance = this;
         Cfg.loadCfg();
-        Cfg.saveCfg();
+        Cfg.updateCfg();
         M.init("WeatherMan", new BukkitMessenger(this), Cfg.language, false, Cfg.languageSave);
         M.setDebugMode(Cfg.debug);
         Commander.init(this);

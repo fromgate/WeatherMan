@@ -26,6 +26,10 @@ import me.fromgate.weatherman.WeatherMan;
 import org.bukkit.block.Biome;
 
 public class Cfg {
+
+    private final static String[] NEW_CONFIG_FIELDS = {"system.chunk-update-method"};
+
+
     public static String language;
     public static boolean languageSave;
     public static boolean debug;
@@ -49,8 +53,12 @@ public class Cfg {
 
     public static int chunkUpdateMethod = 0; // 0 - default, 1 - experimental1, etc.
 
+    private static boolean needUpdate = true;
+
+
     public static void loadCfg() {
-        WeatherMan.getPlugin().reloadConfig();
+        WeatherMan.getPlugin().saveDefaultConfig();
+        needUpdate = needUpdate();
         language = getString("general.language", "english").toLowerCase();
         languageSave = getBoolean("general.language-save", false);
         debug = getBoolean("general.debug", false);
@@ -75,29 +83,42 @@ public class Cfg {
         Brush.load(WeatherMan.getPlugin().getConfig());
     }
 
-    public static void saveCfg() {
-        set("general.language", language);
-        set("general.language-save", languageSave);
-        set("general.debug", debug);
-        set("general.check-updates", checkUpdates);
-        set("system.chunk-update-method", chunkUpdateMethod);
-        set("local.time-enable", localTimeEnable);
-        set("local.weather-enable", localWeatherEnable);
-        set("personal.time.reset-on-start", personalTimeClear);
-        set("personal.weather.reset-on-start", personalWeatherClear);
-        set("personal.brush.reset-on-start", personalBrushClear);
-        set("limits.maximum-command-radius", maxRadiusCmd);
-        set("limits.maximum-wand-radius", maxRadiusWand);
-        set("limits.maximum-sign-radius", maxRadiusSign);
-        set("biomes.melt-snow", meltSnow);
-        set("biomes.melt-ice", meltIce);
-        set("biomes.spawn-nether-mobs-in-normal", netherMob);
-        set("biomes.disable-snow-forming", unsnowBiomes);
-        set("biomes.disable-ice-forming", uniceBiomes);
-        set("brush.default-radius", defaultRadius);
-        set("brush.biome.default-biome", BiomeTools.biomeToString(defaultBiome));
+    public static void updateCfg() {
+        if (needUpdate) {
+            set("general.language", language);
+            set("general.language-save", languageSave);
+            set("general.debug", debug);
+            set("general.check-updates", checkUpdates);
+            set("system.chunk-update-method", chunkUpdateMethod);
+            set("local.time-enable", localTimeEnable);
+            set("local.weather-enable", localWeatherEnable);
+            set("personal.time.reset-on-start", personalTimeClear);
+            set("personal.weather.reset-on-start", personalWeatherClear);
+            set("personal.brush.reset-on-start", personalBrushClear);
+            set("limits.maximum-command-radius", maxRadiusCmd);
+            set("limits.maximum-wand-radius", maxRadiusWand);
+            set("limits.maximum-sign-radius", maxRadiusSign);
+            set("biomes.melt-snow", meltSnow);
+            set("biomes.melt-ice", meltIce);
+            set("biomes.spawn-nether-mobs-in-normal", netherMob);
+            set("biomes.disable-snow-forming", unsnowBiomes);
+            set("biomes.disable-ice-forming", uniceBiomes);
+            set("brush.default-radius", defaultRadius);
+            set("brush.biome.default-biome", BiomeTools.biomeToString(defaultBiome));
+            WeatherMan.getPlugin().getConfig().options().copyHeader(false);
+            WeatherMan.getPlugin().getConfig().options().header("WeatherMan Configuration");
+            WeatherMan.getPlugin().saveConfig();
+        }
         Brush.save(WeatherMan.getPlugin().getConfig());
-        WeatherMan.getPlugin().saveConfig();
+    }
+
+    private static boolean needUpdate() {
+        for (String key : NEW_CONFIG_FIELDS) {
+            if (!WeatherMan.getPlugin().getConfig().isSet(key)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static void set(String key, Object value) {
