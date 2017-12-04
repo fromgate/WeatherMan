@@ -1,6 +1,6 @@
 /*
  *  WeatherMan, Minecraft bukkit plugin
- *  (c)2012-2016, fromgate, fromgate@gmail.com
+ *  (c)2012-2017, fromgate, fromgate@gmail.com
  *  https://dev.bukkit.org/projects/weatherman
  *
  *  This file is part of WeatherMan.
@@ -210,12 +210,7 @@ public class LocalTime {
     }
 
     public static Long getWorldTime(World world) {
-        String w = world.getName();
-        if (worlds.containsKey(w)) {
-            return worlds.get(w);
-        } else {
-            return (Long) null;
-        }
+        return worlds.getOrDefault(world.getName(), null);
     }
 
 

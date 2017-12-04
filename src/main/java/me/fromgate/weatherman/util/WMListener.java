@@ -1,6 +1,6 @@
 /*  
  *  WeatherMan, Minecraft bukkit plugin
- *  (c)2012-2016, fromgate, fromgate@gmail.com
+ *  (c)2012-2017, fromgate, fromgate@gmail.com
  *  https://dev.bukkit.org/projects/weatherman
  *    
  *  This file is part of WeatherMan.
@@ -154,8 +154,8 @@ public class WMListener implements Listener {
             if (state instanceof Sign) {
                 Sign sign = (Sign) state;
 
-                if (!ChatColor.stripColor(sign.getLine(1)).equalsIgnoreCase("[biome]")) return;
-                else if ((!sign.getLine(0).isEmpty()) &&
+                if (!ChatColor.stripColor(sign.getLine(1)).equalsIgnoreCase("[biome]")) {
+                } else if ((!sign.getLine(0).isEmpty()) &&
                         (!sign.getLine(2).isEmpty()) &&
                         (!sign.getLine(3).isEmpty())) {
                     String b1 = ChatColor.stripColor(sign.getLine(0));
@@ -242,9 +242,9 @@ public class WMListener implements Listener {
         if (!LocalWeather.isWorldWeatherSet(event.getWorld())) {
             LocalWeather.updatePlayersRain(event.getWorld(), 20, event.toWeatherState());
         } else {
-            final boolean worldstorm = LocalWeather.getWorldWeather(event.getWorld());
-            if (event.toWeatherState() != worldstorm) event.setCancelled(true);
-            else LocalWeather.updatePlayersRain(event.getWorld(), 20, worldstorm);
+            final boolean worldStorm = LocalWeather.getWorldWeather(event.getWorld());
+            if (event.toWeatherState() != worldStorm) event.setCancelled(true);
+            else LocalWeather.updatePlayersRain(event.getWorld(), 20, worldStorm);
         }
 
     }

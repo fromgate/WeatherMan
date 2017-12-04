@@ -1,6 +1,6 @@
 /*
  *  WeatherMan, Minecraft bukkit plugin
- *  (c)2012-2016, fromgate, fromgate@gmail.com
+ *  (c)2012-2017, fromgate, fromgate@gmail.com
  *  https://dev.bukkit.org/projects/weatherman
  *
  *  This file is part of WeatherMan.
@@ -378,10 +378,10 @@ public enum M {
         int count = 1;
         int c = 0;
         DecimalFormat fmt = new DecimalFormat("####0.##");
-        for (int i = 0; i < keys.length; i++) {
-            String s = messenger.toString(keys[i], fullFloat);//keys[i].toString();
-            if (c < 2 && keys[i] instanceof Character) {
-                colors[c] = (Character) keys[i];
+        for (Object key : keys) {
+            String s = messenger.toString(key, fullFloat);//keys[i].toString();
+            if (c < 2 && key instanceof Character) {
+                colors[c] = (Character) key;
                 c++;
                 continue;
             } else if (s.startsWith("prefix:")) {
@@ -396,10 +396,10 @@ public enum M {
             } else if (s.equals("FULLFLOAT")) {
                 fullFloat = true;
                 continue;
-            } else if (keys[i] instanceof Double) {
-                if (!fullFloat) s = fmt.format((Double) keys[i]);
-            } else if (keys[i] instanceof Float) {
-                if (!fullFloat) s = fmt.format((Float) keys[i]);
+            } else if (key instanceof Double) {
+                if (!fullFloat) s = fmt.format(key);
+            } else if (key instanceof Float) {
+                if (!fullFloat) s = fmt.format(key);
             }
 
             String from = (new StringBuilder("%").append(count).append("%")).toString();

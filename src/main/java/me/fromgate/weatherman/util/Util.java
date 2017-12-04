@@ -1,6 +1,6 @@
 /*  
  *  WeatherMan, Minecraft bukkit plugin
- *  (c)2012-2016, fromgate, fromgate@gmail.com
+ *  (c)2012-2017, fromgate, fromgate@gmail.com
  *  https://dev.bukkit.org/projects/weatherman
  *    
  *  This file is part of WeatherMan.
@@ -59,8 +59,7 @@ public class Util {
         if (!loc1.getWorld().equals(loc2.getWorld())) return false;
         if (loc1.getBlockX() != loc2.getBlockX()) return false;
         if (loc1.getBlockZ() != loc2.getBlockZ()) return false;
-        if (loc1.getBlockY() != loc2.getBlockY()) return false;
-        return true;
+        return loc1.getBlockY() == loc2.getBlockY();
     }
 
 }

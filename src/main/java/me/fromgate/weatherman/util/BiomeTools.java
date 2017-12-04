@@ -1,6 +1,6 @@
 /*  
  *  WeatherMan, Minecraft bukkit plugin
- *  (c)2012-2016, fromgate, fromgate@gmail.com
+ *  (c)2012-2017, fromgate, fromgate@gmail.com
  *  http://dev.bukkit.org/server-mods/weatherman/
  *    
  *  This file is part of WeatherMan.
@@ -145,11 +145,11 @@ public class BiomeTools {
         List<String> cold = new ArrayList<>();
         List<String> medium = new ArrayList<>();
         List<String> warm = new ArrayList<>();
-        List<String> nullbiome = new ArrayList<>();
+        List<String> nullBiome = new ArrayList<>();
         for (String key : biomes.keySet()) {
             if (mask.isEmpty() || key.toLowerCase().contains(mask.toLowerCase())) {
                 Biome b = biomeByName(key);
-                if (b == null) nullbiome.add(colorBiomeName(key));
+                if (b == null) nullBiome.add(colorBiomeName(key));
                 else if (getBiomeTemperature(b) == Temperature.COLD) cold.add(colorBiomeName(key));
                 else if (getBiomeTemperature(b) == Temperature.MEDIUM) medium.add(colorBiomeName(key));
                 else warm.add(colorBiomeName(key));
@@ -159,7 +159,7 @@ public class BiomeTools {
         blist.addAll(cold);
         blist.addAll(medium);
         blist.addAll(warm);
-        blist.addAll(nullbiome);
+        blist.addAll(nullBiome);
         StringBuilder sb = new StringBuilder();
         for (String biomeStr : blist) {
             if (sb.toString().isEmpty()) sb.append(biomeStr);
@@ -272,10 +272,10 @@ public class BiomeTools {
         return QueueManager.addQueue(sender, blocks, true, null);
     }
 
-    public static String checkBiomes(String biomelist) {
+    public static String checkBiomes(String biomeList) {
         StringBuilder str = new StringBuilder();
-        if (!biomelist.isEmpty()) {
-            String[] biomes = biomelist.split(",");
+        if (!biomeList.isEmpty()) {
+            String[] biomes = biomeList.split(",");
             if (biomes.length > 0) {
                 for (String biomeStr : biomes) if (BiomeTools.isBiomeExists(biomeStr)) str.append(",").append(biomeStr);
                 str = new StringBuilder(str.toString().replaceFirst(",", ""));
@@ -284,7 +284,7 @@ public class BiomeTools {
         return str.toString();
     }
 
-    public static List<BiomeBlock> refilter(List<BiomeBlock> blocks, Biome filterBiome) {
+    public static List<BiomeBlock> reFilter(List<BiomeBlock> blocks, Biome filterBiome) {
         if (filterBiome == null) return blocks;
         List<BiomeBlock> newBlocks = new ArrayList<>();
         for (BiomeBlock biomeBlock : blocks)
@@ -292,10 +292,10 @@ public class BiomeTools {
         return newBlocks;
     }
 
-    public static Location parseLocation(String strloc) {
+    public static Location parseLocation(String strLoc) {
         Location loc = null;
-        if (strloc.isEmpty()) return null;
-        String[] ln = strloc.split(",");
+        if (strLoc.isEmpty()) return null;
+        String[] ln = strLoc.split(",");
         if (!((ln.length == 3) || (ln.length == 4) || (ln.length == 6))) return null;
         World w = Bukkit.getWorld(ln[0]);
         if (w == null) return null;

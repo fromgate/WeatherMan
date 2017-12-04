@@ -97,7 +97,7 @@ public class QueueManager {
                 if (addQueue(sender, loc1, loc2, biome, biomeOrPopulate, filterBiome)) rgcount++;
             }
         }
-        return rgcount == 0 ? M.WG_UNKNOWNREGION.print(sender) : true;
+        return rgcount != 0 || M.WG_UNKNOWNREGION.print(sender);
     }
 
 

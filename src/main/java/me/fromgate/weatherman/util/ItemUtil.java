@@ -1,6 +1,6 @@
 /*  
  *  WeatherMan, Minecraft bukkit plugin
- *  (c)2012-2016, fromgate, fromgate@gmail.com
+ *  (c)2012-2017, fromgate, fromgate@gmail.com
  *  https://dev.bukkit.org/projects/weatherman
  *    
  *  This file is part of WeatherMan.
@@ -284,7 +284,6 @@ public class ItemUtil {
     public static int removeItemInInventory(Inventory inv, String istr, int amount) {
         String itemstr = istr;
         int left = 1;
-        // if (left <= 0) return -1;
         int id = -1;
         int data = -1;
         String name = "";
@@ -347,7 +346,6 @@ public class ItemUtil {
                 if (ti[0].matches("[0-9]*")) id = Integer.parseInt(ti[0]);
                 else id = Material.getMaterial(ti[0].toUpperCase()).getId();
             } catch (Exception e) {
-                //logOnce(istr,"Wrong material type/id "+ti[0]+" at line "+istr);
                 return 0;
             }
             if ((ti.length == 2) && (ti[1]).matches("[0-9]*")) data = Integer.parseInt(ti[1]);
@@ -364,64 +362,24 @@ public class ItemUtil {
         return count;
     }
 
-
-
-
-   /* @SuppressWarnings("deprecation")
-    public boolean removeItemInHandOld(Player p, String itemstr){
-        if (!itemstr.isEmpty()){
-            int id = -1;
-            int amount =1;
-            int data =-1;
-            String [] si = itemstr.split("\\*");
-            if (si.length>0){
-                if ((si.length==2)&&si[1].matches("[1-9]+[0-9]*")) amount = Integer.parseInt(si[1]);
-                String ti[] = si[0].split(":");
-                if (ti.length>0){
-                    if (ti[0].matches("[0-9]*")) id=Integer.parseInt(ti[0]);
-                    else id=Material.getMaterial(ti[0]).getId();                        
-                    if ((ti.length==2)&&(ti[1]).matches("[0-9]*")) data = Integer.parseInt(ti[1]);
-                    return removeItemInHand (p, id,data,amount);
-                }
-            }
-        }
-        return false;
-    }*/
-
-    /*
-    @SuppressWarnings("deprecation")
-    public boolean removeItemInHandOld(Player p, int item_id, int item_data, int item_amount){
-        if ((p.getItemInHand() != null)&&
-                (p.getItemInHand().getTypeId()==item_id)&&
-                (p.getItemInHand().getAmount()>=item_amount)&&
-                ((item_data<0)||(item_data==p.getItemInHand().getDurability()))){
-
-            if (p.getItemInHand().getAmount()>item_amount) p.getItemInHand().setAmount(p.getItemInHand().getAmount()-item_amount);
-            else p.setItemInHand(new ItemStack (Material.AIR));
-
-            return true;
-        }
-        return false;
-    } */
-
     public static void giveItemOrDrop(Player p, ItemStack item) {
         for (ItemStack i : p.getInventory().addItem(item).values())
             p.getWorld().dropItemNaturally(p.getLocation(), i);
     }
 
-    public static int getMinMaxRandom(String minmaxstr) {
+    public static int getMinMaxRandom(String minMaxStr) {
         int min = 0;
         int max = 0;
-        String strmin = minmaxstr;
-        String strmax = minmaxstr;
+        String strMin = minMaxStr;
+        String strMax = minMaxStr;
 
-        if (minmaxstr.contains("-")) {
-            strmin = minmaxstr.substring(0, minmaxstr.indexOf("-"));
-            strmax = minmaxstr.substring(minmaxstr.indexOf("-") + 1);
+        if (minMaxStr.contains("-")) {
+            strMin = minMaxStr.substring(0, minMaxStr.indexOf("-"));
+            strMax = minMaxStr.substring(minMaxStr.indexOf("-") + 1);
         }
-        if (strmin.matches("[1-9]+[0-9]*")) min = Integer.parseInt(strmin);
+        if (strMin.matches("[1-9]+[0-9]*")) min = Integer.parseInt(strMin);
         max = min;
-        if (strmax.matches("[1-9]+[0-9]*")) max = Integer.parseInt(strmax);
+        if (strMax.matches("[1-9]+[0-9]*")) max = Integer.parseInt(strMax);
         if (max > min) return min + random.nextInt(1 + max - min);
         else return min;
     }

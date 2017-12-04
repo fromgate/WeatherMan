@@ -1,6 +1,6 @@
 /*  
  *  WeatherMan, Minecraft bukkit plugin
- *  (c)2012-2016, fromgate, fromgate@gmail.com
+ *  (c)2012-2017, fromgate, fromgate@gmail.com
  *  https://dev.bukkit.org/projects/weatherman
  *    
  *  This file is part of WeatherMan.
@@ -112,10 +112,7 @@ public class BiomeBlock {
         if (x != other.x) {
             return false;
         }
-        if (z != other.z) {
-            return false;
-        }
-        return true;
+        return z == other.z;
     }
 
 

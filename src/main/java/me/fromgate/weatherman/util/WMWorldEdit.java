@@ -1,6 +1,6 @@
 /*  
  *  WeatherMan, Minecraft bukkit plugin
- *  (c)2012-2016, fromgate, fromgate@gmail.com
+ *  (c)2012-2017, fromgate, fromgate@gmail.com
  *  https://dev.bukkit.org/projects/weatherman
  *    
  *  This file is part of WeatherMan.
@@ -114,9 +114,9 @@ public class WMWorldEdit {
     public static List<String> getRegions(Location loc) {
         List<String> rgList = new ArrayList<>();
         if (!WMWorldEdit.isWG()) return rgList;
-        ApplicableRegionSet rset = worldguard.getRegionManager(loc.getWorld()).getApplicableRegions(loc);
-        if (rset == null || (rset.size() == 0)) return rgList;
-        for (ProtectedRegion rg : rset) rgList.add(rg.getId());
+        ApplicableRegionSet regionSet = worldguard.getRegionManager(loc.getWorld()).getApplicableRegions(loc);
+        if (regionSet.size() == 0) return rgList;
+        for (ProtectedRegion rg : regionSet) rgList.add(rg.getId());
         return rgList;
     }
 

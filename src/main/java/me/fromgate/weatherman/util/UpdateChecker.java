@@ -1,6 +1,6 @@
 /*
  *  WeatherMan, Minecraft bukkit plugin
- *  (c)2012-2016, fromgate, fromgate@gmail.com
+ *  (c)2012-2017, fromgate, fromgate@gmail.com
  *  https://dev.bukkit.org/projects/weatherman
  *
  *  This file is part of WeatherMan.
@@ -75,7 +75,7 @@ public class UpdateChecker {
         setUpdateMessage(new ArrayList<>());
         if (enableUpdateChecker) {
             updateMsg();
-            Bukkit.getScheduler().runTaskTimerAsynchronously(pluginInstance, () -> updateMsg(), (40 + (new Random()).nextInt(20)) * 1200, 60 * 1200);
+            Bukkit.getScheduler().runTaskTimerAsynchronously(pluginInstance, UpdateChecker::updateMsg, (40 + (new Random()).nextInt(20)) * 1200, 60 * 1200);
         }
     }
 
