@@ -62,6 +62,7 @@ public class WtmBiome extends Cmd {
                     M.TM_BIOME.print(sender, biomeName, Time.timeToString(time));
                 }
             }
+            LocalTime.updateAllPlayersTime();
         }
         return true;
     }

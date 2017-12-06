@@ -59,6 +59,7 @@ public class WtmPlayer extends Cmd {
                     M.TM_PLAYERTIME.print(sender, playerName, Time.timeToString(time));
                 }
             }
+            LocalTime.updatePlayerTime(playerName);
         }
         return true;
     }

@@ -61,6 +61,7 @@ public class WtmWorld extends Cmd {
                     M.TM_WORLD.print(sender, worldName, Time.timeToString(time));
                 }
             }
+            LocalTime.updatePlayerTime(world);
         }
         return true;
     }

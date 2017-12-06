@@ -64,7 +64,7 @@ public class WtmRegion extends Cmd {
                     M.TM_REGION.print(sender, regionName, Time.timeToString(time));
                 }
             }
-
+            LocalTime.updateAllPlayersTime();
         }
         return true;
     }

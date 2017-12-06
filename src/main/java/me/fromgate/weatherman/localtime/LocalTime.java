@@ -217,8 +217,10 @@ public class LocalTime {
     public static void setWorldTime(String worldName, Long time) {
         if (worldName == null || worldName.isEmpty()) return;
         if (time == null) {
-            worlds.remove(worldName);
-        } else if (worlds.containsKey(worldName)) {
+            if (worlds.containsKey(worldName)) {
+                worlds.remove(worldName);
+            }
+        } else {
             worlds.put(worldName, time);
         }
         saveLocalTime();
@@ -353,5 +355,16 @@ public class LocalTime {
         }
     }
 
+    public static void updatePlayerTime(World world) {
+        if (!Cfg.localTimeEnable) return;
+        if (world != null) {
+            world.getPlayers().forEach(LocalTime::updatePlayerTime);
+        }
+    }
+
+    public static void updateAllPlayersTime() {
+        if (!Cfg.localTimeEnable) return;
+        Bukkit.getOnlinePlayers().forEach(LocalTime::updatePlayerTime);
+    }
 
 }

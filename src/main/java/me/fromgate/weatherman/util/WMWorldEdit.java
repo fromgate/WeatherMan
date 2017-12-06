@@ -140,4 +140,8 @@ public class WMWorldEdit {
         if (sel == null) return null;
         return sel.getMaximumPoint();
     }
+
+    public static boolean isPlayerInRegion(Player player, String region) {
+        return region != null && !region.isEmpty() && worldguardActive && getRegions(player.getLocation()).contains(region);
+    }
 }
