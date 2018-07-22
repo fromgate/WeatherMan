@@ -153,7 +153,7 @@ public class WMListener implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockRedstoneChange(BlockRedstoneEvent event) {
         Block b = event.getBlock();
-        if ((b.getType() == Material.SIGN_POST) || (b.getType() == Material.WALL_SIGN)) {
+        if ((b.getType() == Material.SIGN) || (b.getType() == Material.WALL_SIGN)) {
             BlockState state = b.getState();
             if (state instanceof Sign) {
                 Sign sign = (Sign) state;
