@@ -27,7 +27,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFactory;
@@ -345,37 +344,38 @@ public class ItemUtil {
 
 
     @SuppressWarnings("deprecation")
-    public static int countItemInInventory(Inventory inv, String istr) {
-        String itemstr = istr;
+    public static int countItemInInventory(Inventory inv, String itemStr) {
+        String itemAmountStr = itemStr;
         int count = 0;
-        int id = -1;
-        int data = -1;
         String name = "";
-        if (itemstr.contains("$")) {
-            name = itemstr.substring(0, itemstr.indexOf("$"));
-            itemstr = itemstr.substring(name.length() + 1);
+        if (itemAmountStr.contains("$")) {
+            name = itemAmountStr.substring(0, itemAmountStr.indexOf("$"));
+            itemAmountStr = itemAmountStr.substring(name.length() + 1);
         }
 
-        String[] si = itemstr.split("\\*");
+        String[] si = itemAmountStr.split("\\*");
         if (si.length == 0) return 0;
 
-        String ti[] = si[0].split(":");
-        if (ti.length > 0) {
-            try {
-                if (ti[0].matches("[0-9]*")) id = Integer.parseInt(ti[0]);
-                else id = Material.getMaterial(ti[0].toUpperCase()).getId();
-            } catch (Exception e) {
-                return 0;
-            }
-            if ((ti.length == 2) && (ti[1]).matches("[0-9]*")) data = Integer.parseInt(ti[1]);
+        String materialStr = si[0].toUpperCase();
+
+        if (materialStr.contains(":") || materialStr.matches("\\d+")) {
+            throw new IllegalStateException("Numerical id/data are not supported. Please update your item definition: " + itemStr);
         }
-        if (id <= 0) return 0;
+
+        Material material = Material.getMaterial(materialStr);
+        if (material == null) {
+            material = Material.getMaterial(materialStr, true);
+        }
+
+        if (material == null) {
+            return 0;
+        }
 
         for (ItemStack slot : inv.getContents()) {
             if (slot == null) continue;
             if (!compareItemName(slot, name)) continue;
-            if (id == slot.getTypeId()) {
-                if ((data < 0) || (data == slot.getDurability())) count += slot.getAmount();
+            if (material.equals(slot.getType())) {
+                count += slot.getAmount();
             }
         }
         return count;
