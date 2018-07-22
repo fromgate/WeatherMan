@@ -27,6 +27,7 @@ import me.fromgate.weatherman.queue.QueueManager;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.TreeType;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -86,10 +87,15 @@ public class Repopulator {
             Collections.addAll(clearBlocks, clearBlockList.split(","));
         }
         if (treeBlocks.isEmpty()) {
-            treeBlocks.add(Material.LOG.name());
-            treeBlocks.add(Material.LOG_2.name());
-            treeBlocks.add(Material.LEAVES.name());
-            treeBlocks.add(Material.LEAVES_2.name());
+
+            Tag.LOGS.getValues().forEach(log -> {
+                treeBlocks.add(log.name());
+            });
+
+            Tag.LEAVES.getValues().forEach(leaves -> {
+                treeBlocks.add(leaves.name());
+            });
+
             treeBlocks.add(Material.VINE.name());
         }
     }
@@ -172,10 +178,14 @@ public class Repopulator {
     @SuppressWarnings("deprecation")
     public static void depopulateColumn(World world, int x, int z) {
         Block b = world.getBlockAt(x, worldHeight, z);
-        if (clearBlocks.contains(b.getType().name())) b.setTypeId(0, false);
+        if (clearBlocks.contains(b.getType().name())) {
+            b.setType(Material.AIR, false);
+        }
         do {
             b = b.getRelative(BlockFace.DOWN);
-            if (clearBlocks.contains(b.getType().name())) b.setTypeId(0, false);
+            if (clearBlocks.contains(b.getType().name())) {
+                b.setType(Material.AIR, false);
+            }
             if (b.getY() == 0) break;
         } while (b.getType() == Material.AIR);
     }
@@ -187,12 +197,14 @@ public class Repopulator {
     @SuppressWarnings("deprecation")
     public static void depopulateColumnTree(World world, int x, int z) {
         Block b = world.getBlockAt(x, worldHeight, z);
-        if (clearBlocks.contains(b.getType().name())) b.setTypeId(0, false);
+        if (clearBlocks.contains(b.getType().name())) {
+            b.setType(Material.AIR, false);
+        }
         do {
             b = b.getRelative(BlockFace.DOWN);
             if (clearBlocks.contains(b.getType().name())) {
                 Repopulator.depopulateNatural(b.getLocation(), true);
-                b.setTypeId(0, false);
+                b.setType(Material.AIR, false);
             }
             if (b.getY() == 0) break;
         } while (b.getType() == Material.AIR);
@@ -240,7 +252,7 @@ public class Repopulator {
         Set<Block> blocks = getNaturalBlocks(loc, treesOnly);
         if (blocks.isEmpty()) return false;
         for (Block block : blocks) {
-            block.setTypeId(0, false);
+            block.setType(Material.AIR, false);
         }
         return true;
     }
@@ -284,6 +296,4 @@ public class Repopulator {
     public static void generateTree(Location loc) {
         loc.getWorld().generateTree(loc, TreeType.TREE);
     }
-
-
 }

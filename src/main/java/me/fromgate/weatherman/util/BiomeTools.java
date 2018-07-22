@@ -30,6 +30,7 @@ import me.fromgate.weatherman.util.lang.M;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
@@ -238,13 +239,18 @@ public class BiomeTools {
     }
 
     @SuppressWarnings("deprecation")
-    public static Block getHighestBlock(World w, int x, int z) {
-        Block b = w.getHighestBlockAt(x, z);
-        while ((b.getY() > 1) && (Util.isIdInList(b.getTypeId(), "0,17,18"))) {
-            b = b.getRelative(BlockFace.DOWN);
+    public static Block getHighestBlock(World world, int x, int z) {
+        Block block = world.getHighestBlockAt(x, z);
+        while ((block.getY() > 1) &&
+                (block.getType() == Material.AIR ||
+                        Tag.LOGS.isTagged(block.getType()) ||
+                        Tag.LEAVES.isTagged(block.getType()))) {
+            block = block.getRelative(BlockFace.DOWN);
         }
-        return b;
+        return block;
     }
+
+
 
     public static void initBioms() {
         biomes.clear();

@@ -47,7 +47,6 @@ public class ItemUtil {
     }
 
 
-    @SuppressWarnings("deprecation")
     public static ItemStack parseItemStack(String itemStr) {
         ItemFactory itemFactory = Bukkit.getItemFactory();
 
@@ -162,12 +161,10 @@ public class ItemUtil {
         return compareItemStrIgnoreName(item.getType(), item.getAmount(), itemstr); // ;compareItemStr(item, itemstr);
     }
 
-    @SuppressWarnings("deprecation")
     public static boolean compareItemStrIgnoreName(ItemStack itemStack, String itemstr) {
         return compareItemStrIgnoreName(itemStack.getType(), itemStack.getAmount(), itemstr);
     }
 
-    @SuppressWarnings("deprecation")
     public static boolean compareItemStrIgnoreName(Material material, int item_amount, String itemStr) {
         if (!itemStr.isEmpty()) {
 
@@ -248,7 +245,6 @@ public class ItemUtil {
         return false;
     }
 
-    @SuppressWarnings("deprecation")
     public static boolean removeItemInHand(Player player, String itemStr) {
         ItemStack slot = player.getItemInHand();
         if (slot == null || slot.getType() == Material.AIR) return false;
@@ -343,7 +339,6 @@ public class ItemUtil {
     }
 
 
-    @SuppressWarnings("deprecation")
     public static int countItemInInventory(Inventory inv, String itemStr) {
         String itemAmountStr = itemStr;
         int count = 0;
