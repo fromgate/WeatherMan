@@ -73,12 +73,8 @@ public class ItemUtil {
         if (si.length > 0) {
             if (si.length == 2) amount = Math.max(getMinMaxRandom(si[1]), 1);
             String materialStr = si[0];
-            if (materialStr.contains(":")) {
+            if (materialStr.contains(":") || materialStr.matches("\\d+")) {
                 throw new IllegalStateException("Numerical id/data are not supported. Please update your item definition: " + itemStr);
-            }
-
-            if (materialStr.matches("[0-9]*")) {
-                throw new IllegalStateException("Numerical IDs are not supported. Please update your item definition: " + itemStr);
             }
 
             Material material = Material.getMaterial(materialStr.toUpperCase());
@@ -299,35 +295,40 @@ public class ItemUtil {
 
 
     @SuppressWarnings("deprecation")
-    public static int removeItemInInventory(Inventory inv, String istr, int amount) {
-        String itemstr = istr;
+    public static int removeItemInInventory(Inventory inv, String itemStr, int amount) {
+        String itemAmountStr = itemStr;
         int left = 1;
-        int id = -1;
-        int data = -1;
         String name = "";
 
-        if (itemstr.contains("$")) {
-            name = itemstr.substring(0, itemstr.indexOf("$"));
-            itemstr = itemstr.substring(name.length() + 1);
+        if (itemAmountStr.contains("$")) {
+            name = itemAmountStr.substring(0, itemAmountStr.indexOf("$"));
+            itemAmountStr = itemAmountStr.substring(name.length() + 1);
         }
 
-        String[] si = itemstr.split("\\*");
+        String[] si = itemAmountStr.split("\\*");
         if (si.length == 0) return left;
         if ((si.length == 2) && si[1].matches("[1-9]+[0-9]*")) left = (amount < 1 ? Integer.parseInt(si[1]) : amount);
-        String ti[] = si[0].split(":");
 
-        if (ti.length > 0) {
-            if (ti[0].matches("[0-9]*")) id = Integer.parseInt(ti[0]);
-            else id = Material.getMaterial(ti[0]).getId();
-            if ((ti.length == 2) && (ti[1]).matches("[0-9]*")) data = Integer.parseInt(ti[1]);
+        String materialStr = si[0].toUpperCase();
+
+        if (materialStr.contains(":") || materialStr.matches("\\d+")) {
+            throw new IllegalStateException("Numerical id/data are not supported. Please update your item definition: " + itemStr);
         }
-        if (id <= 0) return left;
+
+        Material material = Material.getMaterial(materialStr);
+        if (material == null) {
+            material = Material.getMaterial(materialStr, true);
+        }
+
+        if (material == null) {
+            return left;
+        }
+
         for (int i = 0; i < inv.getContents().length; i++) {
             ItemStack slot = inv.getItem(i);
             if (slot == null) continue;
             if (!compareItemName(slot, name)) continue;
-            if (id != slot.getTypeId()) continue;
-            if ((data > 0) && (data != slot.getDurability())) continue;
+            if (!material.equals(slot.getType())) continue;
             int slotamount = slot.getAmount();
             if (slotamount == 0) continue;
             if (slotamount <= left) {
@@ -380,9 +381,9 @@ public class ItemUtil {
         return count;
     }
 
-    public static void giveItemOrDrop(Player p, ItemStack item) {
-        for (ItemStack i : p.getInventory().addItem(item).values())
-            p.getWorld().dropItemNaturally(p.getLocation(), i);
+    public static void giveItemOrDrop(Player player, ItemStack itemStack) {
+        for (ItemStack i : player.getInventory().addItem(itemStack).values())
+            player.getWorld().dropItemNaturally(player.getLocation(), i);
     }
 
     public static int getMinMaxRandom(String minMaxStr) {
