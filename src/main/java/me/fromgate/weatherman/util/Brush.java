@@ -37,10 +37,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Brush {
-    BIOME("&6WeatherMan wand&1&0&2$370", "biome"),
-    WOODCUTTER("&6Woodcutter&1&0&2$370", "woodcutter"),
-    DEPOPULATOR("&4Depopulator&1&0&2$370", "depopulator"),
-    FORESTER("&2Forester&1&0&2$370", "forester");
+    BIOME("&6WeatherMan wand&1&0&2$GHAST_TEAR", "biome"),
+    WOODCUTTER("&6Woodcutter&1&0&2$GHAST_TEAR", "woodcutter"),
+    DEPOPULATOR("&4Depopulator&1&0&2$GHAST_TEAR", "depopulator"),
+    FORESTER("&2Forester&1&0&2$GHAST_TEAR", "forester");
 
     private String item;
     private String tag;
