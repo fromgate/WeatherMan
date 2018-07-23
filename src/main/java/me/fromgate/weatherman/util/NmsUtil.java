@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 public class NmsUtil {
 
     private static Logger log;
-    private static String[] testedVersions = {"v1_10_R1", "v1_10_R2", "v1_11_R1", "v1_12_R1"};
+    private static String[] testedVersions = {"v1_13_R1"};
     private static String version = "";
     private static boolean blocked = false;
     private static String cboPrefix = "org.bukkit.craftbukkit.";

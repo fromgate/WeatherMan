@@ -145,20 +145,20 @@ public class ItemUtil {
 
 
     @SuppressWarnings("deprecation")
-    public static boolean compareItemStr(ItemStack item, String str) {
-        String itemstr = str;
+    public static boolean compareItemStr(ItemStack item, String itemStr) {
+        String itemAmountStr = itemStr;
         String name = "";
-        if (itemstr.contains("$")) {
-            name = str.substring(0, itemstr.indexOf("$"));
+        if (itemAmountStr.contains("$")) {
+            name = itemStr.substring(0, itemAmountStr.indexOf("$"));
             name = ChatColor.translateAlternateColorCodes('&', name.replace("_", " "));
-            itemstr = str.substring(name.length() + 1);
+            itemAmountStr = itemStr.substring(name.length() + 1);
         }
-        if (itemstr.isEmpty()) return false;
+        if (itemAmountStr.isEmpty()) return false;
         if (!name.isEmpty()) {
-            String iname = item.hasItemMeta() ? item.getItemMeta().getDisplayName() : "";
-            if (!name.equals(iname)) return false;
+            String itemName = item.hasItemMeta() ? item.getItemMeta().getDisplayName() : "";
+            if (!name.equals(itemName)) return false;
         }
-        return compareItemStrIgnoreName(item.getType(), item.getAmount(), itemstr); // ;compareItemStr(item, itemstr);
+        return compareItemStrIgnoreName(item.getType(), item.getAmount(), itemAmountStr); // ;compareItemStr(item, itemstr);
     }
 
     public static boolean compareItemStrIgnoreName(ItemStack itemStack, String itemstr) {

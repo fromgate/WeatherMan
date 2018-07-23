@@ -82,9 +82,13 @@ public enum Brush {
 
 
     public boolean isBrushInHand(Player player) {
-        ItemStack item = item = player.getInventory().getItemInOffHand();
-        if (item == null || item.getType() == Material.AIR) item = player.getInventory().getItemInMainHand();
-        if (item == null || item.getType() == Material.AIR) return false;
+        ItemStack item = player.getInventory().getItemInOffHand();
+        if (item == null || item.getType() == Material.AIR) {
+            item = player.getInventory().getItemInMainHand();
+        }
+        if (item == null || item.getType() == Material.AIR) {
+            return false;
+        }
         return ItemUtil.compareItemStr(item, this.item);
     }
 
