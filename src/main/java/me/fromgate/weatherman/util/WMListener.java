@@ -1,10 +1,10 @@
-/*  
+/*
  *  WeatherMan, Minecraft bukkit plugin
  *  (c)2012-2017, fromgate, fromgate@gmail.com
  *  https://dev.bukkit.org/projects/weatherman
- *    
+ *
  *  This file is part of WeatherMan.
- *  
+ *
  *  WeatherMan is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with WeatherMan.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  */
 
 package me.fromgate.weatherman.util;
@@ -215,10 +215,11 @@ public class WMListener implements Listener {
                             sign.update(true);
                         }
                     }
-                } else
+                } else {
                     M.logMessage("Something wrong with WeatherMan-sign: [" + ChatColor.stripColor(sign.getLine(0)) + "|" + ChatColor.stripColor(sign.getLine(1)) +
                             "|" + ChatColor.stripColor(sign.getLine(2)) + "|" + ChatColor.stripColor(sign.getLine(3)) +
                             "] " + event.getBlock().getLocation().toString());
+                }
             }
         }
     }
