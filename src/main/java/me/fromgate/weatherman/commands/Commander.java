@@ -43,18 +43,19 @@ import me.fromgate.weatherman.commands.wth.WthRegion;
 import me.fromgate.weatherman.commands.wth.WthWorld;
 import me.fromgate.weatherman.util.lang.M;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.ChatPaginator;
 import org.bukkit.util.ChatPaginator.ChatPage;
+import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Commander implements CommandExecutor {
+public class Commander implements TabExecutor {
     private static List<Cmd> commands;
     private static JavaPlugin plugin;
     private static Commander commander;
@@ -145,4 +146,29 @@ public class Commander implements CommandExecutor {
         return new ChatPage(selectedLines, actualPageNumber, totalPages);
     }
 
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String s, String[] args) {
+        List<String> suggestions = new ArrayList<>();
+        for (Cmd cmd : commands) {
+            List<String> subCommands = new ArrayList<>();
+            cmd.getSubCommands().forEach(sub-> {
+                String[] ln = sub.split("\\|");
+                subCommands.add(ln[0]);
+            });
+
+            if (args.length == 0) {
+                suggestions.addAll(subCommands);
+            } else if (args.length == 1) {
+                if (cmd.getCommand().equalsIgnoreCase(command.getLabel()) &&
+                        cmd.canExecute(sender)) {
+                    subCommands.forEach(sub -> {
+                        if (StringUtil.startsWithIgnoreCase(sub, args[0])) {
+                            suggestions.add(sub);
+                        }
+                    });
+                }
+            }
+        }
+        return suggestions;
+    }
 }

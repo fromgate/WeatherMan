@@ -26,6 +26,9 @@ import me.fromgate.weatherman.util.lang.M;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+import java.util.List;
+
 
 public abstract class Cmd {
     private String command;
@@ -102,5 +105,9 @@ public abstract class Cmd {
 
     public String getFullDescription() {
         return this.description.getText(this.shortDescription);
+    }
+
+    public List<String> getSubCommands() {
+        return Arrays.asList(this.subCommands);
     }
 }
