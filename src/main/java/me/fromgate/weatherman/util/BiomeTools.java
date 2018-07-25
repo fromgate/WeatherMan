@@ -1,6 +1,6 @@
 /*  
  *  WeatherMan, Minecraft bukkit plugin
- *  (c)2012-2017, fromgate, fromgate@gmail.com
+ *  ©2012-2018, fromgate, fromgate@gmail.com
  *  http://dev.bukkit.org/server-mods/weatherman/
  *    
  *  This file is part of WeatherMan.

@@ -1,7 +1,7 @@
 /*  
  *  WeatherMan, Minecraft bukkit plugin
- *  (c)2012-2017, fromgate, fromgate@gmail.com
- *  https://dev.bukkit.org/projects/weatherman
+ *  ©2012-2018, fromgate, fromgate@gmail.com
+ *  https://www.spigotmc.org/resources/weatherman.43379/
  *    
  *  This file is part of WeatherMan.
  *  
