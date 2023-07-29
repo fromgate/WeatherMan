@@ -142,7 +142,7 @@ public class LocalWeather {
     }
 
     public static void clearBiomeRain(String biome) {
-        if (biomes.containsKey(biome)) biomes.remove(biome);
+        biomes.remove(biome);
         saveLocalWeather();
     }
 
@@ -190,7 +190,7 @@ public class LocalWeather {
     }
 
     public static void clearRegionRain(String region) {
-        if (regions.containsKey(region)) regions.remove(region);
+        regions.remove(region);
         saveLocalWeather();
     }
 
@@ -227,7 +227,7 @@ public class LocalWeather {
     }
 
     public static void clearWorldRain(String world) {
-        if (worlds.containsKey(world)) worlds.remove(world);
+        worlds.remove(world);
         saveLocalWeather();
     }
 

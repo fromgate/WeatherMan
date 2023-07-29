@@ -135,9 +135,7 @@ public class LocalTime {
     }
 
     public static void clearBiomeTime(String biome) {
-        if (biomes.containsKey(biome)) {
-            biomes.remove(biome);
-        }
+        biomes.remove(biome);
         saveLocalTime();
     }
 
@@ -185,16 +183,12 @@ public class LocalTime {
     }
 
     public static void clearRegionTime(String region) {
-        if (regions.containsKey(region)) {
-            regions.remove(region);
-        }
+        regions.remove(region);
         saveLocalTime();
     }
 
     public static void clearWorldTime(String worldName) {
-        if (worlds.containsKey(worldName)) {
-            worlds.remove(worldName);
-        }
+        worlds.remove(worldName);
         saveLocalTime();
     }
 
@@ -217,9 +211,7 @@ public class LocalTime {
     public static void setWorldTime(String worldName, Long time) {
         if (worldName == null || worldName.isEmpty()) return;
         if (time == null) {
-            if (worlds.containsKey(worldName)) {
-                worlds.remove(worldName);
-            }
+            worlds.remove(worldName);
         } else {
             worlds.put(worldName, time);
         }

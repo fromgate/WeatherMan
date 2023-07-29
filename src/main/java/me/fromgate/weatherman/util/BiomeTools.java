@@ -49,8 +49,8 @@ public class BiomeTools {
         return WeatherMan.getPlugin();
     }
 
-    private static Map<String, Biome> biomes = new TreeMap<>(String.CASE_INSENSITIVE_ORDER); //возможно оставить для алиасов?!
-    private static String outdatedBiomes = "rainforest,seasonalforest,savanna,shrubland,icedesert,tundra";    //RAINFOREST, SEASONAL_FOREST, SAVANNA, SHRUBLAND, ICE_DESERT, TUNDRA - устаревшие биомы
+    private static final Map<String, Biome> biomes = new TreeMap<>(String.CASE_INSENSITIVE_ORDER); //возможно оставить для алиасов?!
+    private static final String outdatedBiomes = "rainforest,seasonalforest,savanna,shrubland,icedesert,tundra";    //RAINFOREST, SEASONAL_FOREST, SAVANNA, SHRUBLAND, ICE_DESERT, TUNDRA - устаревшие биомы
 
     public static boolean replaceBiomeCommand(CommandSender sender, Map<String, String> params) {
         Player player = null;
@@ -256,11 +256,9 @@ public class BiomeTools {
         biomes.clear();
         biomes.put("original", null);
         Biome[] biomes = Biome.values();
-        if (biomes.length > 0) {
-            for (Biome biome : biomes) {
-                String bstr = BiomeTools.biomeToString(biome);
-                if (!(Util.isWordInList(bstr, outdatedBiomes))) BiomeTools.biomes.put(bstr, biome);
-            }
+        for (Biome biome : biomes) {
+            String bstr = BiomeTools.biomeToString(biome);
+            if (!(Util.isWordInList(bstr, outdatedBiomes))) BiomeTools.biomes.put(bstr, biome);
         }
     }
 

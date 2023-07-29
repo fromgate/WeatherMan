@@ -80,7 +80,6 @@ public class WMListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player p = event.getPlayer();
-        UpdateChecker.updateMsg(p);
         PlayerConfig.clearPlayerConfig(p);
         if (PlayerConfig.isWandMode(p)) {
             PlayerConfig.setWandMode(p, false);
@@ -93,7 +92,7 @@ public class WMListener implements Listener {
         if (Cfg.netherMob) return;
         if (event.getEntity().getWorld().getEnvironment() == Environment.NETHER) return;
         if (event.getSpawnReason() != SpawnReason.NATURAL) return;
-        if ((event.getEntityType() == EntityType.PIG_ZOMBIE) ||
+        if ((event.getEntityType() == EntityType.ZOMBIFIED_PIGLIN) ||
                 (event.getEntityType() == EntityType.MAGMA_CUBE) ||
                 (event.getEntityType() == EntityType.GHAST))
             event.setCancelled(true);
@@ -130,7 +129,7 @@ public class WMListener implements Listener {
                 else if ((l2.toLowerCase().startsWith("radius=")) && (l2.toLowerCase().replace("radius=", "").matches("[1-9]+[0-9]*")))
                     event.setLine(2, ChatColor.BLUE + "radius=" + l2.toLowerCase().replace("radius=", ""));
                 else if (l2.isEmpty())
-                    event.setLine(2, ChatColor.BLUE + "radius=" + Integer.toString(Cfg.defaultRadius));
+                    event.setLine(2, ChatColor.BLUE + "radius=" + Cfg.defaultRadius);
                 else {
                     event.setLine(2, ChatColor.BLUE + l2);
                     if (WMWorldEdit.isWG()) {
@@ -140,7 +139,7 @@ public class WMListener implements Listener {
                         }
                     } else {
                         M.WG_NOTFOUND.print(p);
-                        event.setLine(2, ChatColor.BLUE + "radius=" + Integer.toString(Cfg.defaultRadius));
+                        event.setLine(2, ChatColor.BLUE + "radius=" + Cfg.defaultRadius);
                     }
                 }
                 if (event.getLine(3).isEmpty() ||
@@ -153,7 +152,7 @@ public class WMListener implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockRedstoneChange(BlockRedstoneEvent event) {
         Block b = event.getBlock();
-        if ((b.getType() == Material.SIGN) || (b.getType() == Material.WALL_SIGN)) {
+        if ((b.getType() == Material.OAK_SIGN) || (b.getType() == Material.OAK_WALL_SIGN)) {
             BlockState state = b.getState();
             if (state instanceof Sign) {
                 Sign sign = (Sign) state;
@@ -218,7 +217,7 @@ public class WMListener implements Listener {
                 } else {
                     M.logMessage("Something wrong with WeatherMan-sign: [" + ChatColor.stripColor(sign.getLine(0)) + "|" + ChatColor.stripColor(sign.getLine(1)) +
                             "|" + ChatColor.stripColor(sign.getLine(2)) + "|" + ChatColor.stripColor(sign.getLine(3)) +
-                            "] " + event.getBlock().getLocation().toString());
+                            "] " + event.getBlock().getLocation());
                 }
             }
         }

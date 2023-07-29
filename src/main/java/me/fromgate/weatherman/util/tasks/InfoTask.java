@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class InfoTask extends BukkitRunnable {
 
-    private static Map<String, Location> prevLocations = new HashMap<>();
+    private static final Map<String, Location> prevLocations = new HashMap<>();
 
     @Override
     public void run() {
@@ -31,7 +31,7 @@ public class InfoTask extends BukkitRunnable {
                 if (prev == null || !Util.isSameBlocks(playerLoc, prev)) {
                     Biome prevBiome = prev == null ? null : prev.getBlock().getBiome();
                     Biome biome = playerLoc.getBlock().getBiome();
-                    if (prevBiome == null || !biome.equals(prevBiome)) {
+                    if (!biome.equals(prevBiome)) {
                         Biome originalBiome = NmsUtil.getOriginalBiome(playerLoc);
                         if (biome.equals(originalBiome)) {
                             M.MSG_MOVETOBIOME.print(player, BiomeTools.biomeToString(biome));
@@ -41,9 +41,7 @@ public class InfoTask extends BukkitRunnable {
                     }
                 }
                 prevLocations.put(name, playerLoc);
-            } else if (prevLocations.containsKey(name)) {
-                prevLocations.remove(name);
-            }
+            } else prevLocations.remove(name);
         });
     }
 
@@ -52,8 +50,6 @@ public class InfoTask extends BukkitRunnable {
     }
 
     public static void removePrevLocation(Player player) {
-        if (prevLocations.containsKey(player.getName())) {
-            prevLocations.remove(player.getName());
-        }
+        prevLocations.remove(player.getName());
     }
 }

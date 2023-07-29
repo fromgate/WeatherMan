@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class LocalWeatherTask extends BukkitRunnable {
 
-    private static Map<String, Location> prevLocations = new HashMap<>();
+    private static final Map<String, Location> prevLocations = new HashMap<>();
 
     @Override
     public void run() {
@@ -30,8 +30,6 @@ public class LocalWeatherTask extends BukkitRunnable {
     }
 
     public static void removePrevLocation(Player player) {
-        if (prevLocations.containsKey(player.getName())) {
-            prevLocations.remove(player.getName());
-        }
+        prevLocations.remove(player.getName());
     }
 }

@@ -1,9 +1,11 @@
-name: WeatherMan
-main: me.fromgate.weatherman.WeatherMan
-version: 1.1.999
-api-version: 1.13
-softdepend: [WorldEdit, WorldGuard]
-author: fromgate, fromgate@gmail.com
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+author: ${author}
+depend: []
+api-version: 1.20
+
+main: ${mainClass}
 commands:
    weatherman:
       aliases: [wm, wman]

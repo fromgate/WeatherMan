@@ -36,13 +36,12 @@ import java.util.logging.Logger;
 
 public class NmsUtil {
 
-    private static Logger log;
-    private static String[] testedVersions = {"v1_13_R1"};
+    private static final Logger log;
+    private static final String[] testedVersions = {"v1_13_R1"};
     private static String version = "";
     private static boolean blocked = false;
     private static String cboPrefix = "org.bukkit.craftbukkit.";
     private static String nmsPrefix = "net.minecraft.server.";
-    private static Class<?> CraftWorld;
     private static Method craftWorld_getHandle;
     private static Class<?> NmsWorld;
     private static Class<?> NmsWorldServer;
@@ -101,8 +100,8 @@ public class NmsUtil {
 
 
         try {
-            CraftWorld = cboClass("CraftWorld");
-            craftWorld_getHandle = CraftWorld.getMethod("getHandle");
+            Class<?> craftWorld = cboClass("CraftWorld");
+            craftWorld_getHandle = craftWorld.getMethod("getHandle");
             NmsWorld = nmsClass("World");
             field_worldProvider = NmsWorld.getDeclaredField("worldProvider");
             WorldProvider = nmsClass("WorldProvider");

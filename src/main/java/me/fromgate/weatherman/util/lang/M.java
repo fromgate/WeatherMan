@@ -225,8 +225,8 @@ public enum M {
     private static boolean debugMode = false;
     private static String language = "default";
     private static boolean saveLanguage = false;
-    private static char c1 = 'a';
-    private static char c2 = '2';
+    private static final char c1 = 'a';
+    private static final char c2 = '2';
     private static String pluginName;
 
 
@@ -406,8 +406,8 @@ public enum M {
                 if (!fullFloat) s = fmt.format(key);
             }
 
-            String from = (new StringBuilder("%").append(count).append("%")).toString();
-            String to = skipDefaultColors ? s : (new StringBuilder("&").append(colors[1]).append(s).append("&").append(colors[0])).toString();
+            String from = "%" + count + "%";
+            String to = skipDefaultColors ? s : "&" + colors[1] + s + "&" + colors[0];
             str = str.replace(from, to);
             count++;
         }
@@ -425,8 +425,8 @@ public enum M {
     }
 
     private String message;
-    private Character color1;
-    private Character color2;
+    private final Character color1;
+    private final Character color2;
 
     M(String msg) {
         message = msg;

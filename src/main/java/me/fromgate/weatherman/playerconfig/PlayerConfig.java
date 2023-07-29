@@ -46,7 +46,7 @@ public class PlayerConfig {
         folder.mkdirs();
     }
 
-    private static Map<String, PlayerData> players = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private static final Map<String, PlayerData> players = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     // Personal configuration
     // Tree wand
@@ -244,8 +244,6 @@ public class PlayerConfig {
 
 
     public static void quitPlayer(Player player) {
-        if (players.containsKey(player.getName())) {
-            players.remove(player.getName());
-        }
+        players.remove(player.getName());
     }
 }

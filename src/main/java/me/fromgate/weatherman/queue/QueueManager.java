@@ -22,6 +22,11 @@
 
 package me.fromgate.weatherman.queue;
 
+import com.sk89q.worldedit.LocalSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.bukkit.BukkitPlayer;
+import com.sk89q.worldedit.session.SessionManager;
 import me.fromgate.weatherman.WeatherMan;
 import me.fromgate.weatherman.util.WMWorldEdit;
 import me.fromgate.weatherman.util.lang.M;
@@ -37,7 +42,7 @@ import java.util.List;
 
 public class QueueManager {
 
-    private static List<Queue> queues = new ArrayList<>();
+    private static final List<Queue> queues = new ArrayList<>();
 
     public static boolean addQueue(Queue queue) {
         queues.add(queue);

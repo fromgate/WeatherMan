@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 
 public class Util {
 
-    private static Pattern INTEGER_GZ = Pattern.compile("[1-9]+[0-9]*");
+    private static final Pattern INTEGER_GZ = Pattern.compile("[1-9]+[0-9]*");
 
     public static boolean isIntegerGZ(String str) {
         return INTEGER_GZ.matcher(str).matches();

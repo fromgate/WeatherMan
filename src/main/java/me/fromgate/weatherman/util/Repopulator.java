@@ -48,8 +48,8 @@ import java.util.Set;
 
 public class Repopulator {
     private static int worldHeight = 128;
-    private static Set<String> clearBlocks = new HashSet<>();
-    private static Set<String> treeBlocks = new HashSet<>();
+    private static final Set<String> clearBlocks = new HashSet<>();
+    private static final Set<String> treeBlocks = new HashSet<>();
 
     public static void save() {
         File f = new File(WeatherMan.getPlugin().getDataFolder() + File.separator + "repopulator.yml");

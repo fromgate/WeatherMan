@@ -44,8 +44,8 @@ public class Queue {
     // Config
     private boolean active = false;
     private boolean finished = false;
-    private int chunksPerTick = 32;
-    private CommandSender sender;
+    private final int chunksPerTick = 32;
+    private final CommandSender sender;
     private boolean setBiomeNotRepopulate = true;
     private Biome filterBiome = null;
 

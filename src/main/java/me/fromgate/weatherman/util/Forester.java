@@ -40,7 +40,7 @@ import java.util.Random;
 
 public class Forester {
 
-    private static Map<String, String> biomeTrees = new HashMap<>();
+    private static final Map<String, String> biomeTrees = new HashMap<>();
     private static Random random;
 
     public static void init() {

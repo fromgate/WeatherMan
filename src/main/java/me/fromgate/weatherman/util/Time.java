@@ -38,7 +38,7 @@ public class Time {
             if (hours < 24 && minutes < 60) {
                 hours = hours - 6;
                 if (hours < 0) hours = hours + 24;
-                return (long) ((hours * 1000) + (minutes / 60 * 1000));
+                return (hours * 1000L) + (minutes / 60 * 1000L);
             }
         }
         return null;

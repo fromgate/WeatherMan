@@ -43,13 +43,13 @@ public enum Brush {
     FORESTER("&2Forester&1&0&2$GHAST_TEAR", "forester");
 
     private String item;
-    private String tag;
+    private final String tag;
 
     private static WeatherMan plug() {
         return WeatherMan.getPlugin();
     }
 
-    private static Map<Snowball, BiomeBall> snowBalls = new HashMap<>();
+    private static final Map<Snowball, BiomeBall> snowBalls = new HashMap<>();
 
 
     Brush(String item, String tag) {
